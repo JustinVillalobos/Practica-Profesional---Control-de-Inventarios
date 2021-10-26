@@ -1,5 +1,6 @@
 const electron = require('electron')
-const {app, BrowserWindow, screen} = electron
+const {app, BrowserWindow,ipcMain, screen} = electron
+const remote = require('electron').remote
 
 let appWin;
 
@@ -15,7 +16,9 @@ createWindow = () => {
         resizable: false,
         autoHideMenuBar: true,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true,
+            contextIsolation: false
         }
     });
     appWin.maximize();
@@ -36,3 +39,15 @@ app.on("window-all-closed", () => {
       app.quit();
     }
 });
+ipcMain.on("edificio", (event) =>{
+    event.reply("reply", "pong");
+});
+ipcMain.on("area", (event) =>{
+    event.reply("reply", "pong");
+});
+ipcMain.on("activo", (event) =>{
+    event.reply("reply", "pong");
+});
+ ipcMain.on('window-close',function(){
+    console.log("comunicacion lograda");
+  }) 

@@ -1,0 +1,20 @@
+<!--sidebar start-->
+
+      <div class="profile_info">
+        <img src="assets/ucr.png" style="width:145px;" />
+      </div>
+      <a href="#"><i class="fas fa-desktop"></i><span>Inicio</span></a>
+        <a href="listado_boleta"><i class="fas fa-clipboard-list"></i><span>Activos</span></a>
+        <a (click)="market()" href="/rpt-1" class="{{mark}}" ><i class="fas fa-file-pdf" ></i><span>Reportes</span></a>
+        <div class="collapse" id="collapseExample" class="{{mark}}" title="Reportes">
+          <a href="#"placement="right" ngbTooltip="Reporte A" title="Reporte A"><i class="fas fa-file-pdf"></i><span>Reporte A</span></a>
+          <a href="#" placement="right" ngbTooltip="Reporte B" title="Reporte B"><i class="fas fa-file-pdf"></i><span>Reporte B</span></a>
+          <a href="#" placement="right" ngbTooltip="Reporte B" title="Reporte C"><i class="fas fa-file-pdf"></i><span>Reporte C</span></a>
+          <a href="#" placement="right" ngbTooltip="Reporte B" title="Reporte D"><i class="fas fa-file-pdf"></i><span>Reporte D</span></a>
+        </div>
+        <a href="#collapse" (click)="marketOthersMethod()" class="{{marketOthers}}" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapse"><i class="fas fa-th"></i><span>Otros</span></a>
+        <div class="collapse" id="collapse" class="{{marketOthers}}" title="Reportes">
+          <a href="/sexo"placement="right" ngbTooltip="Reporte A" title="Reporte A"><i class="fas fa-file-pdf"></i><span>Edificios</span></a>
+        </div>
+
+    <!--sidebar end-->

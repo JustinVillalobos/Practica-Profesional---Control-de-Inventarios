@@ -7,12 +7,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
    <link href="https://use.fontawesome.com/releases/v5.0.11/css/all.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
   <app-root></app-root>
+
+  <script type="text/javascript">
+    let $ = jQuery = require('jquery');
+    let status = false;
+    function setStatus(){
+      $("#check").prop("checked",true);
+        if(status){
+          $("#check").prop("checked",false);
+           status = false;
+        }else{
+          status = true;
+        }
+    }
+    $(document).ready(function(){
+
+      $('.nav_btn').click(function(){
+        $('.mobile_nav_items').toggleClass('active');
+      });
+
+      $("#check").click(function(event){
+        $("#check").prop("checked",false);
+        if( $('.content').css("margin-left")=="250px"){
+          $('.content').css("margin-left","65px");
+          $('#footer').css("margin-left","65px");
+          
+          setStatus();
+           
+        }else  if( $('.content').css("margin-left")=="65px"){
+          $('.content').css("margin-left","250px");
+           $('#footer').css("margin-left","250px");
+          setStatus();    
+        }
+      });
+      
+    });
+    </script>
 </body>
 </html>
