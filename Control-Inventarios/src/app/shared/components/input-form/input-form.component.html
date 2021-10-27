@@ -1,0 +1,23 @@
+<div *ngIf="typeComponent==='input'">
+<mat-form-field appearance="fill" class="ucr-form-field">
+  <mat-label>{{ label }}<span *ngIf="isRequired" class="ucr-required"> *</span></mat-label>
+
+  <input type="{{typed}}" matInput [(ngModel)]="inputvalue" (keyup)="updateEvent()" placeholder="{{ placeholder }}">
+</mat-form-field>
+</div>
+
+<div *ngIf="typeComponent==='textArea'">
+<mat-form-field appearance="fill" class="ucr-form-field">
+  <mat-label>{{ label }}</mat-label>
+  <textarea matInput placeholder="{{ placeholder }}"></textarea>
+</mat-form-field>
+</div>
+
+<div *ngIf="typeComponent==='select'">
+<mat-form-field appearance="fill" class="ucr-form-field">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select placeholder="{{ placeholder }}">
+    <mat-option *ngFor="let item of items" value="{{ item.name }}">{{ item.name }}</mat-option>
+  </mat-select>
+</mat-form-field>
+</div>

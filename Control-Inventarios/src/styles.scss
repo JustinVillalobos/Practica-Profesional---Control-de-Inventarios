@@ -60,18 +60,26 @@ header label{
 .sidebar{
   z-index: 1;
   top: 0;
-  background-color: #0973BB;
+  background-color: rgb(9, 115, 187);
+  background-image: url("assets/UCR-escudo.png");
+      background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 0px 150px;
   margin-top: 75px;
-  padding-top: 30px;
   position: fixed;
   left: 0;
   width: 250px;
-  height:90vh!important;
+  height:84vh!important;
   transition: 0.5s;
   transition-property: left;
   overflow-y: auto;
 }
-
+.side-bar{
+   padding-top: 30px;
+  height:84vh!important;
+  z-index: 1;
+  background-color: rgba(9, 115, 187, 0.9);
+}
 .profile_info{
   display: flex;
   flex-direction: column;
@@ -132,6 +140,8 @@ label #sidebar_btn:hover{
 
 #check:checked ~ .sidebar{
   left: -185px;
+  height: 85vh!important;
+   background-image:none;
 }
 
 #check:checked ~ .sidebar a span{
@@ -152,7 +162,7 @@ label #sidebar_btn:hover{
   margin-left: 250px;
   background-position: center;
   background-size: cover;
-  height: 83vh;
+  height: 84vh;
   transition: 0.5s;
   background: #FFFFFF;
 background: -moz-linear-gradient(top, #FFFFFF 0%, #F7F7F7 50%, #EDEDED 100%);
@@ -183,9 +193,28 @@ background: linear-gradient(to bottom, #FFFFFF 0%, #F7F7F7 50%, #EDEDED 100%);
   font-size: 14px;
   opacity: 0.8;
 }
-
+.left-bar-class .mat-expansion-panel-body {
+  padding: 0;
+  border: 0.1px solid #086C87;
+}
 /* Responsive CSS */
 
+  @media screen and (min-width: 2000px){
+    .sidebar{
+      height:96vh!important;
+    }
+    .side-bar{
+       height:96vh!important;
+    }
+    .content{
+      height: 91vh;
+    }
+  }
+    @media screen and (min-width: 3000px){
+      .content{
+        height: 95vh;
+      }
+    }
 @media screen and (max-width: 780px){
   .sidebar{
     display: none;

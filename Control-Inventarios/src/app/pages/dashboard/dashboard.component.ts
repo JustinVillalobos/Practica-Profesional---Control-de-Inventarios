@@ -11,6 +11,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  updateValue(e){
+    console.log(e);
+  }
 
 }
 
