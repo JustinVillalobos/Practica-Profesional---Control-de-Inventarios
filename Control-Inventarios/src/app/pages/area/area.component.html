@@ -38,7 +38,14 @@
 				</ngx-datatable-column>
 				<ngx-datatable-column name="Estado" [width]="80" [resizeable]="false">
 				    <ng-template let-row="row" ngx-datatable-cell-template>
-				      <mat-slide-toggle class="toggle"[checked]="row.enabled" (change)="changeStatus(row.idArea,row.enabled)">
+				      <mat-slide-toggle *ngIf="row.enabled" class="toggle"[checked]="true" (change)="changeStatus(row.idArea,row.enabled)"  matTooltip="Activado"
+					    matTooltipPosition="right"
+        				aria-label="Button that displays a tooltip when focused or hovered over" [(ngModel)]="row.enabled">
+				      	{{ row.enabled }}
+				      </mat-slide-toggle>
+				       <mat-slide-toggle *ngIf="!row.enabled" class="toggle"[checked]="false" (change)="changeStatus(row.idArea,row.enabled)"  matTooltip="Desactivado"
+					    matTooltipPosition="right"
+        				aria-label="Button that displays a tooltip when focused or hovered over" [(ngModel)]="row.enabled">
 				      	{{ row.enabled }}
 				      </mat-slide-toggle>
 				    </ng-template>

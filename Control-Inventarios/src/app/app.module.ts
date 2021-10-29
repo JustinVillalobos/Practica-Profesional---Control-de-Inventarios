@@ -20,9 +20,12 @@ import { EdificesModule } from './pages/edifices/edifices.module';
 
 import { AreaModule } from './pages/area/area.module';
 
+import { ActiveModule } from './pages/actives/active.module';
+
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -32,6 +35,7 @@ import { AreaModule } from './pages/area/area.module';
     LoginModule,
     EdificesModule,
     AreaModule,
+    ActiveModule,
   ],
   providers: [
     {

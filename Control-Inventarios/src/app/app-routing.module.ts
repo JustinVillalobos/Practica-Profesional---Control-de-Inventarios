@@ -20,6 +20,11 @@ const routes: Routes = [
     path: 'areas',
     loadChildren: () => import('./pages/area/area.module').then(m => m.AreaModule),
     canLoad:[AuthGuardService]
+  },
+  {
+    path: 'actives',
+    loadChildren: () => import('./pages/actives/active.module').then(m => m.ActiveModule),
+    canLoad:[AuthGuardService]
   }
 ];
 

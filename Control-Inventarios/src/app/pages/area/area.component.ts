@@ -16,17 +16,15 @@ export class AreaComponent implements OnInit {
    @ViewChild('pRef', {static: false}) pRef: ElementRef;
     @ViewChild('footer', { static: false }) footer: FooterComponent;
     rows = [
-    {idArea:1,name:"Area 1",edifice:"Edificio 1",enabled:"true"},
-    {idArea:2,name:"Area 2",edifice:"Edificio 1",enabled:"false"},
-    {idArea:3,name:"Area 3",edifice:"Edificio 1",enabled:"true"},
-    {idArea:4,name:"Area 4",edifice:"Edificio 2",enabled:"true"},
-    {idArea:5,name:"Area 5",edifice:"Edificio 2",enabled:"true"},
-    {idArea:6,name:"Area 6",edifice:"Edificio 3",enabled:"true"},
-    {idArea:7,name:"Area 7",edifice:"Edificio 4",enabled:"true"},
-    {idArea:8,name:"Area 8",edifice:"Edificio 5",enabled:"true"},
-    {idArea:9,name:"Area 9",edifice:"Edificio 1",enabled:"true"},
-    {idArea:10,name:"Area 10",edifice:"Edificio 3",enabled:"false"},
-    {idArea:11,name:"Area 11",edifice:"Edificio 2",enabled:"true"},
+    {idArea:1,name:"Area 1",edifice:"Edificio 1",enabled:true},
+    {idArea:3,name:"Area 3",edifice:"Edificio 1",enabled:false},
+    {idArea:4,name:"Area 4",edifice:"Edificio 2",enabled:true},
+    {idArea:5,name:"Area 5",edifice:"Edificio 2",enabled:true},
+    {idArea:6,name:"Area 6",edifice:"Edificio 3",enabled:true},
+    {idArea:7,name:"Area 7",edifice:"Edificio 4",enabled:true},
+    {idArea:8,name:"Area 8",edifice:"Edificio 5",enabled:true},
+    {idArea:9,name:"Area 9",edifice:"Edificio 1",enabled:true},
+    {idArea:11,name:"Area 11",edifice:"Edificio 2",enabled:true},
   ];
   columns = [{ prop: 'name' }];
   temp = [];
@@ -69,7 +67,16 @@ export class AreaComponent implements OnInit {
     }
   }
   changeStatus(id,status){
-    console.log(id,status);
+    for(let i=0;i<this.rows.length;i++){
+      if(id == this.rows[i]["idArea"]){
+        if(status == true){
+           this.rows[i].enabled = false;
+         }else{
+            this.rows[i].enabled = true;
+         }
+         return;
+      }
+    }
   }
   openEditModal(id,name,edifice){
      this.dialog.open(EditAreaModalComponent, {

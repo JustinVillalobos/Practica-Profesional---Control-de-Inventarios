@@ -15,17 +15,17 @@ export class EdificesComponent implements OnInit {
   @ViewChild('pRef', {static: false}) pRef: ElementRef;
     @ViewChild('footer', { static: false }) footer: FooterComponent;
     rows = [
-    {idEdifices:1,name:"Edificio 1",enabled:"true"},
-    {idEdifices:2,name:"Edificio 2",enabled:"false"},
-    {idEdifices:3,name:"Edificio 3",enabled:"true"},
-    {idEdifices:4,name:"Edificio 4",enabled:"true"},
-    {idEdifices:5,name:"Edificio 5",enabled:"true"},
-    {idEdifices:6,name:"Edificio 6",enabled:"true"},
-    {idEdifices:7,name:"Edificio 7",enabled:"true"},
-    {idEdifices:8,name:"Edificio 8",enabled:"true"},
-    {idEdifices:9,name:"Edificio 9",enabled:"true"},
-    {idEdifices:10,name:"Edificio 10",enabled:"false"},
-    {idEdifices:11,name:"Edificio 11",enabled:"true"},
+    {idEdifices:1,name:"Edificio 1",enabled:true},
+    {idEdifices:2,name:"Edificio 2",enabled:false},
+    {idEdifices:3,name:"Edificio 3",enabled:true},
+    {idEdifices:4,name:"Edificio 4",enabled:true},
+    {idEdifices:5,name:"Edificio 5",enabled:true},
+    {idEdifices:6,name:"Edificio 6",enabled:true},
+    {idEdifices:7,name:"Edificio 7",enabled:true},
+    {idEdifices:8,name:"Edificio 8",enabled:true},
+    {idEdifices:9,name:"Edificio 9",enabled:true},
+    {idEdifices:10,name:"Edificio 10",enabled:false},
+    {idEdifices:11,name:"Edificio 11",enabled:true},
   ];
   columns = [{ prop: 'name' }];
   temp = [];
@@ -68,7 +68,16 @@ export class EdificesComponent implements OnInit {
     }
   }
   changeStatus(id,status){
-    console.log(id,status);
+     for(let i=0;i<this.rows.length;i++){
+      if(id == this.rows[i]["idEdifices"]){
+        if(status == true){
+           this.rows[i].enabled = false;
+         }else{
+            this.rows[i].enabled = true;
+         }
+         return;
+      }
+    }
   }
   openEditModal(id,name){
      this.dialog.open(EditEdificeModalComponent, {
