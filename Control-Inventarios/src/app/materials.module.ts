@@ -16,7 +16,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 const materialModules = [
     MatButtonModule,
     MatButtonToggleModule,
@@ -35,7 +35,8 @@ const materialModules = [
     MatStepperModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatSlideToggleModule
 
 ];
 @NgModule({

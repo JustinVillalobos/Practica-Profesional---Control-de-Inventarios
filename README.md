@@ -8,3 +8,8 @@ Angular Version `11.2.14`
 # Ejecutar proyecto
 `npm install` \
 `npm run electron`
+
+
+# Credenciales del Inicio de Sesión
+Usuario:`admin` \
+Contraseña:`admin`

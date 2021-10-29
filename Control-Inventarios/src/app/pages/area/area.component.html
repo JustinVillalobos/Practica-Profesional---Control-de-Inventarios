@@ -2,11 +2,11 @@
 	<div class="content" #pRef>
 		<div class="row">
 			<div class="col-sm-12 d-flex justify-content-start margin-left-custom">
-				<div style="width:450px" class="inline">
+				<div style="width:600px" class="inline">
 					<div class="col-sm-6 d-flex">
 						<div class="inline">
 							<div class="container-titulo">
-								<span class="titulo">Edificios</span>
+								<span class="titulo">Áreas</span>
 							</div>
 						</div>
 					</div>
@@ -26,14 +26,19 @@
 				<ngx-datatable [rows]="rows" [columns]="columns" class="material fullscreen table-custom" [limit]="10"
 				[footerHeight]="50" [headerHeight]="50"  [rowHeight]="35"
 				[offset]="pageNumber" [reorderable]=false> 
-				<ngx-datatable-column name="Nombre" [width]="300" [resizeable]="false">
+				<ngx-datatable-column name="Nombre" [width]="150" [resizeable]="false">
 				    <ng-template let-row="row" ngx-datatable-cell-template>
 				      {{row.name}}
 				    </ng-template>
 				</ngx-datatable-column>
+				<ngx-datatable-column name="Edificio" [width]="300" [resizeable]="false">
+				    <ng-template let-row="row" ngx-datatable-cell-template>
+				      {{row.edifice}}
+				    </ng-template>
+				</ngx-datatable-column>
 				<ngx-datatable-column name="Estado" [width]="80" [resizeable]="false">
 				    <ng-template let-row="row" ngx-datatable-cell-template>
-				      <mat-slide-toggle class="toggle"[checked]="row.enabled" (change)="changeStatus(row.idEdifices,row.enabled)">
+				      <mat-slide-toggle class="toggle"[checked]="row.enabled" (change)="changeStatus(row.idArea,row.enabled)">
 				      	{{ row.enabled }}
 				      </mat-slide-toggle>
 				    </ng-template>
@@ -43,7 +48,7 @@
 					    let-column="column"
 					    ngx-datatable-header-template>
 					    <div class="div-custom-icon" 
-					    matTooltip="Editar Edificio"
+					    matTooltip="Editar áreas"
 					    matTooltipPosition="right"
         				aria-label="Button that displays a tooltip when focused or hovered over">
 					    	<span class="custom-icon">
@@ -53,7 +58,7 @@
 					  </ng-template>
 				    <ng-template let-row="row" ngx-datatable-cell-template>
 				    	<button class="btn btn-warning"
-       					  (click)="openEditModal(row.idEdifices,row.name)"><i class="fas fa-edit"></i></button>	
+       					  (click)="openEditModal(row.idArea,row.name,row.edifice)"><i class="fas fa-edit"></i></button>	
 				    </ng-template>
 				</ngx-datatable-column>
 			</ngx-datatable>

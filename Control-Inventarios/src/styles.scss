@@ -32,6 +32,15 @@ header label{
     font-size: 18px;
   }
 }
+.datatable-body-cell{
+  padding-top:7px!important;
+}
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: #19B3D3;
+}
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb{
+     background-color: #fff ;
+}
 .table-size{
  width: fit-content;
   width: -moz-max-content;
@@ -184,6 +193,7 @@ label #sidebar_btn:hover{
   height: 84vh;
   transition: 0.5s;
   background: #FFFFFF;
+  overflow-x: hidden;
 background: -moz-linear-gradient(top, #FFFFFF 0%, #F7F7F7 50%, #EDEDED 100%);
 background: -webkit-linear-gradient(top, #FFFFFF 0%, #F7F7F7 50%, #EDEDED 100%);
 background: linear-gradient(to bottom, #FFFFFF 0%, #F7F7F7 50%, #EDEDED 100%);

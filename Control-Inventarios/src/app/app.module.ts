@@ -17,6 +17,9 @@ import { LoginModule } from './pages/auth/login.module';
 
 import { EdificesModule } from './pages/edifices/edifices.module';
 
+
+import { AreaModule } from './pages/area/area.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +31,7 @@ import { EdificesModule } from './pages/edifices/edifices.module';
     DashboardModule,
     LoginModule,
     EdificesModule,
+    AreaModule,
   ],
   providers: [
     {

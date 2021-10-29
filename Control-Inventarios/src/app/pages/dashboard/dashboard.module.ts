@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { MaterialsModule } from "src/app/materials.module";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { DashboardComponent } from './dashboard.component';
@@ -18,8 +16,6 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
     ComponentsModule,
     NgxSpinnerModule
   ]

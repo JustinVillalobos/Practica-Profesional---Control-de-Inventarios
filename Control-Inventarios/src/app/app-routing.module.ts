@@ -15,6 +15,11 @@ const routes: Routes = [
     path: 'edifices',
     loadChildren: () => import('./pages/edifices/edifices.module').then(m => m.EdificesModule),
     canLoad:[AuthGuardService]
+  },
+  {
+    path: 'areas',
+    loadChildren: () => import('./pages/area/area.module').then(m => m.AreaModule),
+    canLoad:[AuthGuardService]
   }
 ];
 

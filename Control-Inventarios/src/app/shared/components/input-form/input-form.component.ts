@@ -11,14 +11,21 @@ export class InputFormComponent implements OnInit {
   @Input() typeComponent: string;
   @Input() typed: string;
   @Input() label: string;
+  @Input() value: string;
   @Input() placeholder: string;
   @Input() items: any[];
   @Input() isRequired: boolean;
-  inputvalue :string = " ";
+  @Input() isSearch: boolean;
+  inputvalue :string = "";
   @Output() updateValue = new EventEmitter<any>();
-  constructor() { }
+  constructor() { 
+    
+  }
 
   ngOnInit(): void {
+    if(this.value != '' && this.value !== undefined){
+      this.inputvalue = this.value;
+    }
   }
 
   updateEvent(){

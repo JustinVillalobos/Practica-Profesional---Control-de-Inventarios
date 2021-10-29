@@ -72,6 +72,12 @@ passwordValidation(evento) {
 AlphabeticPattern(){
   return '[^a-zA-Z]';
 }
+AlphabeticAndSpacePattern(){
+  return '[^a-zA-Z ]';
+}
+AlphaNumericAndSpacePattern(){
+  return '[^a-zA-Z0-9 ]';
+}
 AlphaNumericPattern(){
   return '[^a-zA-Z0-9]';
 }
