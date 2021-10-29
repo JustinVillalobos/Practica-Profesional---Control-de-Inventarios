@@ -51,3 +51,13 @@ ipcMain.on("activo", (event) =>{
  ipcMain.on('window-close',function(){
     console.log("comunicacion lograda");
   }) 
+ ipcMain.on('login',function(event,data){
+    console.log("Login",data);
+    if(data.username === "admin" && data.password === "admin"){
+        event.reply("reply", {"res":true,"idToken":"B7877"});
+    }else{
+        event.reply("reply", {"res":false});
+    }
+   
+  }) ;
+ 

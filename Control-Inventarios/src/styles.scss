@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/themes/material.scss';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
 body{
   margin: 0;
   padding: 0;
@@ -21,6 +24,21 @@ footer{
 }
 header label{
 	margin-bottom:0px; 
+}
+.datatable-header-cell{
+  
+
+  .datatable-header-cell-label{
+    font-size: 18px;
+  }
+}
+.table-size{
+ width: fit-content;
+  width: -moz-max-content;
+}
+.container-body{
+  position: absolute;
+  width:100%;
 }
 .left_area h3{
   color: #fff;
@@ -101,7 +119,7 @@ header label{
 }
 
 .sidebar a{
-  color: #fff;
+  color: #fff!important;
   display: block;
   width: 100%;
   line-height: 60px;
@@ -112,6 +130,7 @@ header label{
   transition-property: background;
   font-size:14px;
   font-weight: 400;
+  cursor: pointer;
 }
 
 .sidebar a:hover{

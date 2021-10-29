@@ -8,18 +8,16 @@ export class AuthService {
      
    }
 
-   login(user: string, password: string) {
-    
+    login(user: string, password: string) {
+       electron.ipcRenderer.send("login",{"username":user,"password":password});
     }
 
-  private setSession(auth) {
-    localStorage.setItem('id_token', auth.idToken);
+  setSession(auth) {
+    localStorage.setItem('idToken', auth["idToken"]);
   }
 
   logout() {
-    electron.ipcRenderer.send("window-close", "");
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
+    localStorage.removeItem("idToken");
   }
   public removeAllListeners(channel: string): void {
     

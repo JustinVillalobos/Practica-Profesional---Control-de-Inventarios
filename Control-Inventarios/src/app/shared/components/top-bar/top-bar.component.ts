@@ -1,5 +1,7 @@
-import { Component, OnInit,OnDestroy  } from '@angular/core';
+import { Component, OnInit,NgZone,OnDestroy,Output,EventEmitter  } from '@angular/core';
+import {Router} from "@angular/router";
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { AlertService } from 'src/app/shared/services/general/alert.service';
 @Component({
   selector: 'app-top-bar',
   templateUrl: './top-bar.component.html',
@@ -8,15 +10,34 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
 export class TopBarComponent implements OnInit,OnDestroy  {
   mark:string="";
   marketOthers:string="";
-  constructor(private auth:AuthService) { }
+  @Output() detectChangeCheck = new EventEmitter<boolean>();
+  constructor(
+    private router: Router,
+    private _ngZone: NgZone,
+    private auth:AuthService,
+    private AlertService:AlertService
+    ) { }
 
   ngOnInit(): void {
   }
   ngOnDestroy(): void {
     this.auth.removeAllListeners("reply");
   }
+  changeStatus(e){
+    this.detectChangeCheck.emit(true);
+  }
+  goToLogin(){
+     this._ngZone.run(()=>{
+      this.router.navigate(['/']);
+      });
+  }
   leaveSession(){
-    this.auth.logout();
+     this.AlertService.confirmacion("¿Quieres cerrar la sesión?",function(response,component){
+       if(response==true){
+          component.auth.logout();
+          component.goToLogin();
+       }          
+     },this);
   }
    market(){
     if(this.mark==="market"){

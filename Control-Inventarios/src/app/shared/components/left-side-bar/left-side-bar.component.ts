@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,NgZone  } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-left-side-bar',
@@ -9,9 +10,17 @@ export class LeftSideBarComponent implements OnInit {
 
   mark:string="";
   marketOthers:string="";
-  constructor() { }
+  constructor(
+    private router: Router,
+    private _ngZone: NgZone
+    ) { }
 
   ngOnInit(): void {
+  }
+  goRedirect(destiny){
+     this._ngZone.run(()=>{
+      this.router.navigate(['/'+destiny]);
+     });
   }
   market(){
     if(this.mark==="market"){

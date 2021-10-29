@@ -1,0 +1,45 @@
+<div class="container">
+
+	<div class="d-flex justify-content-center align-items-center">
+		<div class="modal container-custom" id="myModal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+
+		      
+
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		        	<div class="row">
+		        		<div class="col-sm-12 d-flex justify-content-center">
+		        			<img src="assets/ucr.png" class="img"/>
+		        		</div>
+		        	</div>
+			        	<div class="row">
+			        		<div class="col-sm-12" [formGroup]="loginForm">
+			        			<span class="label">Usuario</span>
+			        			<input type="text" class="form-control" placeholder="Ingrese su Usuario"  formControlName = "username" (keypress)="checkUserNameValidations($event)" [ngClass]="{ 'invalid' : usernameValidationsClass }"/>
+			        		</div>
+			        		<div class="col-sm-12" style="margin-top:15px;" [formGroup]="loginForm">
+			        			<span class="label">Contraseña</span>
+			        			<input type="password" class="form-control" placeholder="Ingrese su Contraseña" formControlName = "password" (keypress)="checkPasswordValidations($event)" [ngClass]="{ 'invalid' : passwordValidationsClass }"/>
+			        		</div>
+			        		<div class="col-sm-12" style="margin-top:15px;">
+			        			<button class="btn btn-ucr" (click)="verifyCredentials()">Ingresar</button>
+			        		</div>
+			        		<div class="col-sm-12 custom-col" style="margin-top:10px;">
+			        			<div class="inline">
+			        				<span>¿Olvidaste tu Contraseña? </span>
+				        			<div (click)="recoveryPassword()">
+				        				Recuperar aquí
+				        			</div>
+				        		</div>
+			        		</div>
+			        	</div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</div>
+
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>

@@ -4,13 +4,13 @@
         <img src="assets/ucr.png" style="width:145px;" />
       </div>
       <div class="linea"></div>
-      <a href="#"><i class="fas fa-desktop"></i><span>Inicio</span></a>
+      <a (click)="goRedirect('dashboard')"><i class="fas fa-desktop"></i><span>Inicio</span></a>
         <a href="listado_boleta"><i class="fas fa-clipboard-list"></i><span>Activos</span></a>
  <mat-accordion>
   <mat-expansion-panel hideToggle class="mat-expansion-panel left-bar-class">
     <mat-expansion-panel-header class="mat-expansion-panel-header">
       <mat-panel-title class="mat-panel-title">
-       <a (click)="market()" href="#" class="{{mark}}" ><i class="fas fa-file-pdf" ></i><span>Reportes</span></a>
+       <a (click)="market()" class="{{mark}}" ><i class="fas fa-file-pdf" ></i><span>Reportes</span></a>
       </mat-panel-title>
     </mat-expansion-panel-header>
      <a class="special-margin" href="#"placement="right"  title="Reporte A"><i class="fas fa-file-pdf"></i><span>Opcion A</span></a>
@@ -24,11 +24,12 @@
   <mat-expansion-panel hideToggle class="mat-expansion-panel left-bar-class">
     <mat-expansion-panel-header class="mat-expansion-panel-header">
       <mat-panel-title class="mat-panel-title">
-        <a href="#" (click)="marketOthersMethod()" class="{{marketOthers}}" ><i class="fas fa-th"></i><span>Otros</span></a>
+        <a (click)="marketOthersMethod()" class="{{marketOthers}}" ><i class="fas fa-th"></i><span>Otros</span></a>
       </mat-panel-title>
     </mat-expansion-panel-header>
-     <a class="special-margin" href="#"placement="right" ngbTooltip="Reporte A" title="Reporte A"><i class="fas fa-file-pdf"></i><span>Edificios</span></a>
+     <a class="special-margin" (click)="goRedirect('edifices')" placement="right" ngbTooltip="Reporte A" title="Reporte A"><i class="fas fa-file-pdf"></i><span>Edificios</span></a>
      <a class="special-margin" href="#"placement="right" ngbTooltip="Reporte A" title="Reporte A"><i class="fas fa-file-pdf"></i><span>Áreas por edificio</span></a>
+     <a class="special-margin" href="#"placement="right" ngbTooltip="Reporte A" title="Reporte A"><i class="fas fa-file-pdf"></i><span>Cambiar Contraseña</span></a>
   </mat-expansion-panel>
 </mat-accordion>
 </div>

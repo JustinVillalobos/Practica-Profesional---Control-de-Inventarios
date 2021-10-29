@@ -27,12 +27,13 @@
         }
     }
     $(document).ready(function(){
-
+      console.log("Ingreso READY");
       $('.nav_btn').click(function(){
         $('.mobile_nav_items').toggleClass('active');
       });
-
       $("#check").click(function(event){
+        console.log("Ingreso");
+        console.log($('.content').css("margin-left"));
         $("#check").prop("checked",false);
         if( $('.content').css("margin-left")=="250px"){
           $('.content').css("margin-left","65px");

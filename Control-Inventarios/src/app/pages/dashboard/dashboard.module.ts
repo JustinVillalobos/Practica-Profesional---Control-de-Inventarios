@@ -3,30 +3,25 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialsModule } from "src/app/materials.module";
-
+import { NgxSpinnerModule } from "ngx-spinner";
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { HeaderComponent } from 'src/app/shared/components/header/header.component';
-import { TopBarComponent } from 'src/app/shared/components/top-bar/top-bar.component';
-import { LeftSideBarComponent } from 'src/app/shared/components/left-side-bar/left-side-bar.component';
-import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
-import { InputFormComponent } from 'src/app/shared/components/input-form/input-form.component';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
+
+
 
 @NgModule({
   declarations: [
-    DashboardComponent,
-    HeaderComponent,
-    TopBarComponent,
-    LeftSideBarComponent,
-    FooterComponent,
-    InputFormComponent
+    DashboardComponent, 
+    
   ],
   imports: [
     CommonModule,
-    MaterialsModule,
     DashboardRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ComponentsModule,
+    NgxSpinnerModule
   ]
 })
 export class DashboardModule { }
