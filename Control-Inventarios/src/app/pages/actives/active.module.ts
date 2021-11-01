@@ -7,11 +7,15 @@ import { MaterialsModule } from "src/app/materials.module";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { AddActiveComponent } from './add-active/add-active.component';
+import { ViewActiveComponent } from './view-active/view-active.component';
 
 
 @NgModule({
   declarations: [
       ActivesComponent,
+      AddActiveComponent,
+      ViewActiveComponent,
   ],
   imports: [
     CommonModule,

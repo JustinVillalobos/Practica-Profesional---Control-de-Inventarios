@@ -12,6 +12,9 @@
 .margin-left-custom{
 	margin-left: 25px;
 }
+.padding-left-custom{
+	padding-left: 45px;
+}
 .btn-margin{
 	margin-left: 15px;
 	height: 35px;
@@ -38,6 +41,12 @@
 .div-custom-icon{
 	padding-top: 5px;
     padding-left: 5px;
+}
+.previous{
+	cursor: pointer;
+}
+.previous:hover{
+	color:#19B3D3;
 }
 .container-filters{
 

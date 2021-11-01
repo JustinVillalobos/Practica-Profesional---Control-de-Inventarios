@@ -1,0 +1,73 @@
+
+	<app-header (updateContent)="updateContent($event)"></app-header>
+	<div class="content" #pRef>
+		<div class="row">
+			<div class="col-sm-12 d-flex justify-content-start margin-left-custom">
+				<div style="width:950px" class="inline">
+					<div class="col-sm-6 d-flex">
+						<div class="inline">
+							<div class="container-titulo previous" (click)="previous()" 
+							 matTooltip="Volver a listado"
+						     matTooltipPosition="right"
+	        				 aria-label="Button that displays a tooltip when focused or hovered over">
+								<span class="left-arrow"><i class="fas fa-chevron-left"></i></span>
+							</div>
+							<div class="container-titulo margin-left-custom">
+								<span class="titulo">Activo {{active.name}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 d-flex justify-content-end">
+						<div class="inline">
+							<button class="btn btn-warning btn-margin" (click)="editActive()"
+							 matTooltip="Editar Activo"
+					    matTooltipPosition="right"
+        				aria-label="Button that displays a tooltip when focused or hovered over"><i class="fas fa-pencil-alt"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 padding-left-custom">
+				
+				{{active.amount}}
+			</div>
+			<div class="col-sm-6">
+				
+				{{active.area}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 padding-left-custom">
+				
+				{{active.placeOrigin}}
+			</div>
+			<div class="col-sm-6 ">
+				
+				{{active.licencePlate}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 padding-left-custom">
+				
+				{{active.mark}}
+			</div>
+			<div class="col-sm-6 ">
+				
+				{{active.model}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 padding-left-custom">
+				
+				{{active.isLoan}}
+			</div>
+			<div class="col-sm-6 ">
+				
+				{{active.seria}}
+			</div>
+		</div>
+	</div>
+	<app-footer #footer></app-footer>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
