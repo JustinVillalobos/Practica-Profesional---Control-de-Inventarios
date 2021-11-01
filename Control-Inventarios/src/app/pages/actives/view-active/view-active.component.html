@@ -1,9 +1,10 @@
 
 	<app-header (updateContent)="updateContent($event)"></app-header>
 	<div class="content" #pRef>
+
 		<div class="row">
 			<div class="col-sm-12 d-flex justify-content-start margin-left-custom">
-				<div style="width:950px" class="inline">
+				<div style="width:98%" class="inline">
 					<div class="col-sm-6 d-flex">
 						<div class="inline">
 							<div class="container-titulo previous" (click)="previous()" 
@@ -28,46 +29,91 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<div class="container-custom-form">
+			<div class="row" style="margin-top:25px;">
+				<div class="col-sm-12 padding-left-custom">
+					<span class="label">Ubicación: </span>
+					<span class="data">{{active.edifice}}, {{active.area}}</span>
+				</div>
+			</div>
+			<div class="row" style="margin-top:25px;">
 			<div class="col-sm-6 padding-left-custom">
 				
-				{{active.amount}}
+				<span class="label">Cantidad: </span>
+				<span class="data">{{active.amount}}</span>
 			</div>
 			<div class="col-sm-6">
-				
-				{{active.area}}
+				<span class="label">Área: </span>
+				<span class="data">{{active.area}}</span>
+			</div>
+		</div>
+		<div class="row" style="margin-top:25px;">
+			<div class="col-sm-6 padding-left-custom">
+				<span class="label">Lugar de Origen: </span>
+				<span class="data">{{active.placeOrigin}}</span>		
+			</div>
+			<div class="col-sm-6 ">
+				<span class="label">Placa: </span>
+				<span class="data">{{active.licencePlate}}</span>	
+			</div>
+		</div>
+		<div class="row" style="margin-top:25px;">
+			<div class="col-sm-6 padding-left-custom">
+				<span class="label">Marca: </span>
+				<span class="data">{{active.mark}}</span>	
+			</div>
+			<div class="col-sm-6 ">
+				<span class="label">Modelo: </span>
+				<span class="data">{{active.model}}</span>	
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-6 padding-left-custom">
 				
-				{{active.placeOrigin}}
+				<div class="row">
+					<div class="col-sm-2 d-flex align-items-center">
+						<span class="label">Estado: </span>
+					</div>
+					<div class="col-sm-5">
+						<app-input-form *ngIf="!active.isLoan" [typeComponent]="'select'" [typed]="'text'" [label]="''"  [placeholder]="'Ingrese informacion'" [name]="'input4'" [items]="[{name:'Disponible'},{name:'En prestamo'}]" [value]="'Disponible'" (updateValue)="updateE($event)"></app-input-form>
+						<app-input-form *ngIf="active.isLoan" [typeComponent]="'select'" [typed]="'text'" [label]="''"  [placeholder]="'Ingrese informacion'" [name]="'input4'" [items]="[{name:'Disponible'},{name:'En prestamo'}]" [value]="'En prestamo'" (updateValue)="updateE($event)"></app-input-form>
+					</div>
+					<div class="col-sm-3 d-flex align-items-center">
+						<button class="btn btn-primary"
+						  matTooltip="Actualizar estado"
+					    matTooltipPosition="right"
+        				aria-label="Button that displays a tooltip when focused or hovered over"><i class="fas fa-sync" (click)="validateNewState()"></i></button>
+					</div>
+				</div>
+								
 			</div>
-			<div class="col-sm-6 ">
-				
-				{{active.licencePlate}}
+			<div class="col-sm-6 d-flex align-items-center">
+				<span class="label">Serie: </span>
+				<span class="data">{{active.seria}}</span>	
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" *ngIf="active.isLoan">
+			<div class="col-sm-12 padding-left-custom">
+				<span class="label-2">Datos del prestamo {{ active.loan.idLoan }} </span>
+			</div>
 			<div class="col-sm-6 padding-left-custom">
-				
-				{{active.mark}}
+				<span class="label">Prestatario: </span>
+				<span class="data">{{ active.loan.name }}</span>	
 			</div>
 			<div class="col-sm-6 ">
-				
-				{{active.model}}
+				<span class="label">Fecha de prestamo: </span>
+				<span class="data">{{ active.loan.date | date: 'd MMMM y' }}</span>	
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-6 padding-left-custom">
-				
-				{{active.isLoan}}
+		<div class="row" [ngClass]="{'margin-top-custom': active.isLoan === true}" style="margin-bottom: 15px;" >
+			<div class="col-sm-12 padding-left-custom">
+				<span class="label">Descripción </span>
 			</div>
-			<div class="col-sm-6 ">
-				
-				{{active.seria}}
+			<div class="col-sm-12 padding-left-custom">
+				<span class="data">{{ active.description }} </span>
 			</div>
 		</div>
+	   </div>
 	</div>
 	<app-footer #footer></app-footer>
 <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>

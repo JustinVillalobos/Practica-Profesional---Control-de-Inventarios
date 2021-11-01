@@ -52,7 +52,7 @@ export class AddAreaModalComponent implements OnInit {
       this.errorInputName = "Campo Vacío";
     }else if(this.validation.evaluateValue(this.area.name,this.validation.AlphaNumericAndSpacePattern())){
       this.isInvalidName = true;
-      this.errorInputName = "Solo se aceptan Carácteres Alfabeticos";
+      this.errorInputName = "Solo se aceptan Carácteres Alfanúmerics";
     }else if(!this.validation.validateLength(this.area.name,15)){
       this.isInvalidName = true;
       this.errorInputName = "El nombre es muy extenso";

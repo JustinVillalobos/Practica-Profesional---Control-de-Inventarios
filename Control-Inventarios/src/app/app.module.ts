@@ -22,10 +22,10 @@ import { AreaModule } from './pages/area/area.module';
 
 import { ActiveModule } from './pages/actives/active.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,

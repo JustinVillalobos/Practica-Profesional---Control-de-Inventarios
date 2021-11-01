@@ -24,13 +24,13 @@ export class EditEdificeModalComponent implements OnInit {
   updateValue(e){
       this.name = e.value;
   }
-    saveArea(){
+    save(){
     if(this.name == ''){
       this.isInvalidName = true;
       this.errorInputName = "Campo Vacío";
     }else if(this.validation.evaluateValue(this.name,this.validation.AlphaNumericAndSpacePattern())){
       this.isInvalidName = true;
-      this.errorInputName = "Solo se aceptan Carácteres Alfabeticos";
+      this.errorInputName = "Solo se aceptan Carácteres Alfanúmerics";
     }else if(!this.validation.validateLength(this.name,15)){
       this.isInvalidName = true;
       this.errorInputName = "El nombre es muy extenso";

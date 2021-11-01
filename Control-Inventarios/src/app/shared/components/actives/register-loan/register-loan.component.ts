@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { ValidationsService } from 'src/app/shared/services/general/validations.service';
 import { AlertService } from 'src/app/shared/services/general/alert.service';
+
 @Component({
-  selector: 'app-add-edifice-modal',
-  templateUrl: './add-edifice-modal.component.html',
-  styleUrls: ['./add-edifice-modal.component.scss']
+  selector: 'app-register-loan',
+  templateUrl: './register-loan.component.html',
+  styleUrls: ['./register-loan.component.scss']
 })
-export class AddEdificeModalComponent implements OnInit {
+export class RegisterLoanComponent implements OnInit {
 
   name: string = "";
   isInvalidName :boolean = false;
@@ -23,6 +24,7 @@ export class AddEdificeModalComponent implements OnInit {
   updateValue(e){
      this.name = e.value;
   }
+
   save(){
     if(this.name == ''){
       this.isInvalidName = true;
@@ -38,7 +40,7 @@ export class AddEdificeModalComponent implements OnInit {
     }
 
     if(!this.isInvalidName ){
-       this.AlertService.alertTimeCorrect("Información guardada con éxito",function(_component){
+       this.AlertService.alertTimeCorrect("Se ha generado un prestamo de un activo",function(_component){
                                _component.name="";
                                _component.dialog.closeAll();
                      },this);
@@ -46,4 +48,5 @@ export class AddEdificeModalComponent implements OnInit {
       return;
     }
   }
+
 }

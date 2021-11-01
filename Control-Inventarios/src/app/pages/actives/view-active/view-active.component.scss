@@ -58,7 +58,29 @@
 		font-size: 30px;
 	}
 }
+.container-custom-form{
+	border: 0.1px solid #000;
+    border-radius: 15px;
+    margin-top: 15px;
+}
 .custom-row{
 	margin-top: -17px;
     margin-bottom: 5px;
+}
+.label{
+	font-size: 18px;
+	font-weight: 400;
+	color: #19B3D3;
+}
+.label-2{
+	font-size: 18px;
+	font-weight: 500;
+	color: #19B3D3;
+}
+.data{
+	font-size: 16px;
+	color: black;
+}
+.margin-top-custom{
+	margin-top: 25px;
 }

@@ -5,12 +5,12 @@
  		 <app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Nombre'" [placeholder]="'Ingrese el nombre del edificio'" [name]="'input1'" (updateValue)="updateValue($event)" [value]="data.name" [isRequired]="'true'"></app-input-form>
           <div class="msg-error-container"><span *ngIf="isInvalidName" class="msg-error">{{ errorInputName }}</span></div>
  	</div>
- 	<div class="col-sm-1">
+ 	<div class="col-sm-4">
  		<button class="btn btn-primary"
  		 matTooltip="Guardar Edificio"
 					    matTooltipPosition="right"
         				aria-label="Button that displays a tooltip when focused or hovered over"
- 		(click)="saveArea()"><i class="far fa-save"></i>Guardar</button>
+ 		(click)="save()"><i class="far fa-save"></i><label>Guardar</label></button>
  	</div>
  </div>
  

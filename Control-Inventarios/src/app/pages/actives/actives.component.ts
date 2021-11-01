@@ -123,10 +123,26 @@ export class ActivesComponent implements OnInit {
 
   }
   updateArea(e){
-    
+    if(e.value!= "Todos"){
+      this.rows = this.temp.filter(function (d) {
+          return (d.area === e.value)
+        });
+     }else{
+       this.rows = this.temp;
+     }
   }
    updateState(e){
-    
+     let status=false;
+     if(e.value != 'Disponible' && e.value!= "Todos"){
+       status=true;
+     }
+    if(e.value !== 'Todos'){
+      this.rows = this.rows.filter(function (d) {
+        return (d.isLoan === status)
+      });
+    }else{
+      this.rows = this.temp;
+    }
   }
   generatePDF(){
 
