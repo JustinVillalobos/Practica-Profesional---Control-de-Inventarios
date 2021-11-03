@@ -212,12 +212,25 @@ insert into area values(null,"Laboratorio 2",true,3);
 insert into area values(null,"Aula 7",true,2);
 
 /*  Example row actives*/
-insert into `active` value(null,"Activo 1","","Es un activo","","","",20,1);
-insert into `active` value(null,"Activo 2","","Es un activo","","","",20,2);
-insert into `active` value(null,"Activo 3","","Es un activo","","","",20,3);
-insert into `active` value(null,"Activo 4","","Es un activo","","","",20,1);
-insert into `active` value(null,"Activo 6","","Es un activo","","","",20,1);
+insert into `active` value(1,"Computadora","345673","Es un activo","hp","Pabillon","234",1,0);
+insert into `active` value(2,"Sillas","","Es un activo","","","",20,0);
+insert into `active` value(3,"Escritorios","","Es un activo","","","",15,0);
+insert into `active` value(4,"Servidor","","Es un activo","","","",1,0);
+insert into `active` value(5,"Computadora Portatil","","Es un activo","","","",1,0);
 
+
+insert into `area-active` values(1,2,1);
+insert into `area-active` values(2,2,10);
+insert into `area-active` values(2,3,10);
+insert into `area-active` values(3,2,10);
+insert into `area-active` values(3,3,5);
+insert into `area-active` values(4,2,1);
+insert into `area-active` values(5,5,1);
+
+select * from `active`;
+delete from `area-active` where idActive = 3;
+call sp_allActives_by_area(2);
+call sp_allActives();
 call sp_session("admin","admin");
 call sp_all_edifices();
 call sp_add_edifice('Dormitorio Universitario');

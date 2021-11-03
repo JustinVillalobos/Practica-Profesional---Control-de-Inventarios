@@ -1,7 +1,7 @@
 const sqlConnection = require("./Config");
 const sql = new sqlConnection();
 const mssql =  require('mysql');
-module.exports = class Area {
+module.exports = class Active {
 	constructor() {
 
     }
@@ -13,6 +13,7 @@ module.exports = class Area {
 				conn.query( consult,data,
 					function (error, results, fields) {
 					  if (error) {
+					    //return console.error(error.message);
 					    return reject(error);
 					  }
 					  sql.close(conn);
@@ -34,28 +35,28 @@ module.exports = class Area {
     	}
     }
 
-    async allAreas() {
-    	 let res  = await this.promiseMethod('call sp_all_areas()','');
+    async allActives() {
+    	 let res  = await this.promiseMethod('call sp_allActives()','');
     	 return res;
     }
-     async allAreasByEdifice(data) {
-     	let area = [data.idEdifice];
-    	 let res  = await this.promiseMethod('call sp_all_area_edificio(?)',area);
+    async activesById(data) {
+    	let active = [data.idActive];
+    	 let res  = await this.promiseMethod('call sp_allActives_by_area(?)',active);
     	 return res;
     }
-    async addArea(data) {
-    	let area = [data.name,data.edifice];
-    	 let res  = await this.promiseMethod('call sp_add_area(?,?)',area);
+    async addActive(data) {
+    	let active = [data.name,data.licensePlate,data.mark,data.model,data.serie,data.amount];
+    	 let res  = await this.promiseMethod('call sp_add_edifice(?,?,?,?,?,?)',active);
     	 return res;
     }
-    async editArea(data) {
-    	let area = [data.idArea,data.name,data.edifice];
-    	 let res  = await this.promiseMethod('call sp_edit_area(?,?,?)',area);
+    async editActive(data) {
+    	let active = [data.idActive,data.name,data.licensePlate,data.mark,data.model,data.serie,data.amount];
+    	 let res  = await this.promiseMethod('call sp_edit_edifice(?,?,?,?,?,?,?)',active);
     	 return res;
     }
-    async editStatusArea(data) {
-    	let area = [data.idArea,data.status];
-    	 let res  = await this.promiseMethod('call sp_edit_area_status(?,?)',area);
+    async editStatusActive(data) {
+    	let active = [data.idEdifice,data.status];
+    	 let res  = await this.promiseMethod('call sp_edit_status(?,?)',active);
     	 return res;
     }
 

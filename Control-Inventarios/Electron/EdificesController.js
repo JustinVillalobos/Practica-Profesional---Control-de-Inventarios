@@ -1,7 +1,7 @@
 const sqlConnection = require("./Config");
 const sql = new sqlConnection();
 const mssql =  require('mysql');
-module.exports = class Sql {
+module.exports = class Edifice {
 	constructor() {
 
     }
@@ -13,7 +13,6 @@ module.exports = class Sql {
 				conn.query( consult,data,
 					function (error, results, fields) {
 					  if (error) {
-					    //return console.error(error.message);
 					    return reject(error);
 					  }
 					  sql.close(conn);

@@ -7,6 +7,10 @@ const edifices = require('./Electron/EdificesController');
 const edificeClass = new edifices();
 const areas = require('./Electron/AreaController');
 const areaClass = new areas();
+const Actives = require('./Electron/ActiveController');
+const activeClass = new Actives();
+const Validations = require('./Electron/Validations');
+const validations = new Validations();
 const jwt = require('jsonwebtoken');
 
 const SECRET = require("./Electron/key");
@@ -134,8 +138,47 @@ ipcMain.on("editArea", (event,data) =>{
 });
 
 /*EVENTS ACTIVES*/
-ipcMain.on("activo", (event) =>{
-    event.reply("reply", "pong");
+ipcMain.on("allActives", (event,data) =>{
+     let res = activeClass.allActives();
+    res.then(_data =>{
+            const convertedResponse = JSON.parse(JSON.stringify(_data[0]))
+             event.reply("reply", {"res":true,"areas":convertedResponse});
+      }).catch(() => {
+         event.reply("reply", {"res":false});
+      });
+});
+ipcMain.on("activesById", (event,data) =>{
+    let res = activeClass.activesById(data);
+    res.then(_data =>{
+            const convertedResponse = JSON.parse(JSON.stringify(_data[0]))
+             event.reply("reply", {"res":true,"areas":convertedResponse});
+      }).catch(() => {
+         event.reply("reply", {"res":false});
+      });
+});
+ipcMain.on("addActive", (event,data) =>{
+    let res = activeClass.addActive(data);
+    res.then(_data =>{
+            event.reply("reply", {"res":true});
+      }).catch(() => {
+         event.reply("reply", {"res":false});
+      });
+});
+ipcMain.on("editActive", (event,data) =>{
+    let res = activeClass.editActive(data);
+    res.then(_data =>{    
+             event.reply("reply", {"res":true});
+      }).catch(() => {
+         event.reply("reply", {"res":false});
+      });
+});
+ipcMain.on("editStatusActive", (event,data) =>{
+    let res = activeClass.editStatusActive(data);
+    res.then(_data =>{
+          event.reply("reply", {"res":true});
+      }).catch(() => {
+         event.reply("reply", {"res":false});
+      });
 });
 
 /*EVENTS No groupby*/

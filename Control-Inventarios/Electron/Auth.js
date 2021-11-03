@@ -13,7 +13,6 @@ module.exports = class Sql {
 		conn.query( 'call sp_session(?,?)',[username,password],
 			function (error, results, fields) {
 			  if (error) {
-			    //return console.error(error.message);
 			    return reject(error);
 			  }
 			  sql.close(conn);
