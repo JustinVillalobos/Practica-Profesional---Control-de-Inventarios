@@ -1,4 +1,4 @@
-module.exports = class Active {
+module.exports = class Validation {
 
 	constructor() {
        
