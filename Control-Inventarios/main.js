@@ -203,25 +203,66 @@ ipcMain.on("activesById", (event,data) =>{
 });
 ipcMain.on("addActive", (event,data) =>{
     const validateName = validations.FormatoAlfaNumerico(data.name,50);
-    const validateName = validations.FormatoAlfaNumerico(data.name,50);
-    const validateName = validations.FormatoAlfaNumerico(data.name,50);
-    const validateName = validations.FormatoAlfaNumerico(data.name,50);
-    const validateName = validations.FormatoAlfaNumerico(data.name,50);
-    const validateName = validations.FormatoAlfaNumerico(data.name,50);
-    let res = activeClass.addActive(data);
-    res.then(_data =>{
-            event.reply("reply", {"res":true});
-      }).catch(() => {
-         event.reply("reply", {"res":false});
-      });
+    const validateLicensePlate = true;
+    const validateMark= true;
+    const validateModel = true;
+    const validateSerie = true;
+    const validateAmount = validations.FormatoNumerico(data.amount);
+    if(data.licensePlate!=""){
+        validateLicensePlate = validations.FormatoAlfaNumerico(data.licensePlate,50);
+    }
+    if(data.mark!=""){
+        validateMark = validations.FormatoAlfaNumerico(data.mark,50);
+    }
+    if(data.model!=""){
+        validateModel = validations.FormatoAlfaNumerico(data.model,50);
+    }
+    if(data.serie!=""){
+        validateSerie = validations.FormatoAlfaNumerico(data.serie,50);
+    }
+   if(validateName && validateLicensePlate && validateMark &&
+       validateModel && validateSerie && validateAmount){
+        let res = activeClass.addActive(data);
+        res.then(_data =>{
+                event.reply("reply", {"res":true});
+          }).catch(() => {
+             event.reply("reply", {"res":false});
+          });
+   }else{
+       event.reply("reply", {"res":false});
+   }
+   
 });
 ipcMain.on("editActive", (event,data) =>{
-    let res = activeClass.editActive(data);
-    res.then(_data =>{    
-             event.reply("reply", {"res":true});
-      }).catch(() => {
-         event.reply("reply", {"res":false});
-      });
+     const validateName = validations.FormatoAlfaNumerico(data.name,50);
+    const validateLicensePlate = true;
+    const validateMark= true;
+    const validateModel = true;
+    const validateSerie = true;
+    const validateAmount = validations.FormatoNumerico(data.amount);
+    if(data.licensePlate!=""){
+        validateLicensePlate = validations.FormatoAlfaNumerico(data.licensePlate,50);
+    }
+    if(data.mark!=""){
+        validateMark = validations.FormatoAlfaNumerico(data.mark,50);
+    }
+    if(data.model!=""){
+        validateModel = validations.FormatoAlfaNumerico(data.model,50);
+    }
+    if(data.serie!=""){
+        validateSerie = validations.FormatoAlfaNumerico(data.serie,50);
+    }
+   if(validateName && validateLicensePlate && validateMark &&
+       validateModel && validateSerie && validateAmount){
+        let res = activeClass.editActive(data);
+        res.then(_data =>{
+                event.reply("reply", {"res":true});
+          }).catch(() => {
+             event.reply("reply", {"res":false});
+          });
+   }else{
+       event.reply("reply", {"res":false});
+   }
 });
 ipcMain.on("editStatusActive", (event,data) =>{  
      const validateStatus = data.status === true;
