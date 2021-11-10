@@ -41,6 +41,19 @@ header label{
 .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb{
      background-color: #fff ;
 }
+.amount .datatable-body-cell-label{
+  text-align: center;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 .table-size{
  width: fit-content;
   width: -moz-max-content;
@@ -103,7 +116,6 @@ header label{
 }
 .side-bar{
    padding-top: 30px;
-  height:84vh!important;
   z-index: 1;
   background-color: rgba(9, 115, 187, 0.9);
 }
@@ -167,9 +179,12 @@ label #sidebar_btn:hover{
 }
 
 #check:checked ~ .sidebar{
-  left: -185px;
+  left: -175px;
   height: 85vh!important;
    background-image:none;
+   .side-bar{
+    height:fit-content!important;
+   }
 }
 
 #check:checked ~ .sidebar a span{

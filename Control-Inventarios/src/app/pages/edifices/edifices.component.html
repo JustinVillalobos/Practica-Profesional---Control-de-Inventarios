@@ -33,15 +33,15 @@
 				</ngx-datatable-column>
 				<ngx-datatable-column name="Estado" [width]="80" [resizeable]="false">
 				    <ng-template let-row="row" ngx-datatable-cell-template>
-				      <mat-slide-toggle *ngIf="row.enabled" class="toggle"[checked]="true" (change)="changeStatus(row.idEdifices,row.enabled)"  matTooltip="Activado"
+				      <mat-slide-toggle *ngIf="row.isEnabled" class="toggle"[checked]="true" (change)="changeStatus(row.idEdifice,row.isEnabled)"  matTooltip="Activado"
 					    matTooltipPosition="right"
-        				aria-label="Button that displays a tooltip when focused or hovered over"  [(ngModel)]="row.enabled">
-				      	{{ row.enabled }}
+        				aria-label="Button that displays a tooltip when focused or hovered over"  [(ngModel)]="row.isEnabled">
+				      	{{ row.isEnabled }}
 				      </mat-slide-toggle>
-				       <mat-slide-toggle *ngIf="!row.enabled" class="toggle"[checked]="false" (change)="changeStatus(row.idEdifices,row.enabled)"  matTooltip="Desactivado"
+				       <mat-slide-toggle *ngIf="!row.isEnabled" class="toggle"[checked]="false" (change)="changeStatus(row.idEdifice,row.isEnabled)"  matTooltip="Desactivado"
 					    matTooltipPosition="right"
-        				aria-label="Button that displays a tooltip when focused or hovered over"  [(ngModel)]="row.enabled">
-				      	{{ row.enabled }}
+        				aria-label="Button that displays a tooltip when focused or hovered over"  [(ngModel)]="row.isEnabled">
+				      	{{ row.isEnabled }}
 				      </mat-slide-toggle>
 				    </ng-template>
 				</ngx-datatable-column>
@@ -60,7 +60,7 @@
 					  </ng-template>
 				    <ng-template let-row="row" ngx-datatable-cell-template>
 				    	<button class="btn btn-warning"
-       					  (click)="openEditModal(row.idEdifices,row.name)"><i class="fas fa-edit"></i></button>	
+       					  (click)="openEditModal(row.idEdifice,row.name)"><i class="fas fa-edit"></i></button>	
 				    </ng-template>
 				</ngx-datatable-column>
 			</ngx-datatable>

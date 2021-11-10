@@ -76,8 +76,15 @@ AlphabeticAndSpacePattern(){
   return '[^a-zA-Z ]';
 }
 AlphaNumericAndSpacePattern(){
-  return '[^a-zA-Z0-9 ]';
+  return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ ]';
 }
+MixtPattern(){
+  return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,. ]';
+}
+MixtAltPattern(){
+  return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,.\\s ]';
+}
+
 AlphaNumericPattern(){
   return '[^a-zA-Z0-9]';
 }

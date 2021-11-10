@@ -11,7 +11,7 @@
 		      <div class="modal-body">
 		        	<div class="row">
 		        		<div class="col-sm-12 d-flex justify-content-center">
-		        			<img src="assets/ucr.png" class="img"/>
+		        			<img src="assets/rg2.png" class="img"/>
 		        		</div>
 		        	</div>
 			        	<div class="row">
@@ -21,7 +21,14 @@
 			        		</div>
 			        		<div class="col-sm-12" style="margin-top:15px;" [formGroup]="loginForm">
 			        			<span class="label">Contraseña</span>
-			        			<input type="password" class="form-control" placeholder="Ingrese su Contraseña" formControlName = "password" (keypress)="checkPasswordValidations($event)" [ngClass]="{ 'invalid' : passwordValidationsClass }"/>
+			        			<div class="input-div">
+			        				<input type="{{ typed }}" class="form-control" placeholder="Ingrese su Contraseña" formControlName = "password" (keypress)="checkPasswordValidations($event)" [ngClass]="{ 'invalid' : passwordValidationsClass }"/>
+			        				<div class="container-ico">
+			        					<div (click)="changeStatus()"><span>
+			        						<i class="fas {{icon}}"></i>
+			        					</span></div>
+			        				</div>
+			        			</div>
 			        		</div>
 			        		<div class="col-sm-12" style="margin-top:15px;">
 			        			<button class="btn btn-ucr" (click)="verifyCredentials()">Ingresar</button>

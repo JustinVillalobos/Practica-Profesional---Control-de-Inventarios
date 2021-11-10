@@ -4,8 +4,10 @@ import { FooterComponent } from "src/app/shared/components/footer/footer.compone
 import { NgxSpinnerService } from "ngx-spinner";
 import { EditAreaModalComponent } from 'src/app/shared/components/area/edit-area-modal/edit-area-modal.component';
 import { AddAreaModalComponent } from 'src/app/shared/components/area/add-area-modal/add-area-modal.component';
-
-
+const electron = (<any>window).require('electron');
+import { AreaService } from 'src/app/shared/services/area.service';
+import { AreaModel } from 'src/app/shared/models/AreaModel';
+import { EdificeModel } from 'src/app/shared/models/EdificeModel';
 @Component({
   selector: 'app-area',
   templateUrl: './area.component.html',
@@ -15,24 +17,26 @@ export class AreaComponent implements OnInit {
 
    @ViewChild('pRef', {static: false}) pRef: ElementRef;
     @ViewChild('footer', { static: false }) footer: FooterComponent;
-    rows = [
-    {idArea:1,name:"Area 1",edifice:"Edificio 1",enabled:true},
-    {idArea:3,name:"Area 3",edifice:"Edificio 1",enabled:false},
-    {idArea:4,name:"Area 4",edifice:"Edificio 2",enabled:true},
-    {idArea:5,name:"Area 5",edifice:"Edificio 2",enabled:true},
-    {idArea:6,name:"Area 6",edifice:"Edificio 3",enabled:true},
-    {idArea:7,name:"Area 7",edifice:"Edificio 4",enabled:true},
-    {idArea:8,name:"Area 8",edifice:"Edificio 5",enabled:true},
-    {idArea:9,name:"Area 9",edifice:"Edificio 1",enabled:true},
-    {idArea:11,name:"Area 11",edifice:"Edificio 2",enabled:true},
-  ];
+    rows: AreaModel[] = [];
   columns = [{ prop: 'name' }];
   temp = [];
    pageNumber = 0;
+   edifice:EdificeModel ={
+     idEdifice:0,
+      name:"",
+      isEnabled:true
+   }
+   area:AreaModel ={
+      idArea:0,
+      name:"",
+      isEnabled:true,
+      edifice:this.edifice
+   }
   constructor(
     private renderer: Renderer2,
     private spinner: NgxSpinnerService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private AreaService:AreaService
     ) {
     this.temp = this.rows;
   }
@@ -45,15 +49,35 @@ export class AreaComponent implements OnInit {
      this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '250px');
     }
   }
+   allAreas(){
+    this.AreaService.allAreas();
+           electron.ipcRenderer.on("allAreas", (event: any, data: any) => {
+                if(data["res"]){              
+                   const areas = data["areas"].map(function(e) {
+                     var isTrueSet = (e.isEnabled.toLowerCase() === 'true');
+                     let edifice ={
+                                     idEdifice:e.idEdifice,
+                                      name:e.edifice,
+                                      isEnabled:true
+                                   } ;
+                        return {'idArea':e.idArea,'name':e.name,'isEnabled':isTrueSet,"edifice":edifice};
+                    });
+                   this.rows = areas;
+                   this.temp = this.rows;
+                   this.spinner.hide();
+                }
+            });
+  }
   ngOnInit(): void {
-
+    this.spinner.show();
+    this.allAreas();
   }
   updateValue(e){
     let val = e.value;
     val = val.toLowerCase();
     if(val!='' && val!=' '){
       const f = this.temp.filter(function (d) {
-        return (d.name.toLowerCase().indexOf(val) !== -1) || (d.edifice.toLowerCase().indexOf(val) !== -1)
+        return (d.name.toLowerCase().indexOf(val) !== -1) || (d.edifice.name.toLowerCase().indexOf(val) !== -1)
       });
 
       // update the rows
@@ -70,30 +94,48 @@ export class AreaComponent implements OnInit {
     for(let i=0;i<this.rows.length;i++){
       if(id == this.rows[i]["idArea"]){
         if(status == true){
-           this.rows[i].enabled = false;
+           this.rows[i].isEnabled = false;
          }else{
-            this.rows[i].enabled = true;
+            this.rows[i].isEnabled = true;
          }
+          this.spinner.show();
+          this.area.idArea = this.rows[i]["idArea"];
+         this.area.isEnabled = this.rows[i].isEnabled;
+         this.AreaService.editStatusArea(this.area);
+          electron.ipcRenderer.on("editStatusArea", (event: any, data: any) => {
+                if(data["res"]){
+                  this.spinner.hide();
+                }
+          });
          return;
       }
     }
   }
-  openEditModal(id,name,edifice){
-     this.dialog.open(EditAreaModalComponent, {
-       height: '350px',
-       width: '450px',
-      data: {
-        id: id,
-        name:name,
-        edifice:edifice
-      }
+  openEditModal(id,name,edifice,idEdifice){
+     let dialogRef = this.dialog.open(EditAreaModalComponent, {
+         height: '350px',
+         width: '450px',
+        data: {
+          idArea: id,
+          name:name,
+          edifice:edifice,
+          idEdifice:idEdifice
+        }
+      });
+     dialogRef.afterClosed().subscribe(result => {
+       this.spinner.show();
+        this.allAreas();
     });
   }
   openAddModal(){
-    this.dialog.open(AddAreaModalComponent, {
-       height: '350px',
-       width: '450px'
-     });
+    let dialogRef = this.dialog.open(AddAreaModalComponent, {
+         height: '350px',
+         width: '450px'
+       });
+    dialogRef.afterClosed().subscribe(result => {
+      this.spinner.show();
+        this.allAreas();
+    });
   }
 
 }

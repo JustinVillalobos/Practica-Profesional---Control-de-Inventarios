@@ -13,7 +13,7 @@
 					</div>
 					<div class="col-sm-6 d-flex justify-content-end">
 						<div class="inline">
-							<app-input-form [typeComponent]="'input'" [typed]="'text'"  [placeholder]="'Buscar...'" [name]="'input1'" [isSearch]="true" (updateValue)="updateValue($event)"></app-input-form>
+							<app-input-form [typeComponent]="'input'" [typed]="'text'"  [placeholder]="'Buscar...'" [name]="'input1'" [isSearch]="true" (updateValue)="updateValue($event)" ></app-input-form>
 							<button class="btn btn-primary btn-margin" (click)="AddActive()"
 							 matTooltip="Agregar Activo"
 					    matTooltipPosition="right"
@@ -34,19 +34,19 @@
 								<span class="filters"><i class="fas fa-filter"></i></span>
 							</div>
 							<div class="col-sm-3">
-								<app-input-form [typeComponent]="'select'"  [label]="'Edificios'" [items]="edifices" [placeholder]="'Seleccione informacion'" (updateValue)="updateEdifices($event)"></app-input-form>
+								<app-input-form [typeComponent]="'select'"  [label]="'Edificios'" [items]="edifices" [placeholder]="'Seleccione informacion'" (updateValue)="updateEdifices($event)" [value]="'Todos'"></app-input-form>
 							</div>
 							<div class="col-sm-3" style="margin-left:25px;">
-								<app-input-form [typeComponent]="'select'"  [label]="'Areas'" [items]="areas" [placeholder]="'Seleccione informacion'" (updateValue)="updateArea($event)"></app-input-form>
+								<app-input-form #SelectAreas [typeComponent]="'select'"  [label]="'Áreas'" [items]="areas" [placeholder]="'Seleccione informacion'" (updateValue)="updateArea($event)" [value]="'Todos'"></app-input-form>
 							</div>
 							<div class="col-sm-3" style="margin-left:25px;">
-								<app-input-form [typeComponent]="'select'"  [label]="'Estado'" [items]="status" [placeholder]="'Seleccione informacion'" (updateValue)="updateState($event)"></app-input-form>
+								<app-input-form #SelectStatus [typeComponent]="'select'"  [label]="'Estado'" [items]="status" [placeholder]="'Seleccione informacion'" (updateValue)="updateState($event)" [value]="'Todos'"></app-input-form>
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-4 d-flex justify-content-end">
 						<div class="inline">
-							<app-input-form [typeComponent]="'select'"  [label]="'Mostrar'" [items]="[{'name':'10'},{'name':'15'},{'name':'25'},{'name':'50'},{'name':'100'}]" [placeholder]="'Seleccione informacion'" (updateValue)="updateShow($event)" ></app-input-form>
+							<app-input-form [typeComponent]="'select'"  [label]="'Mostrar'" [items]="[{'name':'10'},{'name':'15'},{'name':'25'},{'name':'50'},{'name':'100'}]" [placeholder]="'Seleccione informacion'" (updateValue)="updateShow($event)" [value]="'10'"></app-input-form>
 						</div>
 					</div>
 				</div>
@@ -58,29 +58,24 @@
 				<ngx-datatable [rows]="rows" [columns]="columns" class="material fullscreen table-custom" [limit]="limit"
 				[footerHeight]="50" [headerHeight]="50"  [rowHeight]="35"
 				[offset]="pageNumber" [reorderable]="false"  [sortType]="SortType.multi"> 
-				<ngx-datatable-column name="Nombre" [width]="220"  [sortable]="false" [resizeable]="false">
+				<ngx-datatable-column name="Nombre" [width]="350"  [sortable]="false" [resizeable]="false">
 				    <ng-template let-row="row" ngx-datatable-cell-template>
 				      {{row.name}}
 				    </ng-template>
 				</ngx-datatable-column>
-				<ngx-datatable-column name="Cantidad" [width]="100"  [sortable]="false" [resizeable]="false">
-				    <ng-template let-row="row" ngx-datatable-cell-template>
+				<ngx-datatable-column name="Cantidad" [width]="100"  [sortable]="false" [resizeable]="false"  [cellClass]="getCellClass">
+				    <ng-template let-row="row" ngx-datatable-cell-template class="amount">
 				      {{row.amount}}
 				    </ng-template>
 				</ngx-datatable-column>
-				<ngx-datatable-column name="Área" [width]="180"  [sortable]="false" [resizeable]="false">
-				    <ng-template let-row="row" ngx-datatable-cell-template>
-				      {{row.area}}
-				    </ng-template>
-				</ngx-datatable-column>
-				<ngx-datatable-column name="Lugar de Origen" [width]="290"  [sortable]="false" [resizeable]="false">
+				<ngx-datatable-column name="Lugar de Origen" [width]="300"  [sortable]="false" [resizeable]="false">
 				    <ng-template let-row="row" ngx-datatable-cell-template>
 				      {{row.placeOrigin}}
 				    </ng-template>
 				</ngx-datatable-column>
 				<ngx-datatable-column name="Estado" [width]="100"  [sortable]="false" [resizeable]="false">
 				    <ng-template let-row="row" ngx-datatable-cell-template>
-				      	<span *ngIf="row.isLoan">En prestamo</span>
+				      	<span *ngIf="row.isLoan">En préstamo</span>
 				      	<span *ngIf="!row.isLoan">Disponible</span>
 				    </ng-template>
 				</ngx-datatable-column>

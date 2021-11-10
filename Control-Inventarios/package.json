@@ -1,5 +1,13 @@
 {
   "name": "control-inventarios",
+  "description": "An awesome app!",
+  "author": "Flavio Copes <your@email.com> (https://flaviocopes.com)",
+  "license": "MIT",
+  "keywords": [
+    "email",
+    "machine learning",
+    "ai"
+  ],
   "version": "0.0.0",
   "main": "main.js",
   "scripts": {
@@ -9,7 +17,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "ng build && electron ."
+    "electron": "ng build && electron .",
+    "pack": "electron-packager . Control-Inventarios --win --out ../Control-Inventarios --arch=x64 --app-version=0.0.1 --icon='./src/assets/rgu1.jpeg'",
+    "setup": "electron-installer-windows --src Control-Inventarios/control-inventarios-win32-x64/ --dest electronPKG/installers/"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +57,7 @@
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
     "electron": "^15.3.0",
+    "electron-packager": "^15.4.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.1.0",

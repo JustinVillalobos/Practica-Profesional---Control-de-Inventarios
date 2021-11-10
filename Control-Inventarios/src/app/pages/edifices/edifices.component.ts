@@ -1,10 +1,12 @@
 import { Component, OnInit,ViewChild,ElementRef, Renderer2 } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
+const electron = (<any>window).require('electron');
 import { FooterComponent } from "src/app/shared/components/footer/footer.component";
 import { NgxSpinnerService } from "ngx-spinner";
+import { EdificeModel } from 'src/app/shared/models/EdificeModel';
 import { EditEdificeModalComponent } from 'src/app/shared/components/edificio/edit-edifice-modal/edit-edifice-modal.component';
 import { AddEdificeModalComponent } from 'src/app/shared/components/edificio/add-edifice-modal/add-edifice-modal.component';
-
+import { EdificeService } from 'src/app/shared/services/edifice.service';
 @Component({
   selector: 'app-edifices',
   templateUrl: './edifices.component.html',
@@ -14,28 +16,37 @@ export class EdificesComponent implements OnInit {
 
   @ViewChild('pRef', {static: false}) pRef: ElementRef;
     @ViewChild('footer', { static: false }) footer: FooterComponent;
-    rows = [
-    {idEdifices:1,name:"Edificio 1",enabled:true},
-    {idEdifices:2,name:"Edificio 2",enabled:false},
-    {idEdifices:3,name:"Edificio 3",enabled:true},
-    {idEdifices:4,name:"Edificio 4",enabled:true},
-    {idEdifices:5,name:"Edificio 5",enabled:true},
-    {idEdifices:6,name:"Edificio 6",enabled:true},
-    {idEdifices:7,name:"Edificio 7",enabled:true},
-    {idEdifices:8,name:"Edificio 8",enabled:true},
-    {idEdifices:9,name:"Edificio 9",enabled:true},
-    {idEdifices:10,name:"Edificio 10",enabled:false},
-    {idEdifices:11,name:"Edificio 11",enabled:true},
-  ];
+    rows: EdificeModel[] = [];
+    edifice: EdificeModel = {
+      idEdifice:0,
+      name:"",
+      isEnabled:true
+    }
   columns = [{ prop: 'name' }];
   temp = [];
    pageNumber = 0;
   constructor(
     private renderer: Renderer2,
     private spinner: NgxSpinnerService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private EdificeService:EdificeService
     ) {
     this.temp = this.rows;
+  }
+
+  allEdifices(){
+    this.EdificeService.allEdifices();
+           electron.ipcRenderer.on("allEdifices", (event: any, data: any) => {
+                if(data["res"]){                 
+                   const edifices = data["edifices"].map(function(e) {
+                     var isTrueSet = (e.isEnabled.toLowerCase() === 'true');
+                        return {'idEdifice':e.idEdifice,'name':e.name,'isEnabled':isTrueSet};
+                    });
+                   this.rows = edifices;
+                   this.temp = this.rows;
+                   this.spinner.hide();
+                }
+            });
   }
   updateContent(e){
      if(e){
@@ -47,7 +58,8 @@ export class EdificesComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-
+    this.spinner.show();
+    this.allEdifices();
   }
   updateValue(e){
     let val = e.value;
@@ -68,32 +80,49 @@ export class EdificesComponent implements OnInit {
     }
   }
   changeStatus(id,status){
+     this.spinner.show();
      for(let i=0;i<this.rows.length;i++){
-      if(id == this.rows[i]["idEdifices"]){
+      if(id == this.rows[i]["idEdifice"]){
         if(status == true){
-           this.rows[i].enabled = false;
+           this.rows[i].isEnabled = false;
          }else{
-            this.rows[i].enabled = true;
+            this.rows[i].isEnabled = true;
          }
+         this.edifice.idEdifice = this.rows[i]["idEdifice"];
+         this.edifice.isEnabled = this.rows[i].isEnabled;
+         this.EdificeService.editStatusEdifice(this.edifice);
+          electron.ipcRenderer.on("editStatusEdifice", (event: any, data: any) => {
+                if(data["res"]){
+                  this.spinner.hide();
+                }
+          });
          return;
       }
     }
   }
   openEditModal(id,name){
-     this.dialog.open(EditEdificeModalComponent, {
+     let dialogRef = this.dialog.open(EditEdificeModalComponent, {
        height: '230px',
        width: '450px',
-      data: {
-        id: id,
-        name:name
-      }
+        data: {
+          idEdifice: id,
+          name:name
+        }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.spinner.show();
+        this.allEdifices();
     });
   }
   openAddModal(){
-    this.dialog.open(AddEdificeModalComponent, {
+    let dialogRef = this.dialog.open(AddEdificeModalComponent, {
        height: '230px',
        width: '450px'
      });
+    dialogRef.afterClosed().subscribe(result => {
+      this.spinner.show();
+        this.allEdifices();
+    });
   }
  
 

@@ -13,7 +13,8 @@ import { NgxSpinnerService } from "ngx-spinner";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-
+  typed = "password";
+  icon = "fa-eye-slash";
   usernameValidationsClass:boolean = false;
   passwordValidationsClass:boolean = false;
   constructor(
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
   }
   goToDashBoard(){
      this._ngZone.run(()=>{
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/actives']);
       });
   }
   verifyCredentials(){
@@ -109,6 +110,15 @@ export class LoginComponent implements OnInit {
     let password= this.loginForm.controls.password.value;
     if(!this.ValidationsService.validateLength(password,15)){
         e.preventDefault();
+    }
+  }
+  changeStatus(){
+    if(this.typed=='password'){
+      this.icon = "fa-eye";
+      this.typed="text";
+    }else{
+      this.typed="password";
+      this.icon = "fa-eye-slash";
     }
   }
 

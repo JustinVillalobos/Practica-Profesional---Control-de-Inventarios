@@ -9,14 +9,18 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AddActiveComponent } from './add-active/add-active.component';
 import { ViewActiveComponent } from './view-active/view-active.component';
+import { EditDistributionComponent } from 'src/app/shared/components/actives/edit-distribution/edit-distribution.component';
 
 import { RegisterLoanComponent } from 'src/app/shared/components/actives/register-loan/register-loan.component';
+import { EditActiveComponent } from './edit-active/edit-active.component';
 @NgModule({
   declarations: [
       ActivesComponent,
       AddActiveComponent,
       ViewActiveComponent,
-      RegisterLoanComponent
+      RegisterLoanComponent,
+      EditActiveComponent,
+      EditDistributionComponent
   ],
   imports: [
     CommonModule,

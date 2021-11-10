@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ActivesComponent } from './actives.component';
 import { AddActiveComponent } from './add-active/add-active.component';
 import { ViewActiveComponent } from './view-active/view-active.component';
+import { EditActiveComponent } from './edit-active/edit-active.component';
+
 const routes: Routes = [
   {
     path: '',
@@ -16,6 +18,11 @@ const routes: Routes = [
    {
     path: 'add',
     component: AddActiveComponent
+
+   },
+   {
+    path: 'edit_actives/:idActive',
+    component: EditActiveComponent
 
    }
 ];

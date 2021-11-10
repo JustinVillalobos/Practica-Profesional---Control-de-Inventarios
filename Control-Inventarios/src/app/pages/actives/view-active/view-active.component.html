@@ -20,6 +20,10 @@
 					</div>
 					<div class="col-sm-6 d-flex justify-content-end">
 						<div class="inline">
+							<button class="btn btn-primary btn-margin-2" (click)="editDistribution()"
+							 matTooltip="Editar Distribución de Activo"
+					    matTooltipPosition="right"
+        				aria-label="Button that displays a tooltip when focused or hovered over"><i class="fas fa-boxes"></i></button>
 							<button class="btn btn-warning btn-margin" (click)="editActive()"
 							 matTooltip="Editar Activo"
 					    matTooltipPosition="right"
@@ -30,39 +34,29 @@
 			</div>
 		</div>
 		<div class="container-custom-form">
-			<div class="row" style="margin-top:25px;">
-				<div class="col-sm-12 padding-left-custom">
-					<span class="label">Ubicación: </span>
-					<span class="data">{{active.edifice}}, {{active.area}}</span>
-				</div>
-			</div>
-			<div class="row" style="margin-top:25px;">
+		<div class="row" style="margin-top:25px;">
 			<div class="col-sm-6 padding-left-custom">
 				
 				<span class="label">Cantidad: </span>
 				<span class="data">{{active.amount}}</span>
 			</div>
-			<div class="col-sm-6">
-				<span class="label">Área: </span>
-				<span class="data">{{active.area}}</span>
+			<div class="col-sm-6" *ngIf="active.licensePlate!=''">
+				<span class="label">Placa: </span>
+				<span class="data">{{active.licensePlate}}</span>
 			</div>
 		</div>
 		<div class="row" style="margin-top:25px;">
 			<div class="col-sm-6 padding-left-custom">
 				<span class="label">Lugar de Origen: </span>
-				<span class="data">{{active.placeOrigin}}</span>		
-			</div>
-			<div class="col-sm-6 ">
-				<span class="label">Placa: </span>
-				<span class="data">{{active.licencePlate}}</span>	
+				<span class="data">{{active.placeOrigin}}</span>
 			</div>
 		</div>
 		<div class="row" style="margin-top:25px;">
-			<div class="col-sm-6 padding-left-custom">
+			<div class="col-sm-6 padding-left-custom"  *ngIf="active.mark!=''">
 				<span class="label">Marca: </span>
 				<span class="data">{{active.mark}}</span>	
 			</div>
-			<div class="col-sm-6 ">
+			<div class="col-sm-6 "  *ngIf="active.model!=''">
 				<span class="label">Modelo: </span>
 				<span class="data">{{active.model}}</span>	
 			</div>
@@ -75,8 +69,8 @@
 						<span class="label">Estado: </span>
 					</div>
 					<div class="col-sm-5">
-						<app-input-form *ngIf="!active.isLoan" [typeComponent]="'select'" [typed]="'text'" [label]="''"  [placeholder]="'Ingrese informacion'" [name]="'input4'" [items]="[{name:'Disponible'},{name:'En prestamo'}]" [value]="'Disponible'" (updateValue)="updateE($event)"></app-input-form>
-						<app-input-form *ngIf="active.isLoan" [typeComponent]="'select'" [typed]="'text'" [label]="''"  [placeholder]="'Ingrese informacion'" [name]="'input4'" [items]="[{name:'Disponible'},{name:'En prestamo'}]" [value]="'En prestamo'" (updateValue)="updateE($event)"></app-input-form>
+						<app-input-form #SelectStatus *ngIf="!active.isLoan" [typeComponent]="'select'" [typed]="'text'" [label]="''"  [placeholder]="'Ingrese informacion'" [name]="'input4'" [items]="[{name:'Disponible'},{name:'En préstamo'}]" [value]="'Disponible'" (updateValue)="updateE($event)" ></app-input-form>
+						<app-input-form #SelectStatus *ngIf="active.isLoan" [typeComponent]="'select'" [typed]="'text'" [label]="''"  [placeholder]="'Ingrese informacion'" [name]="'input4'" [items]="[{name:'Disponible'},{name:'En préstamo'}]" [value]="'En préstamo'" (updateValue)="updateE($event)"></app-input-form>
 					</div>
 					<div class="col-sm-3 d-flex align-items-center">
 						<button class="btn btn-primary"
@@ -87,30 +81,54 @@
 				</div>
 								
 			</div>
-			<div class="col-sm-6 d-flex align-items-center">
+			<div class="col-sm-6 d-flex align-items-center" *ngIf="active.serie!=''">
 				<span class="label">Serie: </span>
-				<span class="data">{{active.seria}}</span>	
+				<span class="data">{{active.serie}}</span>	
 			</div>
 		</div>
-		<div class="row" *ngIf="active.isLoan">
+		<div class="row" *ngIf="isLoan">
 			<div class="col-sm-12 padding-left-custom">
-				<span class="label-2">Datos del prestamo {{ active.loan.idLoan }} </span>
+				<span class="label-2">Datos del préstamo  {{ active.loan.idLoan }} </span>
 			</div>
 			<div class="col-sm-6 padding-left-custom">
 				<span class="label">Prestatario: </span>
 				<span class="data">{{ active.loan.name }}</span>	
 			</div>
 			<div class="col-sm-6 ">
-				<span class="label">Fecha de prestamo: </span>
-				<span class="data">{{ active.loan.date | date: 'd MMMM y' }}</span>	
+				<span class="label">Fecha de préstamo: </span>
+				<span class="data">{{ active.loan.loanDate}}</span>	
 			</div>
 		</div>
-		<div class="row" [ngClass]="{'margin-top-custom': active.isLoan === true}" style="margin-bottom: 15px;" >
+		<div class="row" [ngClass]="{'margin-top-custom': active.isLoan === true}">
+			<div class="col-sm-12 padding-left-custom">
+				<span class="label-2">Distribución del Activo </span>
+			</div>
+			<div class="col-sm-12 padding-left-custom" >
+				<table class="table table-striped" style="width:80%">
+				   
+				    <tbody>
+				      <tr *ngFor="let i of areas">
+				        <td>
+				        	<span class="label">Área: </span>
+							<span class="data">{{i.edifice}}, {{i.name}}</span>
+				        </td>
+				        <td>
+				        	<span class="label">Cantidad: </span>
+							<span class="data">{{i.amount}}</span>
+				        </td>
+
+				      </tr>
+				      
+				    </tbody>
+				  </table>	
+			</div>
+		</div>
+		<div class="row" [ngClass]="{'margin-top-custom': active.amount!=1}" style="margin-bottom: 15px;" >
 			<div class="col-sm-12 padding-left-custom">
 				<span class="label">Descripción </span>
 			</div>
 			<div class="col-sm-12 padding-left-custom">
-				<span class="data">{{ active.description }} </span>
+				<span class="data"  [innerHTML]="ContDescrip"> </span>
 			</div>
 		</div>
 	   </div>
