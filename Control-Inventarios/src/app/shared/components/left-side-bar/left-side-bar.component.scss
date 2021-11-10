@@ -1,0 +1,30 @@
+.mat-expansion-panel{
+	background: transparent!important;
+}
+.mat-expansion-panel-header{
+	padding: 0px 0px 0px;
+    border: none;
+
+    .mat-panel-title{
+    	    margin-right: 0px;
+    }
+}
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+}
+.mat-expansion-panel-header{
+	height:60px;
+}
+.mat-expansion-panel-body{
+	padding:0px 0px 0px 0px;
+
+}
+.special-margin{
+	//margin-left: 15px;
+	padding-left: 50px;
+}
+.linea{
+	border:0.1px solid #086C87;
+	margin-bottom: 5px;
+	margin-top: 15px;
+}

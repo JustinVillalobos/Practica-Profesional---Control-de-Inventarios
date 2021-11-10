@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Prestamo</h1>
+<div mat-dialog-content>
+<div class="row" style="height: 85px;">
+ 	<div class="col-sm-8">
+ 		 <app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Nombre'" [placeholder]="'Ingrese el nombre del prestatario'" [name]="'input1'" (updateValue)="updateValue($event)" [isRequired]="'true'"></app-input-form>
+         <div class="msg-error-container"><span *ngIf="isInvalidName" class="msg-error">{{ errorInputName }}</span></div>
+ 	</div>
+ 	<div class="col-sm-4">
+ 		<button class="btn btn-primary"
+ 		 matTooltip="Guardar Edificio"
+					    matTooltipPosition="right"
+        				aria-label="Button that displays a tooltip when focused or hovered over"
+ 		 (click)="save()"><i class="far fa-save"></i><label>Guardar</label></button>
+ 	</div>
+ </div>
+ 
+</div>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>

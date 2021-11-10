@@ -1,1 +1,11 @@
-<p>dashboard works!</p>
+
+	<app-header (updateContent)="updateContent($event)"></app-header>
+	<div class="content" #pRef>
+		<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Label 1'" [placeholder]="'Ingrese informacion'" [name]="'input1'" (updateValue)="updateValue($event)"></app-input-form>
+		<app-input-form [typeComponent]="'input'" [typed]="'number'" [label]="'Label 2'" [placeholder]="'Ingrese un numero'" [name]="'input2'"></app-input-form>
+		<app-input-form [typeComponent]="'textArea'"  [label]="'Label 3'" [placeholder]="'Ingrese informacion'" [name]="'input3'"></app-input-form>
+		<app-input-form [typeComponent]="'select'"  [label]="'Label 4'" [items]="[{'name':'Object 1'},{'name':'Object 2'}]" [placeholder]="'Seleccione informacion'"></app-input-form>
+		<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Label 5'" [isRequired]="'true'" [placeholder]="'Ingrese informacion'" [name]="'input4'"></app-input-form>
+	</div>
+	<app-footer #footer></app-footer>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>

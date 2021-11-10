@@ -1,0 +1,72 @@
+<h1 mat-dialog-title>Distribución</h1>
+<div mat-dialog-content>
+	<div class="row " >
+					<div class="col-sm-12 padding-left-custom">
+						
+						<div class="row">
+							<div class="col-sm-10 padding-left-custom">
+								<app-input-form [typeComponent]="'input'" [typed]="'number'" [label]="'Cantidad Total'" [placeholder]="'Ingrese la cantidad'" [name]="'amount'" (updateValue)="updateValue($event)" [isRequired]="'true'" [value]="amount" [min]="1" [max]="500"></app-input-form>
+							</div>
+							<div class="col-sm-4">
+								<app-input-form [typeComponent]="'select'"  [label]="'Edificios'" [items]="edifices" [placeholder]="'Seleccione informacion'" (updateValue)="updateEdifices($event)" [isRequired]="'true'"  [value]="edificeSelected"></app-input-form>
+							</div>
+							<div class="col-sm-4">
+								<app-input-form [typeComponent]="'select'"  [label]="'Áreas'" [items]="allAreas" [placeholder]="'Seleccione informacion'" (updateValue)="updateArea($event)" [isRequired]="'true'" [value]="areaSelected"></app-input-form>
+							</div>
+							<div class="col-sm-3">
+								<app-input-form [typeComponent]="'input'" [typed]="'number'" [label]="'Cantidad'" [placeholder]="''" [name]="'amountArea'" (updateValue)="updateValue($event)" [isRequired]="'true'" [value]="1" [min]="1" [max]="500"></app-input-form>
+							</div>
+							<div class="col-sm-11 d-flex justify-content-end display-none"  [ngClass]="{'display-active':amount > 1}" >
+								<button class=" button btn btn-primary"
+						 		 matTooltip="Guardar área"
+											    matTooltipPosition="right"
+						        				aria-label="Button that displays a tooltip when focused or hovered over"
+						 		 (click)="saveDistribucion()"><i class="far fa-save"></i><label>Guardar</label></button>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12 padding-left-custom display-none" [ngClass]="{'display-active':amount > 1}">
+						<table class="table table-striped" style="width:80%">
+							<thead>
+								<tr>
+									<th>Área y Cantidad</th>
+									<th class="d-flex justify-content-center">
+										<div class="div-custom-icon d-flex justify-content-center" 
+									    matTooltip="Eliminar de distribución"
+									    matTooltipPosition="right"
+				        				aria-label="Button that displays a tooltip when focused or hovered over">
+									    	<span class="custom-icon">
+										      <i class="fas fa-question-circle"></i>
+										    </span>
+									    </div>
+									</th>
+								</tr>
+							</thead>
+						    <tbody>
+						      <tr *ngFor="let i of areas">
+						        <td class="d-flex">
+									<span class="data">{{i.edifice}}, {{i.name}}</span>
+									<div class="div"><span class="data">{{i.amount}}</span></div>
+						        </td>
+						        <td >
+						        	<div style="width:100%;" class="d-flex justify-content-center">
+						        		<button class="btn btn-danger" (click)="remove(i.name)">
+						        			<span><i class="fas fa-trash"></i></span>
+						        		</button>
+						        	</div>
+						        </td>
+
+						      </tr>
+						      
+						    </tbody>
+						  </table>	
+					</div>
+					<div class="col-sm-11 d-flex justify-content-end display-none"  [ngClass]="{'display-active':amount > 1}" >
+								<button class=" button btn btn-primary"
+						 		 matTooltip="Guardar Distribución"
+											    matTooltipPosition="right"
+						        				aria-label="Button that displays a tooltip when focused or hovered over"
+						 		 (click)="save()"><i class="far fa-save"></i><label>Guardar Distribución</label></button>
+							</div>
+				</div>
+</div>

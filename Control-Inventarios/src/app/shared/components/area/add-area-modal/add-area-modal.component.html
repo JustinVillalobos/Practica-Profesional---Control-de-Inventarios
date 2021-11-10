@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Agregar Área</h1>
+<div mat-dialog-content>
+ <div class="row">
+ 	<div class="col-sm-12">
+ 		 <app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Nombre'" [placeholder]="'Ingrese el nombre del área'" [name]="'name'" (updateValue)="updateValue($event)" [isRequired]="'true'"></app-input-form>
+         <div class="msg-error-container"><span *ngIf="isInvalidName" class="msg-error">{{ errorInputName }}</span></div>
+ 	</div>
+    <div class="col-sm-12">
+         <app-input-form [typeComponent]="'select'" [label]="'Edificio'" [placeholder]="'Selecciona el edificio'" [name]="'edifice'" (updateValue)="updateValue($event)" [isRequired]="'true'" [items]="edificios" ></app-input-form>
+          <div class="msg-error-container"><span *ngIf="isInvalidEdifice" class="msg-error">{{ errorInputEdifice }}</span></div>
+    </div>
+ 	<div class="col-sm-12 d-flex justify-content-end">
+ 		<button class="btn btn-primary"
+ 		 matTooltip="Guardar área"
+					    matTooltipPosition="right"
+        				aria-label="Button that displays a tooltip when focused or hovered over"
+ 		 (click)="saveArea()"><i class="far fa-save"></i><label>Guardar</label></button>
+ 	</div>
+ </div>
+ 
+</div>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>

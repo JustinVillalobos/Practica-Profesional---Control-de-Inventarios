@@ -1,0 +1,139 @@
+
+	<app-header (updateContent)="updateContent($event)"></app-header>
+	<div class="content" #pRef>
+		<div class="row">
+			<div class="col-sm-12 d-flex justify-content-start margin-left-custom">
+				<div style="width:98%" class="inline">
+					<div class="col-sm-6 d-flex">
+						<div class="inline">
+							<div class="container-titulo previous" (click)="previous()" 
+							 matTooltip="Volver a listado"
+						     matTooltipPosition="right"
+	        				 aria-label="Button that displays a tooltip when focused or hovered over">
+								<span class="left-arrow"><i class="fas fa-chevron-left"></i></span>
+							</div>
+							<div class="container-titulo margin-left-custom">
+								<span class="titulo">Agregar Activo</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6 d-flex justify-content-end">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-custom-form">
+			<div class="row" style="margin-top:25px;">
+					<div class="col-sm-12 padding-left-custom">
+						<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Nombre'" [placeholder]="'Ingrese el nombre del Activo'" [name]="'name'" (updateValue)="updateValue($event)" [isRequired]="'true'"></app-input-form>
+						 <div class="msg-error-container"><span *ngIf="activeControls.name.isInvalid" class="msg-error">{{ activeControls.name.error }}</span></div>					
+					</div>
+				</div>
+				<div class="row" >
+					<div class="col-sm-12 padding-left-custom">
+						<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Lugar de Origen'" [placeholder]="'Ingrese el lugar de Origen'" [name]="'placeOrigin'" (updateValue)="updateValue($event)" [isRequired]="'true'"></app-input-form>
+						<div class="msg-error-container"><span *ngIf="activeControls.placeOrigin.isInvalid" class="msg-error">{{ activeControls.placeOrigin.error }}</span></div>					
+					</div>
+				</div>
+				<div class="row" >
+					<div class="col-sm-4 padding-left-custom">
+						<app-input-form [typeComponent]="'input'" [typed]="'number'" [label]="'Cantidad'" [placeholder]="'Ingrese la cantidad'" [name]="'amount'" (updateValue)="updateValue($event)" [isRequired]="'true'" [value]="1" [min]="1" [max]="500"></app-input-form>
+					</div>
+					<div class="col-sm-4">
+						<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Serie'" [placeholder]="'Ingrese la serie del activo'" [name]="'serie'" (updateValue)="updateValue($event)" ></app-input-form>
+						<div class="msg-error-container"><span *ngIf="activeControls.serie.isInvalid" class="msg-error">{{ activeControls.serie.error }}</span></div>	
+					</div>
+					<div class="col-sm-4">
+						<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Placa'" [placeholder]="'Ingrese la Placa'" [name]="'licensePlate'" (updateValue)="updateValue($event)" ></app-input-form>
+						<div class="msg-error-container"><span *ngIf="activeControls.licensePlate.isInvalid" class="msg-error">{{ activeControls.licensePlate.error }}</span></div>	
+					</div>
+				</div>
+				<div class="row " >
+					<div class="col-sm-12 padding-left-custom">
+						<span class="distribute">Distribucion de Activos</span>
+						<div class="row">
+							<div class="col-sm-4">
+								<app-input-form [typeComponent]="'select'"  [label]="'Edificios'" [items]="edifices" [placeholder]="'Seleccione informacion'" (updateValue)="updateEdifices($event)" [isRequired]="'true'"></app-input-form>
+							</div>
+							<div class="col-sm-4">
+								<app-input-form [typeComponent]="'select'"  [label]="'Areas'" [items]="allAreas" [placeholder]="'Seleccione informacion'" (updateValue)="updateArea($event)" [isRequired]="'true'"></app-input-form>
+							</div>
+							<div class="col-sm-2">
+								<app-input-form [typeComponent]="'input'" [typed]="'number'" [label]="'Cantidad'" [placeholder]="''" [name]="'amountArea'" (updateValue)="updateValue($event)" [isRequired]="'true'" [value]="1" [min]="1" [max]="500"></app-input-form>
+							</div>
+							<div class="col-sm-2 d-flex justify-content-end display-none"  [ngClass]="{'display-active':active.amount > 1}" >
+								<button class=" button btn btn-primary"
+						 		 matTooltip="Guardar área"
+											    matTooltipPosition="right"
+						        				aria-label="Button that displays a tooltip when focused or hovered over"
+						 		 (click)="saveDistribucion()"><i class="far fa-save"></i><label>Guardar</label></button>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12 padding-left-custom display-none" [ngClass]="{'display-active':active.amount > 1}">
+						<table class="table table-striped" style="width:80%">
+							<thead>
+								<tr>
+									<th>Área</th>
+									<th class="d-flex text-center justify-content-center">Cantidad</th>
+									<th>
+										<div class="div-custom-icon" 
+									    matTooltip="Eliminar de distribución"
+									    matTooltipPosition="right"
+				        				aria-label="Button that displays a tooltip when focused or hovered over">
+									    	<span class="custom-icon">
+										      <i class="fas fa-question-circle"></i>
+										    </span>
+									    </div>
+									</th>
+								</tr>
+							</thead>
+						    <tbody>
+						      <tr *ngFor="let i of areas">
+						        <td>
+									<span class="data">{{i.edifice}}, {{i.name}}</span>
+						        </td>
+						        <td class="d-flex text-center justify-content-center">
+									<span class="data">{{i.amount}}</span>
+						        </td>
+						        <td>
+						        	<button class="btn btn-danger" (click)="remove(i.name)">
+						        		<span><i class="fas fa-trash"></i></span>
+						        	</button>
+						        </td>
+
+						      </tr>
+						      
+						    </tbody>
+						  </table>	
+					</div>
+				</div>
+				<div class="row" >
+					<div class="col-sm-6 padding-left-custom">
+						<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Marca'" [placeholder]="'Ingrese la Marca del activo'" [name]="'mark'" (updateValue)="updateValue($event)" ></app-input-form>
+						<div class="msg-error-container"><span *ngIf="activeControls.mark.isInvalid" class="msg-error">{{ activeControls.mark.error }}</span></div>	
+					</div>
+					<div class="col-sm-6 ">
+						<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Modelo'" [placeholder]="'Ingrese el modelo del activo'" [name]="'model'" (updateValue)="updateValue($event)" ></app-input-form>
+						<div class="msg-error-container"><span *ngIf="activeControls.model.isInvalid" class="msg-error">{{ activeControls.model.error }}</span></div>		
+					</div>
+				</div>
+				<div class="row" >
+					<div class="col-sm-12 padding-left-custom">
+						<app-input-form [typeComponent]="'textArea'"  [label]="'Descripción'" [placeholder]="'Ingrese la Descripción'" [name]="'description'" (updateValue)="updateValue($event)" [isRequired]="'true'" [rows]="3"></app-input-form>	<div class="msg-error-container" ><span *ngIf="activeControls.description.isInvalid" class="msg-error">{{ activeControls.description.error }}</span></div>							
+					</div>
+				</div>
+				<div class="row" style="margin-bottom:15px;">
+					<div class="col-sm-12 padding-left-custom d-flex justify-content-end">
+						<button class="button btn btn-primary"
+						 		 matTooltip="Guardar Activo"
+											    matTooltipPosition="right"
+						        				aria-label="Button that displays a tooltip when focused or hovered over"
+						 		 (click)="save()"><i class="far fa-save"></i><label>Guardar Activo</label></button>
+					</div>
+				</div>
+		</div>
+	</div>
+	<app-footer #footer></app-footer>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>

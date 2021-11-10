@@ -1,0 +1,28 @@
+.ucr-form-field{
+	background: transparent!important;
+	width:100%;
+	.ucr-required{
+		color:red;
+	}
+	input{
+		width:100%;
+	}
+	div{
+		background: transparent!important;
+	}
+	.mat-form-field-appearance-fill .mat-form-field-flex{
+		background: transparent!important;
+	}
+	.mat-form-field-ripple{
+		background: #22242A!important;
+	}
+	
+}
+.mat-focused .mat-form-field-label {
+    /*change color of label when focused*/
+    color:#000 !important;
+   }
+
+  .search{
+  	position: absolute;
+  }
