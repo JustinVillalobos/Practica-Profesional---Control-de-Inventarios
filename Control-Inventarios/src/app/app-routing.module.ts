@@ -25,6 +25,11 @@ const routes: Routes = [
     path: 'actives',
     loadChildren: () => import('./pages/actives/active.module').then(m => m.ActiveModule),
     canLoad:[AuthGuardService]
+  },
+  {
+    path: 'security',
+    loadChildren: () => import('./pages/security/security.module').then(m => m.SecurityModule),
+    canLoad:[AuthGuardService]
   }
 ];
 

@@ -7,16 +7,12 @@ module.exports = class Edifice {
     }
     async promiseMethod(consult,data){
     	var conn = sql.connect();
-<<<<<<< HEAD
-    	conn.connect();
-=======
     	try{
     		conn.connect();
     	}catch(err){
     		conn = sql.connectUCR();
     		conn.connect();
     	}
->>>>>>> 3cff6faa947af30c940eff6730790e73b39c89af
     	if(data != ""){
     		return new Promise((resolve, reject) => {
 				conn.query( consult,data,
@@ -43,13 +39,10 @@ module.exports = class Edifice {
     	}
     }
 
-<<<<<<< HEAD
-=======
 	async allEdificesActive() {
     	 let res  = await this.promiseMethod('call sp_all_edifices_actives()','');
     	 return res;
     }
->>>>>>> 3cff6faa947af30c940eff6730790e73b39c89af
     async allEdifices() {
     	 let res  = await this.promiseMethod('call sp_all_edifices()','');
     	 return res;
@@ -60,20 +53,13 @@ module.exports = class Edifice {
     	 return res;
     }
     async editEdifice(data) {
-<<<<<<< HEAD
-=======
     	console.log(data);
->>>>>>> 3cff6faa947af30c940eff6730790e73b39c89af
     	let edifice = [data.idEdifice,data.name];
     	 let res  = await this.promiseMethod('call sp_edit_edifice(?,?)',edifice);
     	 return res;
     }
     async editStatusEdifice(data) {
-<<<<<<< HEAD
-    	let edifice = [data.idEdifice,data.status];
-=======
     	let edifice = [data.idEdifice,data.isEnabled];
->>>>>>> 3cff6faa947af30c940eff6730790e73b39c89af
     	 let res  = await this.promiseMethod('call sp_edit_status(?,?)',edifice);
     	 return res;
     }

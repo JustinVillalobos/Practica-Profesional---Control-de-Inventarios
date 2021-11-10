@@ -21,6 +21,7 @@ import { EdificesModule } from './pages/edifices/edifices.module';
 import { AreaModule } from './pages/area/area.module';
 
 import { ActiveModule } from './pages/actives/active.module';
+import { SecurityModule } from './pages/security/security.module';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { ActiveModule } from './pages/actives/active.module';
     EdificesModule,
     AreaModule,
     ActiveModule,
+    SecurityModule,
   ],
   providers: [
     {

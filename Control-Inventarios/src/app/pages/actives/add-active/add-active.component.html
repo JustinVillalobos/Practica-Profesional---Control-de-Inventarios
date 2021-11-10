@@ -62,7 +62,7 @@
 							<div class="col-sm-2">
 								<app-input-form [typeComponent]="'input'" [typed]="'number'" [label]="'Cantidad'" [placeholder]="''" [name]="'amountArea'" (updateValue)="updateValue($event)" [isRequired]="'true'" [value]="1" [min]="1" [max]="500"></app-input-form>
 							</div>
-							<div class="col-sm-2 d-flex justify-content-end display-none"  [ngClass]="{'display-active':active.amount > 1}" >
+							<div class="col-sm-2 d-flex justify-content-end display-none"  [ngClass]="{'display-active':active.amount >= 1}" >
 								<button class=" button btn btn-primary"
 						 		 matTooltip="Guardar área"
 											    matTooltipPosition="right"
@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-sm-12 padding-left-custom display-none" [ngClass]="{'display-active':active.amount > 1}">
+					<div class="col-sm-12 padding-left-custom display-none" [ngClass]="{'display-active':active.amount >= 1}">
 						<table class="table table-striped" style="width:80%">
 							<thead>
 								<tr>

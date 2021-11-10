@@ -7,16 +7,12 @@ module.exports = class Active {
     }
     async promiseMethod(consult,data){
     	var conn = sql.connect();
-<<<<<<< HEAD
-    	conn.connect();
-=======
     	try{
     		conn.connect();
     	}catch(err){
     		conn = sql.connectUCR();
     		conn.connect();
     	}
->>>>>>> 3cff6faa947af30c940eff6730790e73b39c89af
     	if(data != ""){
     		return new Promise((resolve, reject) => {
 				conn.query( consult,data,
@@ -49,27 +45,6 @@ module.exports = class Active {
     	 return res;
     }
     async activesById(data) {
-<<<<<<< HEAD
-    	let active = [data.idActive];
-    	 let res  = await this.promiseMethod('call sp_allActives_by_area(?)',active);
-    	 return res;
-    }
-    async addActive(data) {
-    	let active = [data.name,data.licensePlate,data.mark,data.model,data.serie,data.amount];
-    	 let res  = await this.promiseMethod('call sp_add_edifice(?,?,?,?,?,?)',active);
-    	 return res;
-    }
-    async editActive(data) {
-    	let active = [data.idActive,data.name,data.licensePlate,data.mark,data.model,data.serie,data.amount];
-    	 let res  = await this.promiseMethod('call sp_edit_edifice(?,?,?,?,?,?,?)',active);
-    	 return res;
-    }
-    async editStatusActive(data) {
-    	let active = [data.idEdifice,data.status];
-    	 let res  = await this.promiseMethod('call sp_edit_status(?,?)',active);
-    	 return res;
-    }
-=======
     	let active = [data];
     	 let res  = await this.promiseMethod('call sp_allActives_by_area(?)',active);
     	 return res;
@@ -145,7 +120,6 @@ module.exports = class Active {
 
 
     
->>>>>>> 3cff6faa947af30c940eff6730790e73b39c89af
 
 
 }
