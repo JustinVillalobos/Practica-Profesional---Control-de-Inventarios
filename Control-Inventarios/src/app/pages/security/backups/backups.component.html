@@ -1,0 +1,29 @@
+
+	<app-header (updateContent)="updateContent($event)"></app-header>
+	<div class="content" #pRef>
+		<div class="row">
+			<div class="col-sm-12 padding-left-custom">
+				<div class="container-title"><span>Copias de Seguridad</span></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12 padding-left-custom">
+				<mat-tab-group>
+				  <mat-tab label="Guardar Copia de Seguridad">
+				  	<div class="row">
+				  		<div class="container-subtitle">
+				  			<span>Guardar Copia de Seguridad</span></div>
+				  	</div>
+				   </mat-tab>
+				  <mat-tab label="Cargar Copia de Seguridad">
+				  	<div class="row">
+				  		<div class="container-subtitle">
+				  			<span>Cargar Copia de Seguridad</span></div>
+				  	</div> </mat-tab>
+				</mat-tab-group>
+			</div>
+		</div>
+		
+	</div>
+	<app-footer #footer></app-footer>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>

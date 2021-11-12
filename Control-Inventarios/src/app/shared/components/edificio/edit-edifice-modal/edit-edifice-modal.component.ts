@@ -41,7 +41,7 @@ export class EditEdificeModalComponent implements OnInit {
       this.errorInputName = "Campo Vacío";
     }else if(this.validation.evaluateValue(this.edifice.name,this.validation.AlphaNumericAndSpacePattern())){
       this.isInvalidName = true;
-      this.errorInputName = "Solo se aceptan Carácteres Alfanúmerics";
+      this.errorInputName = "Solo se aceptan Carácteres Alfanúmericos";
     }else if(!this.validation.validateLength(this.edifice.name,125)){
       this.isInvalidName = true;
       this.errorInputName = "El nombre es muy extenso";

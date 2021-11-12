@@ -1,11 +1,13 @@
 import { Component, OnInit,NgZone  } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RecoveryPasswordComponent } from 'src/app/shared/components/recovery-password/recovery-password.component';
 import {Router} from "@angular/router";
 const electron = (<any>window).require('electron');
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { ValidationsService } from 'src/app/shared/services/general/validations.service';
 import { AlertService } from 'src/app/shared/services/general/alert.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import {MatDialog} from '@angular/material/dialog';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,6 +24,7 @@ export class LoginComponent implements OnInit {
     private _ngZone: NgZone,
     private formBuilder: FormBuilder,
     private authService: AuthService,
+      public dialog: MatDialog,
     private ValidationsService:ValidationsService,
     private AlertService:AlertService,
     private spinner: NgxSpinnerService
@@ -82,7 +85,12 @@ export class LoginComponent implements OnInit {
     }
   }
   recoveryPassword(){
-
+     let dialogRef = this.dialog.open(RecoveryPasswordComponent, {
+         height: '250px',
+         width: '450px',
+      });
+     dialogRef.afterClosed().subscribe(result => {
+    });
   }
   checkUserCharacter(e){
     if(this.ValidationsService.WordsAlphabeticValidation(e)){

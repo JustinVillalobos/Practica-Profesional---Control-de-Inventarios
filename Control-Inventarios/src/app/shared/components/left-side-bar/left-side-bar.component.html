@@ -37,9 +37,9 @@
         <a (click)="marketOthersMethod()" class="{{marketOthers}}" ><i class="fas fa-user-shield"></i><span>Seguridad</span></a>
       </mat-panel-title>
     </mat-expansion-panel-header>
-     <a (click)="goRedirect('security')"class="special-margin" placement="right" ngbTooltip="Cambiar Contraseña" title="Cambiar Info Usuario"><i class="fas fa-user-key"></i><span>Cambiar Información</span></a>
+     <a (click)="goRedirect('security')"class="special-margin" placement="right" ngbTooltip="Cambiar Contraseña" title="Cambiar Info Usuario"><i class="fas fa-id-badge"></i><span>Cambiar Información</span></a>
      <a (click)="goRedirect('security/change-password')" class="special-margin" placement="right" ngbTooltip="Cambiar Contraseña" title="Cambiar Contraseña"><i class="fas fa-key"></i><span>Cambiar Contraseña</span></a>
-     <a class="special-margin" placement="right" ngbTooltip="Copias de Seguridad" title="Copias de Seguridad"><i class="fas fa-user-shield"></i><span>Copias de Seguridad</span></a>
+     <a (click)="goRedirect('security/backups')" class="special-margin" placement="right" ngbTooltip="Copias de Seguridad" title="Copias de Seguridad"><i class="fas fa-user-shield"></i><span>Copias de Seguridad</span></a>
   </mat-expansion-panel>
 </mat-accordion>
 </div>

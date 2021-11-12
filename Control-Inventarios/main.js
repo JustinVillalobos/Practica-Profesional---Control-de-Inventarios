@@ -9,6 +9,8 @@ const areas = require('./Electron/AreaController');
 const areaClass = new areas();
 const Actives = require('./Electron/ActiveController');
 const activeClass = new Actives();
+const User = require('./Electron/UserController');
+const userClass = new User();
 const Validations = require('./Electron/Validations');
 const validations = new Validations();
 const jwt = require('jsonwebtoken');
@@ -39,7 +41,7 @@ createWindow = () => {
     
     appWin.loadURL(`file://${__dirname}/dist/index.html`);
 
-    //appWin.webContents.openDevTools();
+    appWin.webContents.openDevTools();
 
     appWin.on("closed", () => {
         appWin = null;
@@ -486,4 +488,72 @@ ipcMain.on("editStatusActive", (event,data) =>{
           event.reply("reply", {"res":false});
       }
   }) ;
- 
+  /*EVENTS Password and USER*/
+ipcMain.on("userInfo", (event,data) =>{
+    var decoded = jwt.verify(data.token, JWT_Secret);
+    let idUser=0;
+    console.log(decoded);
+     const validateId = validations.FormatoNumerico(idUser);
+    if(validateId){
+        let res = userClass.userData(data);
+        res.then(_data =>{
+                const convertedResponse = JSON.parse(JSON.stringify(_data[0]))
+                 event.reply("userInfo", {"res":true,"user":convertedResponse});
+          }).catch((err) => {
+              console.log(err);
+             event.reply("userInfo", {"res":false});
+          });
+      }else{
+          event.reply("userInfo", {"res":false});
+      }
+});
+  ipcMain.on("editUser", (event,data) =>{  
+       var decoded = jwt.verify(data.token, JWT_Secret);
+    let idUser=0;
+     const validateId = validations.FormatoNumerico(idUser);
+   if(validateId){
+          let res = userClass.updateUserData(data);
+    res.then(_data =>{
+          event.reply("editUser", {"res":true});
+      }).catch((err) => {
+           console.log(err);
+         event.reply("editUser", {"res":false});
+      });
+    }else{
+         event.reply("editUser", {"res":false});
+    }
+});
+    ipcMain.on("editPassword", (event,data) =>{
+     var decoded = jwt.verify(data.token, JWT_Secret);  
+    let idUser=0;
+     const validateId = validations.FormatoNumerico(idUser);
+   if(validateId){
+          let res = userClass.updatePasswordData(data);
+    res.then(_data =>{
+          event.reply("editPassword", {"res":true});
+      }).catch((err) => {
+           console.log(err);
+         event.reply("editPassword", {"res":false});
+      });
+    }else{
+         event.reply("editPassword", {"res":false});
+    }
+});
+    ipcMain.on("validateUser", (event,data) =>{
+    var decoded = jwt.verify(data.token, JWT_Secret);
+    let idUser=0;
+    console.log(decoded);
+     const validateId = validations.FormatoNumerico(idUser);
+    if(validateId){
+        let res = userClass.validateUserData(data);
+        res.then(_data =>{
+                const convertedResponse = JSON.parse(JSON.stringify(_data[0]))
+                 event.reply("validateUser", {"res":true,"user":convertedResponse});
+          }).catch((err) => {
+              console.log(err);
+             event.reply("validateUser", {"res":false});
+          });
+      }else{
+          event.reply("validateUser", {"res":false});
+      }
+});
