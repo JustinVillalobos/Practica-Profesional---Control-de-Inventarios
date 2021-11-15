@@ -81,7 +81,7 @@ export class ViewActiveComponent implements OnInit {
                    this.active = data["actives"][0];
                     this.active.loan = this.loan;
                     this.ContDescrip = this.active.description.replace(/\n/g, '<br />');
-                    console.log(this.active.isLoan);
+                    console.log(this.ContDescrip);
                    if(this.active.isLoan){
                        this.SelectStatus.setText('En préstamo');
                    }else{

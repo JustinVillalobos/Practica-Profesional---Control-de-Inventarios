@@ -9,4 +9,7 @@ export class BackupsService {
   backup(){
      electron.ipcRenderer.send("generate_backup");  
   }
+  recoverybackup(data){
+     electron.ipcRenderer.send("recovery",data);  
+  }
 }

@@ -141,7 +141,7 @@ export class BackupsComponent implements OnInit {
         this.worksheet = this.workbook.addWorksheet("Actives");
 
       title = "Registros de Activos  ";
-      header = ["idActive","name","licensePlate","mark","model","serie","placeOrigin","amount","isLoan"];
+      header = ["idActive","name","licensePlate","mark","model","serie","placeOrigin","amount","isLoan","description"];
       titleRow = this.setTitle(title);
       col1 = this.worksheet.getColumn(1);
       col2 = this.worksheet.getColumn(2);
@@ -152,6 +152,7 @@ export class BackupsComponent implements OnInit {
       let col7 = this.worksheet.getColumn(7);
       let col8 = this.worksheet.getColumn(8);
       let col9 = this.worksheet.getColumn(9);
+      let col10 = this.worksheet.getColumn(10);
       col1.width = 20;
       col2.width = 45;
       col3.width = 20;
@@ -161,9 +162,10 @@ export class BackupsComponent implements OnInit {
       col7.width = 40;
       col8.width = 15;
       col9.width = 15;
+      col10.width = 80;
       headerRow = this.setHeader(header);
         datos[2].forEach(d => {
-              const rowU=[d.idActive,d.name,d.licensePlate,d.mark,d.model,d.serie,d.placeOrigin,d.amount,d.isLoan];
+              const rowU=[d.idActive,d.name,d.licensePlate,d.mark,d.model,d.serie,d.placeOrigin,d.amount,d.isLoan,d.description];
               let row = this.worksheet.addRow(rowU);
         });
 
@@ -244,17 +246,49 @@ export class BackupsComponent implements OnInit {
       }, {});
       const dataString = JSON.stringify(jsonData);
       this. data = jsonData;
-      console.log(jsonData);
     }
     reader.readAsBinaryString(file);
   }
   restaurate(){
-    console.log(this. data);
-    let edifices = this.converter.converterEdifices(this.data["Edifices"]);
-    let areas = this.converter.converterAreas(this.data["Areas"]);
-    let actives = this.converter.converterActives(this.data["Actives"]);
-    let loans = this.converter.converterLoan(this.data["Loans"]);
-    let areasactives = this.converter.converterAreasActive(this.data["Areas-Actives"]);
-    let loansactives = this.converter.converterLoanActive(this.data["Loans-Actives"]);
+     
+     if(this.data.length!=0){
+        this.AlertService.confirmacion("¿Esta seguro/a de cargar un Backup?. Esta acción puede durar varios minutos",function(response,component){
+             if(response==true){
+               component.spinner.show();
+               try{
+                  let edifices = component.converter.converterEdifices(component.data["Edifices"]);
+                  let areas = component.converter.converterAreas(component.data["Areas"]);
+                  let actives = component.converter.converterActives(component.data["Actives"]);
+                  let loans = component.converter.converterLoan(component.data["Loans"]);
+                  let areasactives = component.converter.converterAreasActive(component.data["Areas-Actives"]);
+                  let loansactives = component.converter.converterLoanActive(component.data["Loans-Actives"]);
+                  let data = {
+                    "edifices":edifices,
+                    "areas":areas,
+                    "actives":actives,
+                    "loans":loans,
+                    "areasactives":areasactives,
+                    "loansactives":loansactives
+                  };
+                  console.log(data);
+                component.BackupsService.recoverybackup(data);
+                electron.ipcRenderer.on("recovery", (event: any, data: any) => {
+                            if(data["res"]){ 
+                              console.log(data);
+                              component.spinner.hide();
+                             }else{
+                               component.spinner.hide();
+                             }
+                              
+                        });
+               }catch(e){
+                  this.AlertService.alertaError("Backup con formato incorrecto");
+               }
+                
+             }
+         },this);
+      }else{
+        this.AlertService.alertaError("No se ha cargado un backup");
+      }
   }
 }

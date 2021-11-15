@@ -613,50 +613,50 @@ ipcMain.on("validateUser", (event,data) =>{
              event.reply("generate_backup", {"res":false});
          });
 });
-ipcMain.on("deleteAllInfo", (event,data) =>{
+ipcMain.on("recovery", (event,data) =>{
         let res = BackupController.deleteAllInfo();
         res.then(_data =>{
-             res = BackupController.insertEdifice(data);
+             res = BackupController.insertEdifice(data["edifices"]);
               res.then(_data =>{
-                    res = BackupController.insertArea(data);
+                    res = BackupController.insertArea(data["areas"]);
                     res.then(_data =>{
-                          res = BackupController.insertActive(data);
+                          res = BackupController.insertActive(data["actives"]);
                             res.then(_data =>{
-                                res = BackupController.insertLoan(data);
+                                res = BackupController.insertLoan(data["loans"]);
                                 res.then(_data =>{
-                                     res = BackupController.insertAreaActive(data);
+                                     res = BackupController.insertAreaActive(data["areasactives"]);
                                     res.then(_data =>{
-                                         res = BackupController.insertLoanActive(data);
+                                         res = BackupController.insertLoanActive(data["loansactives"]);
                                             res.then(_data =>{
-                                                 event.reply("deleteAllInfo", {"res":true});
+                                                 event.reply("recovery", {"res":true});
                                               }).catch((err) => {
                                                   console.log(err);
-                                                 event.reply("deleteAllInfo", {"res":false});
+                                                 event.reply("recovery", {"res":false});
                                               });
                                       }).catch((err) => {
                                           console.log(err);
-                                         event.reply("deleteAllInfo", {"res":false});
+                                         event.reply("recovery", {"res":false});
                                       });
                                   }).catch((err) => {
                                       console.log(err);
-                                     event.reply("deleteAllInfo", {"res":false});
+                                     event.reply("recovery", {"res":false});
                                   });
                               }).catch((err) => {
                                   console.log(err);
-                                 event.reply("deleteAllInfo", {"res":false});
+                                 event.reply("recovery", {"res":false});
                               });
                       }).catch((err) => {
                           console.log(err);
-                         event.reply("deleteAllInfo", {"res":false});
+                         event.reply("recovery", {"res":false});
                       });
               }).catch((err) => {
                   console.log(err);
-                 event.reply("deleteAllInfo", {"res":false});
+                 event.reply("recovery", {"res":false});
               });
                  //event.reply("deleteAllInfo", {"res":true});
           }).catch((err) => {
               console.log(err);
-             event.reply("deleteAllInfo", {"res":false});
+             event.reply("recovery", {"res":false});
           });
 });
  

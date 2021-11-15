@@ -75,7 +75,7 @@ module.exports = class Backup {
     async insertAreaActive(objects) {
     	 let res=true;
     	 for(let i=0;i<objects.length;i++){
-    	 	res  = await this.promiseMethod('call sp_edit_distribution(?,?,?)',[objects[i].idActive,objects[i].idArea,loans[i].amount]);
+    	 	res  = await this.promiseMethod('call sp_edit_distribution(?,?,?)',[objects[i].idActive,objects[i].idArea,objects[i].amount]);
     	 }
     	 return res;
     }

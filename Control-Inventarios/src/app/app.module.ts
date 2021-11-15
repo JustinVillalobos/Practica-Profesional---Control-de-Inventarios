@@ -22,11 +22,13 @@ import { AreaModule } from './pages/area/area.module';
 
 import { ActiveModule } from './pages/actives/active.module';
 import { SecurityModule } from './pages/security/security.module';
+import { ReportsComponent } from './pages/reports/reports.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    ReportsComponent,
   ],
   imports: [
     BrowserModule,
