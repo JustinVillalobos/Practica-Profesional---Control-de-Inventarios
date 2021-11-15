@@ -43,15 +43,15 @@ module.exports = class User {
     	 return res;
     }
     async updateUserData(data) {
-    	 let res  = await this.promiseMethod('call sp_user(?,?,?)',[data.idUser,data.name,data.email]);
+    	 let res  = await this.promiseMethod('call sp_edit_user(?,?,?)',[data.idUser,data.username,data.email]);
     	 return res;
     }
     async updatePasswordData(data) {
-    	 let res  = await this.promiseMethod('call sp_user(?,?)',[data.idUser,data.password]);
+    	 let res  = await this.promiseMethod('call sp_update_user(?,?)',[data.idUser,data.password]);
     	 return res;
     }
     async validateUserData(data) {
-    	 let res  = await this.promiseMethod('call sp_validate_user(?)',[data.idToken,data.username]);
+    	 let res  = await this.promiseMethod('call sp_validate_user(?)',[data]);
     	 return res;
     }
 

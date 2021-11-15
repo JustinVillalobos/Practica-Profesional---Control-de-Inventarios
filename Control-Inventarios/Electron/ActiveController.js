@@ -117,7 +117,19 @@ module.exports = class Active {
 	    	}
     	 return res;
     }
-
+     async allLoans() {
+    	 let res  = await this.promiseMethod('call sp_allLoans()','');
+    	 return res;
+    }
+    async allAreasActives() {
+    	 let res  = await this.promiseMethod('call sp_allAreasActives()','');
+    	 return res;
+    }
+    async allLoanActives() {
+    	 let res  = await this.promiseMethod('call sp_allLoanActives()','');
+    	 return res;
+    }
+ 
 
     
 

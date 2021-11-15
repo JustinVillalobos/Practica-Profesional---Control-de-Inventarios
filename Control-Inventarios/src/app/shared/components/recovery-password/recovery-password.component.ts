@@ -50,7 +50,7 @@ export class RecoveryPasswordComponent implements OnInit {
                 if(data["res"]){ 
                 this.spinner.hide(); 
                    this.AlertService.alertTimeCorrect("Se ha enviado un mensaje al correo adjuntado a tu usuario",function(_component){
-                                           _component.edifice.name="";
+                                           _component.edifice.username="";
                                            _component.dialog.closeAll();
                                  },this);
                  }else{

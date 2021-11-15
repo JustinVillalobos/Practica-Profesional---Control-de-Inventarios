@@ -9,16 +9,26 @@
 		<div class="row">
 			<div class="col-sm-12 padding-left-custom">
 				<mat-tab-group>
-				  <mat-tab label="Guardar Copia de Seguridad">
+				  <mat-tab label="Crear Copia de Seguridad">
 				  	<div class="row">
 				  		<div class="container-subtitle">
-				  			<span>Guardar Copia de Seguridad</span></div>
+				  		</div>
+				  		<div class="col-sm-2">
+				  			<button class="btn btn-primary" (click)="generate()">Generar</button>
+				  		</div>
 				  	</div>
 				   </mat-tab>
 				  <mat-tab label="Cargar Copia de Seguridad">
 				  	<div class="row">
-				  		<div class="container-subtitle">
-				  			<span>Cargar Copia de Seguridad</span></div>
+
+				  			<div class="col-sm-6">
+				  				<input type="file" class="form-control" (change)="onFileChange($event)" />
+				  			</div>
+				  			<div class="col-sm-6"></div>
+				  			<div class="col-sm-6">
+				  				<button class="btn btn-primary" (click)="restaurate()">Restaurar</button>
+				  				
+				  			</div>
 				  	</div> </mat-tab>
 				</mat-tab-group>
 			</div>

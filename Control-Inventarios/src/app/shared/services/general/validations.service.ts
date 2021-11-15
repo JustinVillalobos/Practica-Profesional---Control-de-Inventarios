@@ -81,6 +81,9 @@ AlphaNumericAndSpacePattern(){
 MixtPattern(){
   return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,. ]';
 }
+EmailPattern(){
+  return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,@_. ]';
+}
 MixtAltPattern(){
   return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,.\\s ]';
 }

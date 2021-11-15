@@ -4,6 +4,12 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+     "exceljs": [
+       "node_modules/exceljs/dist/exceljs.min"
+     ]
+   },
+    "types": ["node"],
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,

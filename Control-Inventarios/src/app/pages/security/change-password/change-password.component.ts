@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild,ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, Renderer2,NgZone  } from '@angular/core';
+import {Router} from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
 import { AlertService } from 'src/app/shared/services/general/alert.service';
 import { PasswordService } from 'src/app/shared/services/password.service';
@@ -20,17 +21,32 @@ export class ChangePasswordComponent implements OnInit {
   password ="";
   newPassword ="";
   newRepeatPassword ="";
+  passwordTemp = "";
   constructor(
      private renderer: Renderer2,
       private validation:ValidationsService,
     private spinner: NgxSpinnerService,
     private AlertService:AlertService,
+     private router: Router,
+    private _ngZone: NgZone,
     private PasswordService:PasswordService
     ) {}
 
 
   ngOnInit(): void {
+    this.userInfo();
   }
+
+  userInfo(){
+    this.PasswordService.userData({token:localStorage.getItem('idToken')});
+       electron.ipcRenderer.on("userInfo", (event: any, data: any) => {
+         console.log(data);
+           if(data["res"]){
+             this.passwordTemp = data["user"][0].password;
+           }
+       });
+  }
+
 
 
   updateContent(e){
@@ -89,23 +105,36 @@ export class ChangePasswordComponent implements OnInit {
        this.newpsw2.isInvalid = false;
     }
     if(!this.psw.isInvalid && !this.newpsw.isInvalid && !this.newpsw2.isInvalid ){
-      this.spinner.show();
-      this.PasswordService.changePassword({password:this.password,newPassword:this.newPassword,token:localStorage.getItem('idToken')});
-       electron.ipcRenderer.on("editPassword", (event: any, data: any) => {
-          this.spinner.hide(); 
-                if(data["res"]){ 
-                this.spinner.hide(); 
-                   this.AlertService.alertTimeCorrect("Se ha enviado cambiado la contraseña",function(_component){
-                                           _component.edifice.name="";
-                                           _component.dialog.closeAll();
-                                 },this);
-                 }else{
-                    this.AlertService.alertaError("Usuario no encontrado en el sistema");
-                 }
-            });
+        if(this.passwordTemp == this.password){
+          this.AlertService.confirmacion("¿Esta seguro/a?",function(response,component){
+             if(response==true){
+                 component.spinner.show();
+                component.PasswordService.changePassword({password:component.password,newPassword:component.newPassword,token:localStorage.getItem('idToken')});
+                 electron.ipcRenderer.on("editPassword", (event: any, data: any) => {
+                    component.spinner.hide(); 
+                          if(data["res"]){ 
+                            component.spinner.hide(); 
+                             component.AlertService.alertTimeCorrect("Se ha enviado cambiado la contraseña",function(_component){
+                                             _component.redirectTo();
+                                           },component);
+                           }else{
+                              component.AlertService.alertaError("Usuario no encontrado en el sistema");
+                           }
+                      });
+             }
+         },this);
+      
+     }else{
+         this.AlertService.alertaError("Contraseña de verificación incorrecta");
+     }
+      
     }else{
       return;
     }
   }
-
+   redirectTo(){
+     this._ngZone.run(()=>{
+      this.router.navigate(['/actives']);
+     });
+  }
 }

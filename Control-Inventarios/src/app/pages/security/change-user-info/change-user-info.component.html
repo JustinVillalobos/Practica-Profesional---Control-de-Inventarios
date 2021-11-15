@@ -9,19 +9,19 @@
 		<div class="container-custom-form">
 			<div class="row">
 				<div class="col-sm-12 padding-left-custom">
-					<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Usuario'" [placeholder]="'Ingrese su usuario'" [name]="'user'" (updateValue)="updateValue($event)" [isRequired]="'true'" [value]="user"></app-input-form>
+					<app-input-form #user [typeComponent]="'input'" [typed]="'text'" [label]="'Usuario'" [placeholder]="'Ingrese su usuario'" [name]="'user'" (updateValue)="updateValue($event)" [isRequired]="'true'" [value]="user"></app-input-form>
 							 <div class="msg-error-container"><span *ngIf="userControl.isInvalid" class="msg-error">{{ userControl.error }}</span></div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12 padding-left-custom">
-					<app-input-form [typeComponent]="'input'" [typed]="'text'" [label]="'Correo'" [placeholder]="'Ingrese un correo'" [name]="'email'" (updateValue)="updateValue($event)" [isRequired]="'true'" [value]="email"></app-input-form>
+					<app-input-form #email [typeComponent]="'input'" [typed]="'text'" [label]="'Correo'" [placeholder]="'Ingrese un correo'" [name]="'email'" (updateValue)="updateValue($event)" [isRequired]="'true'" [value]="email"></app-input-form>
 							 <div class="msg-error-container" ><span *ngIf="emailControl.isInvalid" class="msg-error">{{ emailControl.error }}</span></div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12 padding-left-custom">
-					<app-input-form [typeComponent]="'input'" [typed]="'password'" [label]="'Ingresa tu contraseña para verificar tu identidad'" [placeholder]="''" [name]="'psw'" (updateValue)="updateValue($event)" [isRequired]="'true'"></app-input-form>
+					<app-input-form #psw [typeComponent]="'input'" [typed]="'password'" [label]="'Ingresa tu contraseña para verificar tu identidad'" [placeholder]="''" [name]="'psw'" (updateValue)="updateValue($event)" [isRequired]="'true'"></app-input-form>
 							 <div class="msg-error-container"><span *ngIf="psw.isInvalid" class="msg-error">{{ psw.error }}</span></div>
 				</div>
 			</div>

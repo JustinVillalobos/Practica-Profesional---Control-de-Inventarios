@@ -5,6 +5,8 @@ import { PasswordService } from 'src/app/shared/services/password.service';
 const electron = (<any>window).require('electron');
 import { ValidationsService } from 'src/app/shared/services/general/validations.service';
 import { FooterComponent } from "src/app/shared/components/footer/footer.component";
+import { InputFormComponent } from 'src/app/shared/components/input-form/input-form.component';
+
 @Component({
   selector: 'app-change-user-info',
   templateUrl: './change-user-info.component.html',
@@ -14,12 +16,16 @@ export class ChangeUserInfoComponent implements OnInit {
 
    @ViewChild('pRef', {static: false}) pRef: ElementRef;
   @ViewChild('footer', { static: false }) footer: FooterComponent;
+  @ViewChild('user', {static: false}) inputName: InputFormComponent;
+  @ViewChild('email', {static: false}) inputEmail: InputFormComponent;
+  @ViewChild('psw', {static: false}) inputPsw: InputFormComponent;
   userControl = {isInvalid:false,error:""};
    emailControl = {isInvalid:false,error:""};
   psw = {isInvalid:false,error:""};
   password ="";
   email ="";
   user ="";
+  passwordTemp ="";
   constructor(
     private renderer: Renderer2,
       private validation:ValidationsService,
@@ -30,16 +36,22 @@ export class ChangeUserInfoComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.spinner.show();
     this.userInfo();
   }
 
   userInfo(){
     this.PasswordService.userData({token:localStorage.getItem('idToken')});
-       electron.ipcRenderer.on("editUser", (event: any, data: any) => {
+       electron.ipcRenderer.on("userInfo", (event: any, data: any) => {
          console.log(data);
            if(data["res"]){
-             this.user = data["user"][0].name;
+             this.user = data["user"][0].username;
              this.email = data["user"][0].email;
+             this.passwordTemp = data["user"][0].password;
+             console.log( this.user, this.email);
+             this.inputName.setText(this.user);
+             this.inputEmail.setText(this.email);
+             this.spinner.hide();
            }
        });
   }
@@ -90,7 +102,7 @@ export class ChangeUserInfoComponent implements OnInit {
     if(this.email == ''){
       this.emailControl.isInvalid = true;
       this.emailControl.error = "Campo Vacío";
-    }else if(this.validation.evaluateValue(this.email,this.validation.AlphaNumericAndSpacePattern())){
+    }else if(this.validation.evaluateValue(this.email,this.validation.EmailPattern())){
       this.emailControl.isInvalid = true;
        this.emailControl.error = "Solo se aceptan Carácteres Alfanúmericos";
     }else if(!this.validation.validateLength(this.email,125)){
@@ -100,20 +112,30 @@ export class ChangeUserInfoComponent implements OnInit {
        this.emailControl.isInvalid = false;
     }
     if(!this.psw.isInvalid && !this.emailControl.isInvalid && !this.userControl.isInvalid ){
-      this.spinner.show();
-      this.PasswordService.changeData({user:this.user,email:this.email,token:localStorage.getItem('idToken')});
-       electron.ipcRenderer.on("editUser", (event: any, data: any) => {
-          this.spinner.hide(); 
-                if(data["res"]){ 
-                this.spinner.hide(); 
-                   this.AlertService.alertTimeCorrect("Se ha enviado un mensaje al correo adjuntado a tu usuario",function(_component){
-                                           _component.edifice.name="";
-                                           _component.dialog.closeAll();
-                                 },this);
-                 }else{
-                    this.AlertService.alertaError("Usuario no encontrado en el sistema");
-                 }
-            });
+      if(this.passwordTemp == this.password){
+          this.AlertService.confirmacion("¿Esta seguro/a?",function(response,component){
+             if(response==true){
+                 component.spinner.show();
+                  component.PasswordService.changeData({username:component.user,email:component.email,token:localStorage.getItem('idToken')});
+                   electron.ipcRenderer.on("editUser", (event: any, data: any) => {
+                            if(data["res"]){ 
+                                component.spinner.hide(); 
+                               component.AlertService.alertTimeCorrect("Se ha actualizado la información",function(_component){
+                                             _component.password ="";
+                                             _component.inputPsw.setText("");
+                                             },component);
+                             }else{
+                                component.spinner.hide(); 
+                                component.AlertService.alertaError("Usuario no encontrado en el sistema");
+                             }
+                        });
+             }
+         },this);
+      
+     }else{
+         this.AlertService.alertaError("Contraseña de verificación incorrecta");
+     }
+      
     }else{
       return;
     }

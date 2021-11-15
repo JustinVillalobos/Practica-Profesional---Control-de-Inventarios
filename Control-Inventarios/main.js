@@ -13,6 +13,10 @@ const User = require('./Electron/UserController');
 const userClass = new User();
 const Validations = require('./Electron/Validations');
 const validations = new Validations();
+const email = require('./Electron/EmailController');
+const emailController = new email();
+const Backup = require('./Electron/Backup');
+const BackupController = new Backup();
 const jwt = require('jsonwebtoken');
 
 const SECRET = require("./Electron/key");
@@ -491,11 +495,11 @@ ipcMain.on("editStatusActive", (event,data) =>{
   /*EVENTS Password and USER*/
 ipcMain.on("userInfo", (event,data) =>{
     var decoded = jwt.verify(data.token, JWT_Secret);
-    let idUser=0;
-    console.log(decoded);
+    let idUser=decoded.data.idUser;
+    console.log(decoded.data.idUser);
      const validateId = validations.FormatoNumerico(idUser);
     if(validateId){
-        let res = userClass.userData(data);
+        let res = userClass.userData(idUser);
         res.then(_data =>{
                 const convertedResponse = JSON.parse(JSON.stringify(_data[0]))
                  event.reply("userInfo", {"res":true,"user":convertedResponse});
@@ -508,11 +512,11 @@ ipcMain.on("userInfo", (event,data) =>{
       }
 });
   ipcMain.on("editUser", (event,data) =>{  
-       var decoded = jwt.verify(data.token, JWT_Secret);
-    let idUser=0;
+     var decoded = jwt.verify(data.token, JWT_Secret);
+    let idUser=decoded.data.idUser;
      const validateId = validations.FormatoNumerico(idUser);
    if(validateId){
-          let res = userClass.updateUserData(data);
+          let res = userClass.updateUserData({idUser:idUser,username:data.username,email:data.email});
     res.then(_data =>{
           event.reply("editUser", {"res":true});
       }).catch((err) => {
@@ -524,11 +528,11 @@ ipcMain.on("userInfo", (event,data) =>{
     }
 });
     ipcMain.on("editPassword", (event,data) =>{
-     var decoded = jwt.verify(data.token, JWT_Secret);  
-    let idUser=0;
+      var decoded = jwt.verify(data.token, JWT_Secret);
+    let idUser=decoded.data.idUser;
      const validateId = validations.FormatoNumerico(idUser);
    if(validateId){
-          let res = userClass.updatePasswordData(data);
+          let res = userClass.updatePasswordData({idUser:idUser,password:data.newPassword});
     res.then(_data =>{
           event.reply("editPassword", {"res":true});
       }).catch((err) => {
@@ -539,15 +543,14 @@ ipcMain.on("userInfo", (event,data) =>{
          event.reply("editPassword", {"res":false});
     }
 });
-    ipcMain.on("validateUser", (event,data) =>{
-    var decoded = jwt.verify(data.token, JWT_Secret);
-    let idUser=0;
-    console.log(decoded);
-     const validateId = validations.FormatoNumerico(idUser);
+ipcMain.on("validateUser", (event,data) =>{
+     const validateId = true;
     if(validateId){
         let res = userClass.validateUserData(data);
         res.then(_data =>{
-                const convertedResponse = JSON.parse(JSON.stringify(_data[0]))
+                const convertedResponse = JSON.parse(JSON.stringify(_data[0]));
+                console.log(convertedResponse);
+                let message = emailController.recoveryMessage(convertedResponse[0].email,data,convertedResponse[0].password);
                  event.reply("validateUser", {"res":true,"user":convertedResponse});
           }).catch((err) => {
               console.log(err);
@@ -557,3 +560,103 @@ ipcMain.on("userInfo", (event,data) =>{
           event.reply("validateUser", {"res":false});
       }
 });
+    /*Backup*/
+ ipcMain.on("generate_backup", (event,data) =>{
+     let dataRes=[];
+        let res = edificeClass.allEdifices();
+        res.then(_data =>{
+                const convertedResponse = JSON.parse(JSON.stringify(_data[0])); 
+                dataRes.push(convertedResponse); 
+                res = areaClass.allAreas();
+                res.then(_data =>{
+                        const convertedResponse2 = JSON.parse(JSON.stringify(_data[0])); 
+                          dataRes.push(convertedResponse2); 
+                        res = activeClass.allActives();
+                        res.then(_data =>{
+                            const convertedResponse3 = JSON.parse(JSON.stringify(_data[0])); 
+                             dataRes.push(convertedResponse3); 
+                            res = activeClass.allLoans();
+                            res.then(_data =>{
+                                const convertedResponse4 = JSON.parse(JSON.stringify(_data[0]));
+                                 dataRes.push({"loans":convertedResponse3}); 
+                                res = activeClass.allAreasActives();
+                                res.then(_data =>{
+                                    const convertedResponse5 = JSON.parse(JSON.stringify(_data[0]));
+                                     dataRes.push(convertedResponse5); 
+                                    res = activeClass.allLoanActives();
+                                    res.then(_data =>{
+                                        const convertedResponse6 = JSON.parse(JSON.stringify(_data[0])); 
+                                         dataRes.push({"loansactives":convertedResponse6});
+                                        event.reply("generate_backup", {"res":true,"data":dataRes}); 
+                                      }).catch((err) => {
+                                          console.log(err);
+                                         event.reply("generate_backup", {"res":false});
+                                     });     
+                                  }).catch((err) => {
+                                      console.log(err);
+                                     event.reply("generate_backup", {"res":false});
+                                 });     
+                              }).catch((err) => {
+                                  console.log(err);
+                                 event.reply("generate_backup", {"res":false});
+                             }); 
+                          }).catch((err) => {
+                              console.log(err);
+                             event.reply("generate_backup", {"res":false});
+                         });    
+                  }).catch((err) => {
+                      console.log(err);
+                     event.reply("generate_backup", {"res":false});
+                 }); 
+          }).catch((err) => {
+              console.log(err);
+             event.reply("generate_backup", {"res":false});
+         });
+});
+ipcMain.on("deleteAllInfo", (event,data) =>{
+        let res = BackupController.deleteAllInfo();
+        res.then(_data =>{
+             res = BackupController.insertEdifice(data);
+              res.then(_data =>{
+                    res = BackupController.insertArea(data);
+                    res.then(_data =>{
+                          res = BackupController.insertActive(data);
+                            res.then(_data =>{
+                                res = BackupController.insertLoan(data);
+                                res.then(_data =>{
+                                     res = BackupController.insertAreaActive(data);
+                                    res.then(_data =>{
+                                         res = BackupController.insertLoanActive(data);
+                                            res.then(_data =>{
+                                                 event.reply("deleteAllInfo", {"res":true});
+                                              }).catch((err) => {
+                                                  console.log(err);
+                                                 event.reply("deleteAllInfo", {"res":false});
+                                              });
+                                      }).catch((err) => {
+                                          console.log(err);
+                                         event.reply("deleteAllInfo", {"res":false});
+                                      });
+                                  }).catch((err) => {
+                                      console.log(err);
+                                     event.reply("deleteAllInfo", {"res":false});
+                                  });
+                              }).catch((err) => {
+                                  console.log(err);
+                                 event.reply("deleteAllInfo", {"res":false});
+                              });
+                      }).catch((err) => {
+                          console.log(err);
+                         event.reply("deleteAllInfo", {"res":false});
+                      });
+              }).catch((err) => {
+                  console.log(err);
+                 event.reply("deleteAllInfo", {"res":false});
+              });
+                 //event.reply("deleteAllInfo", {"res":true});
+          }).catch((err) => {
+              console.log(err);
+             event.reply("deleteAllInfo", {"res":false});
+          });
+});
+ 
