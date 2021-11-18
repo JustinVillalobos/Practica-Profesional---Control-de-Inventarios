@@ -270,7 +270,6 @@ export class BackupsComponent implements OnInit {
                     "areasactives":areasactives,
                     "loansactives":loansactives
                   };
-                  console.log(data);
                 component.BackupsService.recoverybackup(data);
                 electron.ipcRenderer.on("recovery", (event: any, data: any) => {
                             if(data["res"]){ 

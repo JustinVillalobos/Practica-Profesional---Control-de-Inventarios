@@ -46,6 +46,7 @@
     "mysql": "^2.18.1",
     "ngx-spinner": "^11.0.2",
     "nodemailer": "^6.7.0",
+    "pdf-parse": "^1.1.1",
     "rxjs": "~6.6.0",
     "sweetalert2": "^11.1.9",
     "tslib": "^2.0.0",

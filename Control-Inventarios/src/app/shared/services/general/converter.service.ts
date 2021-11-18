@@ -143,7 +143,7 @@ export class ConverterService {
     }else{
       return [];
     }
-    console.log(actives);
+
     return actives;
   }
   converterLoan(objectLoans){
@@ -161,7 +161,6 @@ export class ConverterService {
     }else{
       return [];
     }
-    console.log(loans);
     return loans;
   }
   converterAreasActive(objectAreasActive){
@@ -179,7 +178,6 @@ export class ConverterService {
     }else{
       return [];
     }
-    console.log(areasactives);
     return areasactives;
   }
   converterLoanActive(objectLoanActive){
@@ -196,11 +194,152 @@ export class ConverterService {
     }else{
       return [];
     }
-    console.log(loansactives);
     return loansactives;
   }
 
-  converterExcelAreasToJsonAreasReport(){
+count(str) {
+ let result =0;
+ if(str==undefined){
+   return 0;
+ }
+ if(str.match(/[^0-9]/g)==null){
+   return str.length ;
+ }else{
+   result = str.match(/[^0-9]/g).length;
+ }
+ return str.length - result;
+}
+
+
+reconstructColumnName(columName,object){
+    for(let j=0;j<object.length;j++){
+      let col = object[j].split(":")[0];
+      if(col==columName){
+
+         let temp=col.split("_");
+        if(temp[0]=="_"){
+          return parseInt(temp[temp.length-1]);
+        }else{
+          let value=j+1;
+          if(value<object.length){
+            col = object[value].split(":")[0];
+            temp=col.split("_");
+            if(temp[0]==""){
+              if(Number(temp[temp.length-1])){
+                 return parseInt(temp[temp.length-1]);
+               }else{
+                 return j;
+               }
+             
+            }else{
+              return '00';
+            }
+
+          }else{
+            value=j-1;
+              col = object[value].split(":")[0];
+               console.log("OBJECT ",object,j,col,object[j]);
+            temp=col.split("_");
+            if(temp[0]==""){
+              if(Number(temp[temp.length-1])){
+                 return parseInt(temp[temp.length-1]);
+               }else{
+                 return j;
+               }
+            }else{
+              return '000';
+            }
+          }
+        }
+        return '00000';
+      }
+    }
+}
+  findPatron(objects){
+    let actives=[];
+    let colNumber ;
+    for(let i=0;i<objects.length;i++){
+
+      let objectString = this.converterStringInVector(JSON.stringify(objects[i]));
+      let object = objectString.split(",");
+      let newFormatObject = this.specialFormat(object);
+      let flagPlate=false;
+      let flagName=false;
+      let plate ="";
+      let name ="";
+      let countPattern =0;
+      for(let j=0;j<newFormatObject.length;j++){
+        let col = newFormatObject[j].split(":")[1];
+        let countNumbers = this.count(col);
+        if(col == undefined || col == null || col == ""){
+          console.log("STATUS",undefined);
+        }else{
+          
+          if((countNumbers == col.length || countNumbers>=col.length-2) && col.length>3){
+            flagPlate =true;
+            plate =col;
+            colNumber = newFormatObject[j].split(":")[0];
+          }else{
+            if(col.length>2){
+              flagName=true;
+               if(flagName && flagPlate){
+                  colNumber = this.reconstructColumnName(colNumber,object);
+                 countPattern++;
+                 name=col;
+                 flagName =false;
+                 flagPlate=false;
+                 let active={"licensePlate":plate,"name":name};
+                 if(actives.length==0){
+                    actives.push({id:colNumber,array:[]});
+                    
+                     let act = actives.find(res=>res.id===colNumber);
+                     act.array.push(active);
+                 }else{
+                   let act = actives.find(res=>res.id===colNumber);
+                   if( act!=null && act!={} &&  act!=undefined){                 
+                      act.array.push(active);
+                   }else{
+                     actives.push({id:colNumber,array:[]});
+                     act = actives.find(res=>res.id===colNumber);
+                     act.array.push(active);
+                   }
+                 }
+                 name="";
+                 plate="";
+               }else{
+                // console.log("No hay patron ",col);
+               }
+
+            }else{
+              //console.log("CAdena insuficiente ", col);
+            }
+   
+          }
+        }
+        
+        
+      }
+      
+    }
+    
+    return actives;
+  }
+  converterExcelAreasToJsonAreasReport(json){
+    let coincidentes =json["Coincidentes"];
+     let sobrantes =json["Sobrantes"];
+     let Faltantes =json["Faltantes"];
+    let actives = this.findPatron(coincidentes);
+    let  flag=false;
+    let count=0;
+   let actives2 =   this.findPatron(sobrantes);
+   let actives3= this.findPatron(Faltantes);
+   let data = {
+     "Coincidentes":actives,
+     "Sobrantes":actives2,
+     "Faltantes":actives3,
+   }
+   console.log(data);
+   return data;
 
   }
 }

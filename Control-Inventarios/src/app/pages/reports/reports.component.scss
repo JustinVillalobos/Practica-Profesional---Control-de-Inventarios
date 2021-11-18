@@ -1,0 +1,100 @@
+.padding-left-custom{
+	padding-left: 45px;
+}
+.container-title{
+	span{
+		font-size: 20px;
+		font-weight: 500;
+	}
+}
+.container-subtitle{
+	span{
+		font-size: 16px;
+		font-weight: 200;
+	}
+}
+.container-custom-form{
+	border: 0.1px solid #000;
+    border-radius: 15px;
+    margin-top:5px;
+    padding-right: 25px;
+    width: 50%;
+}
+.button{
+	margin-top: 15px;
+	label{
+		margin-left: 5px;
+	}
+}
+
+button{
+	margin-top: 15px;
+
+	label{
+		margin-left: 3px;
+	}
+}
+.msg-error{
+	color: red;
+	font-size: 12px;
+}
+.msg-error-container{
+	margin-top: -20px;
+    margin-left: 5px;
+}
+.inline{
+	display: flex;
+	align-items:center;
+}
+.titulo{
+	font-size: 20px;
+	font-weight: 500;
+}
+.table-custom{
+	width: 920px;
+	margin-top: 25px;
+}
+.margin-left-custom{
+	margin-left: 25px;
+}
+.btn-margin{
+	margin-left: 15px;
+	height: 35px;
+}
+.btn-margin-2{
+	margin-left: 5px;
+	height: 35px;
+}
+.container-titulo{
+	margin-top:10px;
+}
+.btn-custom{
+	font-size: 12px;
+	height: 25px;
+	width: 25px;
+	text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.toggle{
+	margin-left: 10px;
+}
+.div-custom-icon{
+	padding-top: 5px;
+    padding-left: 5px;
+}
+.container-filters{
+
+	height: 35px;
+	width: 35px;
+	margin-top: -20px;
+	.filters{
+		color:#19B3D3;
+		font-size: 30px;
+	}
+}
+.custom-row{
+	margin-top: -17px;
+    margin-bottom: 5px;
+}

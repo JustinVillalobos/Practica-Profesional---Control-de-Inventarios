@@ -17,13 +17,40 @@ const email = require('./Electron/EmailController');
 const emailController = new email();
 const Backup = require('./Electron/Backup');
 const BackupController = new Backup();
+const data = require('./Electron/DataController');
+const dataController = new data();
 const jwt = require('jsonwebtoken');
 
 const SECRET = require("./Electron/key");
 const JWT_Secret = SECRET.environment();
 const AuthClass = new auth();
 let appWin;
-
+const fs = require('fs');
+const pdf = require('pdf-parse');
+ 
+let dataBuffer = fs.readFileSync('archivo.pdf');
+ 
+pdf(dataBuffer).then(function(data) {
+ 
+    // number of pages
+    console.log(data.numpages);
+    // number of rendered pages
+   // console.log(data.numrender);
+    // PDF info
+    console.log(data.info);
+    // PDF metadata
+    //console.log(data.metadata); 
+    // PDF.js version
+    // check https://mozilla.github.io/pdf.js/getting_started/
+   // console.log(data.version);
+    // PDF text
+    console.log(data[1].text); 
+    fs.writeFile("temp.txt", data.text, (err) => {
+    if (err) console.log(err);
+    console.log("Successfully Written to File.");
+});
+        
+});
 createWindow = () => {
     const {
       width,

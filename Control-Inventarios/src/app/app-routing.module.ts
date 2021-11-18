@@ -30,6 +30,11 @@ const routes: Routes = [
     path: 'security',
     loadChildren: () => import('./pages/security/security.module').then(m => m.SecurityModule),
     canLoad:[AuthGuardService]
+  },
+   {
+    path: 'reports',
+    loadChildren: () => import('./pages/reports/reports.module').then(m => m.ReportsModule),
+    canLoad:[AuthGuardService]
   }
 ];
 
