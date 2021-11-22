@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
-
+const electron = (<any>window).require('electron');
 @Injectable({
   providedIn: 'root'
 })
 export class ConverterService {
 
   constructor() { }
+  readPDF(data){
+    electron.ipcRenderer.send("readPDF",data);
+  }
+  readXlSX(data){
+    electron.ipcRenderer.send("readXlSX",data);
+  }
   converterStringInVector(chain){
     chain = chain.replace(/{/g, "");
     chain = chain.replace(/}/g, "");

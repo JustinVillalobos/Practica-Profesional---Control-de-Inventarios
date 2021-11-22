@@ -17,8 +17,8 @@ const email = require('./Electron/EmailController');
 const emailController = new email();
 const Backup = require('./Electron/Backup');
 const BackupController = new Backup();
-const data = require('./Electron/DataController');
-const dataController = new data();
+const dataC = require('./Electron/DataController');
+const dataController = new dataC();
 const jwt = require('jsonwebtoken');
 
 const SECRET = require("./Electron/key");
@@ -28,29 +28,7 @@ let appWin;
 const fs = require('fs');
 const pdf = require('pdf-parse');
  
-let dataBuffer = fs.readFileSync('archivo.pdf');
- 
-pdf(dataBuffer).then(function(data) {
- 
-    // number of pages
-    console.log(data.numpages);
-    // number of rendered pages
-   // console.log(data.numrender);
-    // PDF info
-    console.log(data.info);
-    // PDF metadata
-    //console.log(data.metadata); 
-    // PDF.js version
-    // check https://mozilla.github.io/pdf.js/getting_started/
-   // console.log(data.version);
-    // PDF text
-    console.log(data[1].text); 
-    fs.writeFile("temp.txt", data.text, (err) => {
-    if (err) console.log(err);
-    console.log("Successfully Written to File.");
-});
-        
-});
+
 createWindow = () => {
     const {
       width,
@@ -686,4 +664,33 @@ ipcMain.on("recovery", (event,data) =>{
              event.reply("recovery", {"res":false});
           });
 });
- 
+  ipcMain.on("readXlSX", (event,data) =>{
+      let res2 = activeClass.allActives();
+               res2.then(_data =>{
+                    let convertedResponse = JSON.parse(JSON.stringify(_data[0]))
+                    let _d=  dataController.comprobar(data,convertedResponse);
+                    event.reply("readXlSX", {"res":true,"data":_d});
+              }).catch((err) => {
+                  console.log(err);
+                 event.reply("readXlSX", {"res":false});
+              });
+  });
+ ipcMain.on("readPDF", (event,_data) =>{
+     pdf(_data).then(function(data) {
+          let res =dataController.analyze(data.text);
+           
+              res = dataController.format(res);
+           let res2 = activeClass.allActives();
+               res2.then(_dataR =>{
+                    const convertedResponse = JSON.parse(JSON.stringify(_dataR[0]))
+                    let _d=  dataController.comprobar(res,convertedResponse);
+                    event.reply("readPDF", {"res":true,"data":_d});
+              }).catch((err) => {
+                  console.log(err);
+                 event.reply("readPDF", {"res":false});
+              });
+    });
+
+     
+});
+   

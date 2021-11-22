@@ -19,17 +19,19 @@
 				  		</div>
 				  	</div>
 				   </mat-tab>
-				  <mat-tab label="Cotejar documento" *ngIf="isVisible">
-				  	<div class="row">
+				  <mat-tab label="Cotejar documento">
+				  	
+				  	</mat-tab>
+				</mat-tab-group>
+				<div class="row"  >
 				  			
-				  			<div class="col-sm-12" >
-				  				<mat-tab-group #demo3Tab [(selectedIndex)]="demo1TabIndex">
-				  					<mat-tab label="Activos Faltantes">
-				  						<div class="row">
+				  			<div class="col-sm-12"  >
+				  				<app-input-form [typeComponent]="'select'"  [label]="'Mostrar'" [items]="items" [placeholder]="'Seleccione informacion'" (updateValue)="updateType($event)" [value]="items[0].name"></app-input-form>
+				  				<div class="row" *ngIf="isReload">
 				  							<div class="col-sm-12 d-flex justify-content-start margin-left-custom">
 												<div style="width:950px" class="inline">
 													<div class="col-sm-5 d-flex">
-														<app-input-form [typeComponent]="'select'"  [label]="'Mostrar'" [items]="items" [placeholder]="'Seleccione informacion'" (updateValue)="updateShow($event)" [value]="items[0].name"></app-input-form>
+														<!--<app-input-form [typeComponent]="'select'"  [label]="'Mostrar'" [items]="items" [placeholder]="'Seleccione informacion'" (updateValue)="updateShow($event)" [value]="items[0].name"></app-input-form>-->
 													</div>
 													<div class="col-sm-3 d-flex justify-content-end">
 														<div class="inline">
@@ -50,9 +52,9 @@
 												</div>
 											</div>
 				  							<div class="col-sm-12 d-flex justify-content-start margin-left-custom" style="overflow-x: auto;">
-				  								<ngx-datatable [rows]="rows" [columns]="columns" class="material fullscreen table-custom" [limit]="limit"
-											[footerHeight]="50" [headerHeight]="50"  [rowHeight]="35"
-											[offset]="pageNumber" #table (page)="onPaginated($event)"> 
+				  								<ngx-datatable [rows]="rows" [columns]="columns" class="material fullscreen table-custom" [limit]="limit"  [externalPaging]="true"
+        										[count]="page.totalElements"
+											[footerHeight]="50" [headerHeight]="50"  [rowHeight]="35" [offset]="pageNumber" #table (page)="onPaginated($event,pRef)"> 
 													<ngx-datatable-column name="Placa" [width]="150"  [sortable]="false" [resizeable]="false">
 													    <ng-template let-row="row" ngx-datatable-cell-template>
 													      {{row.licensePlate}}
@@ -68,20 +70,11 @@
 												</ngx-datatable>
 				  							</div>
 				  						</div>
-				  						
-				  					</mat-tab>
-				  					<mat-tab label="Activos Tramitados">
-				  					</mat-tab>
-				  					<mat-tab label="Activos Sobrantes">
-				  					</mat-tab>
-				  				</mat-tab-group>
 				  			</div>
 
 				  				
 				  				
 				  		</div>
-				  	</mat-tab>
-				</mat-tab-group>
 			</div>
 		</div>
 		

@@ -55,7 +55,7 @@
 		<div class="row">
 
 			<div class="col-sm-12 d-flex justify-content-start margin-left-custom" style="overflow-x: auto;">
-				<ngx-datatable [rows]="rows" [columns]="columns" class="material fullscreen table-custom" [limit]="limit"
+				<ngx-datatable [rows]="rows" [columns]="columns" class="material fullscreen table-custom" [limit]="limit"  [externalPaging]="true" [count]="page.totalElements" #table (page)="onPaginated($event,pRef)"
 				[footerHeight]="50" [headerHeight]="50"  [rowHeight]="35"
 				[offset]="pageNumber" [reorderable]="false"  [sortType]="SortType.multi"> 
 				<ngx-datatable-column name="Nombre" [width]="350"  [sortable]="false" [resizeable]="false">

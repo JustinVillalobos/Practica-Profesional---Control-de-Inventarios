@@ -1,11 +1,14 @@
-import { Component, OnInit, ViewChild,ElementRef, Renderer2,NgZone  } from '@angular/core';
+import { Component, OnInit, ViewChild,ElementRef, Renderer2,NgZone,ChangeDetectorRef  } from '@angular/core';
 import {Router} from "@angular/router";
+import { interval as observableInterval } from "rxjs";
+import { takeWhile, scan, tap } from "rxjs/operators";
 import { NgxSpinnerService } from "ngx-spinner";
 import { SortType } from '@swimlane/ngx-datatable/esm2015/public-api';
 import { FooterComponent } from "src/app/shared/components/footer/footer.component";
 const electron = (<any>window).require('electron');
 import { AreaService } from 'src/app/shared/services/area.service';
 import { AreaModel } from 'src/app/shared/models/AreaModel';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { EdificeModel } from 'src/app/shared/models/EdificeModel';
 import { AlertService } from 'src/app/shared/services/general/alert.service';
 import { ActiveModel } from 'src/app/shared/models/ActiveModel';
@@ -21,10 +24,12 @@ export class ActivesComponent implements OnInit {
 @ViewChild('pRef', {static: false}) pRef: ElementRef;
 @ViewChild('SelectAreas', {static: false}) SelectAreas: InputFormComponent;
 @ViewChild('SelectStatus', {static: false}) SelectStatus: InputFormComponent;
+@ViewChild(DatatableComponent) table: DatatableComponent;
     @ViewChild('footer', { static: false }) footer: FooterComponent;
     rows = [];
   columns = [{ prop: 'name' }];
   temp = [];
+  temp2=[];
    pageNumber = 0;
    limit = 10;
 
@@ -39,11 +44,19 @@ export class ActivesComponent implements OnInit {
     areas: AreaModel[];
     statusSelected = "Todos";
     areaSelected = "Todos";
+     page = {
+     totalElements: 0,
+      totalPages:  0,
+      pageNumber:  0,
+      min:0,
+      max:this.limit-1
+   }
   constructor(
     private renderer: Renderer2,
     private spinner: NgxSpinnerService,
     private router: Router,
     private _ngZone: NgZone,
+      private cdRef: ChangeDetectorRef,
     private AreaService:AreaService,
     private EdificeService:EdificeService,
     private ActiveService:ActiveService,
@@ -120,8 +133,9 @@ export class ActivesComponent implements OnInit {
                      var isTrueSet = (e.isLoan == 1);
                         return {'idActive':e.idActive,'name':e.name,'amount':e.amount,'licensePlate':e.licensePlate,'placeOrigin':e.placeOrigin,'isLoan':isTrueSet};
                     });                     
-                   this.rows = actives;
-                   this.temp = this.rows;
+                   this.temp = actives;
+                   this.temp2 = this.temp;
+                    this.setPage({ offset: 0 },false);
                    this.spinner.hide();
                 }
             });
@@ -170,7 +184,17 @@ export class ActivesComponent implements OnInit {
     }
   }
   updateShow(e){
-    this.limit = e.value;
+    this.limit = parseInt(e.value, 10);
+       this.setPage({ offset: 0 },false);
+     
+        this.table.limit = parseInt(e.value, 10);
+      this.table.recalculate();
+      setTimeout(() => {
+      if (this.table.bodyComponent.temp.length <= 0) {
+        this.table.offset = Math.floor((this.table.rowCount - 1) / this.table.limit);
+        // this.table.offset = 0;
+      }
+    });
   }
   updateEdifices(e){
     if(e.value!= "Todos"){
@@ -196,6 +220,7 @@ export class ActivesComponent implements OnInit {
                     }
                    this.SelectAreas.setText('Todos');
                    this.SelectStatus.setText('Todos');
+                    this.cdRef.detectChanges();
                 }
             });
        this.activesByEdificio(idEdifice);
@@ -213,8 +238,9 @@ export class ActivesComponent implements OnInit {
                      var isTrueSet = (e.isLoan == 1);
                         return {'idActive':e.idActive,'name':e.name,'amount':e.amount,'licensePlate':e.licensePlate,'placeOrigin':e.placeOrigin,'isLoan':isTrueSet};
                     });                     
-                   this.rows = actives;
-                   this.temp = this.rows;
+                   this.temp = actives;
+                   this.setPage({ offset: 0 },false);
+                    this.cdRef.detectChanges();
                 }
             });
   }
@@ -234,8 +260,9 @@ export class ActivesComponent implements OnInit {
                      var isTrueSet = (e.isLoan == 1);
                         return {'idActive':e.idActive,'name':e.name,'amount':e.amount,'licensePlate':e.licensePlate,'placeOrigin':e.placeOrigin,'isLoan':isTrueSet};
                     });                              
-                   this.rows = actives;
-                   this.temp = this.rows;
+                   this.temp = actives;
+                   this.setPage({ offset: 0 },false);
+                    this.cdRef.detectChanges();
                 }
             });
      }else{
@@ -249,10 +276,12 @@ export class ActivesComponent implements OnInit {
        status=true;
      }
     if(e.value !== 'Todos'){
-       this.rows  = this.temp;
-      this.rows = this.rows.filter(function (d) {
+       this.temp  = this.temp2;
+      this.temp = this.temp.filter(function (d) {
         return (d.isLoan == status)
       });
+      this.setPage({ offset: 0 },false);
+       this.cdRef.detectChanges();
     }else{
        if(this.areaSelected !== "Todos"){
            let idArea =0;
@@ -268,7 +297,9 @@ export class ActivesComponent implements OnInit {
                      var isTrueSet = (e.isLoan == 1);
                         return {'idActive':e.idActive,'name':e.name,'amount':e.amount,'licensePlate':e.licensePlate,'placeOrigin':e.placeOrigin,'isLoan':isTrueSet};
                     });                              
-                   this.rows = actives;
+                   this.temp = actives;
+                   this.setPage({ offset: 0 },false);
+                    this.cdRef.detectChanges();
                   }
               });
        }else{
@@ -293,6 +324,47 @@ export class ActivesComponent implements OnInit {
      this._ngZone.run(()=>{
       this.router.navigate(['/'+destiny]);
      });
+  }
+onPaginated(event,container) {
+    console.log("Paginate");
+    this.setPage(event,true,container);
+    this.table.limit = this.limit ;
+    this.table.recalculate();
+     setTimeout(() => {
+      if (this.table.bodyComponent.temp.length <= 0) {
+        // TODO[Dmitry Teplov] find a better way.
+        // TODO[Dmitry Teplov] test with server-side paging.
+        this.table.offset = Math.floor((this.table.rowCount - 1) / this.table.limit);
+        // this.table.offset = 0;
+      }
+    });
+}
+  setPage(pageInfo,optional,container?) {
+    let flag=false;
+     this.rows=[];
+    this.page.totalElements = this.temp.length;
+    this.page.min = pageInfo.offset*this.limit;
+    this.page.max = this.page.min + this.limit;
+    if(this.page.max>this.temp.length){
+       this.page.max = this.temp.length;
+    }
+    for(let i=this.page.min;i<this.page.max;i++){
+      this.rows.push(this.temp[i]);
+    }
+    if(optional){
+      this.scrollToTop(container);
+    }
+   
+    this.cdRef.detectChanges();
+  }
+   scrollToTop(el) {
+    const duration = 600;
+    const interval = 5;
+    const move = el.scrollTop * interval / duration;
+    observableInterval(interval).pipe(
+      scan((acc, curr) => acc - move, el.scrollTop),
+      tap(position => el.scrollTop = position),
+      takeWhile(val => val > 0)).subscribe();
   }
 
 }
