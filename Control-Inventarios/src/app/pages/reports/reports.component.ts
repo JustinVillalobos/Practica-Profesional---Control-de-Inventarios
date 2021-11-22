@@ -109,6 +109,13 @@ export class ReportsComponent implements OnInit {
     this.isReload=true;
     this.spinner.hide();
   }
+  change(e){
+    if(e.index==0){
+      this.isReload=false;
+    }else{
+       this.isReload=true;
+    }
+  }
     updateShow(e){
         this.limit = parseInt(e.value, 10);
        this.setPage({ offset: 0 },false);
@@ -122,17 +129,13 @@ export class ReportsComponent implements OnInit {
       }
     });
   }
-  private onPaginated(event,container) {
-    console.log("Paginate");
+  onPaginated(event,container) {
     this.setPage(event,true,container);
     this.table.limit = this.limit ;
     this.table.recalculate();
      setTimeout(() => {
       if (this.table.bodyComponent.temp.length <= 0) {
-        // TODO[Dmitry Teplov] find a better way.
-        // TODO[Dmitry Teplov] test with server-side paging.
         this.table.offset = Math.floor((this.table.rowCount - 1) / this.table.limit);
-        // this.table.offset = 0;
       }
     });
 }
@@ -215,6 +218,7 @@ analice(){
      }
      this.converter.readXlSX(newData);
       electron.ipcRenderer.on("readXlSX", (event: any, data: any) => {
+        console.log(data);
             if(data["res"]){
                 this.data = data["data"];
                  this.checkOption({index:1});
@@ -225,14 +229,17 @@ analice(){
                this.tabGroup.selectedIndex = this.demo1TabIndex;
                this.isVisible =true;
                this.cdRef.detectChanges();
+            }else{
+              alert("Not valid");
             }
-             this.spinner.hide();
+            this.spinner.hide();
        });
      
   }else{
      this.spinner.show();
     this.converter.readPDF(this.path);
           electron.ipcRenderer.on("readPDF", (event: any, data: any) => {
+             console.log(data);
              if(data["res"]){
                 this.data = data["data"];
                  this.checkOption({index:1});
@@ -243,6 +250,7 @@ analice(){
                  this.demo1TabIndex = 1;
                this.tabGroup.selectedIndex = this.demo1TabIndex;
                this.isVisible =true;
+                electron.ipcRenderer.removeAllListeners("readPDF");
                this.cdRef.detectChanges();
              }
               this.spinner.hide();
@@ -299,7 +307,7 @@ setPage(pageInfo,optional,container?) {
       this.scrollToTop(container);
     }
    
-    this.cdRef.detectChanges();
+   // this.cdRef.detectChanges();
   }
    scrollToTop(el) {
     const duration = 600;

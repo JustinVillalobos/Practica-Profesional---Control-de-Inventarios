@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef, Renderer2,NgZone,ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit,OnDestroy, ViewChild,ElementRef, Renderer2,NgZone,ChangeDetectorRef  } from '@angular/core';
 import {Router} from "@angular/router";
 import { interval as observableInterval } from "rxjs";
 import { takeWhile, scan, tap } from "rxjs/operators";
@@ -20,7 +20,7 @@ import { InputFormComponent } from 'src/app/shared/components/input-form/input-f
   templateUrl: './actives.component.html',
   styleUrls: ['./actives.component.scss']
 })
-export class ActivesComponent implements OnInit {
+export class ActivesComponent implements OnInit,OnDestroy {
 @ViewChild('pRef', {static: false}) pRef: ElementRef;
 @ViewChild('SelectAreas', {static: false}) SelectAreas: InputFormComponent;
 @ViewChild('SelectStatus', {static: false}) SelectStatus: InputFormComponent;
@@ -326,16 +326,12 @@ export class ActivesComponent implements OnInit {
      });
   }
 onPaginated(event,container) {
-    console.log("Paginate");
     this.setPage(event,true,container);
     this.table.limit = this.limit ;
     this.table.recalculate();
      setTimeout(() => {
       if (this.table.bodyComponent.temp.length <= 0) {
-        // TODO[Dmitry Teplov] find a better way.
-        // TODO[Dmitry Teplov] test with server-side paging.
         this.table.offset = Math.floor((this.table.rowCount - 1) / this.table.limit);
-        // this.table.offset = 0;
       }
     });
 }
@@ -365,6 +361,13 @@ onPaginated(event,container) {
       scan((acc, curr) => acc - move, el.scrollTop),
       tap(position => el.scrollTop = position),
       takeWhile(val => val > 0)).subscribe();
+  }
+  ngOnDestroy(): void {
+    electron.ipcRenderer.removeAllListeners("allEdificesActive");
+    electron.ipcRenderer.removeAllListeners("allActiveByArea");
+    electron.ipcRenderer.removeAllListeners("allActives");
+    electron.ipcRenderer.removeAllListeners("allAreasActives");
+     electron.ipcRenderer.removeAllListeners("allEdificesActive");
   }
 
 }

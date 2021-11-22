@@ -39,16 +39,14 @@ export class InputFormComponent implements OnInit {
   }
   validateInput(e){
     if(this.typed=='number'){
-      console.log("Entro 1");
-      console.log("Valor Numerico ",e.target.value);
+
        let digitos = (document.all) ? e.keyCode : e.which;
        let value=e.target.value;
     let tecla = String.fromCharCode(digitos).toLowerCase();
     let numeroFuturo =parseInt(value+""+tecla);
     let numero = parseInt(tecla);
-    console.log(numero,numeroFuturo);
       if(numero>=0 && numeroFuturo>=this.min && numeroFuturo<=this.max){
-           console.log("Entro 3");
+
            return true;
       }else{
              e.preventDefault();

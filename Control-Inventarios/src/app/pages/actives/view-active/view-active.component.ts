@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef, Renderer2,NgZone } from '@angular/core';
+import { Component, OnInit,OnDestroy, ViewChild,ElementRef, Renderer2,NgZone,ChangeDetectorRef } from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AlertService } from 'src/app/shared/services/general/alert.service';
@@ -16,7 +16,7 @@ import { InputFormComponent } from 'src/app/shared/components/input-form/input-f
   templateUrl: './view-active.component.html',
   styleUrls: ['./view-active.component.scss']
 })
-export class ViewActiveComponent implements OnInit {
+export class ViewActiveComponent implements OnInit,OnDestroy {
 
  @ViewChild('pRef', {static: false}) pRef: ElementRef;
   @ViewChild('footer', { static: false }) footer: FooterComponent;
@@ -43,12 +43,14 @@ export class ViewActiveComponent implements OnInit {
   areas = [];
   stateLoanTemp = true;
   isLoan = false;
+  count =0;
   constructor(
     private renderer: Renderer2,
     private spinner: NgxSpinnerService,
     private router:ActivatedRoute,
     private _router:Router,
     private _ngZone:NgZone,
+      private cdRef: ChangeDetectorRef,
     public dialog: MatDialog,
     private ActiveService:ActiveService,
     private AlertService:AlertService
@@ -58,16 +60,23 @@ export class ViewActiveComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.show();
     this.active.idActive = parseInt(this.router.snapshot.paramMap.get('idActive'));
-    this.viewLoan();
+   
     this.viewActive();
     this.viewDistribution();
+     this.viewLoan();
   }
   viewDistribution(){
     this.ActiveService.allActiveByActive(this.active.idActive);
     electron.ipcRenderer.on("activesById", (event: any, data: any) => {
                 if(data["res"]){              
                   this.areas = data["actives"];
+                  this.count++;
+                  if(this.count==3){
+                  //  this.cdRef.detectChanges();
+                  }
+                  
                 }
+                  //electron.ipc.removeAllListeners("activesById");
             });
   }
   viewActive(){
@@ -81,13 +90,17 @@ export class ViewActiveComponent implements OnInit {
                    this.active = data["actives"][0];
                     this.active.loan = this.loan;
                     this.ContDescrip = this.active.description.replace(/\n/g, '<br />');
-                    console.log(this.ContDescrip);
                    if(this.active.isLoan){
                        this.SelectStatus.setText('En préstamo');
                    }else{
                      this.SelectStatus.setText('Disponible');
                      this.spinner.hide();
                    }
+                    //electron.ipc.removeAllListeners("activesByIdActive");
+                   this.count++;
+                  if(this.count==3){
+                   // this.cdRef.detectChanges();
+                  }
                 }
             });
   }
@@ -96,8 +109,7 @@ export class ViewActiveComponent implements OnInit {
     let flag=true;
     electron.ipcRenderer.on("view_loan", (event: any, data: any) => {
                 if(data["res"] && flag){ 
-                  flag=false;
-                  console.log("Ingreso seccion ",data);                
+                  flag=false;                
                     if(data["actives"].length!=0){
                        this.isLoan = true;
                        this.active.isLoan =true;
@@ -109,6 +121,13 @@ export class ViewActiveComponent implements OnInit {
                      this.active.loan = this.loan;
                      this.spinner.hide();
                     }
+                    this.count++;
+                     //electron.ipc.removeAllListeners("view_loan");
+                     this.cdRef.detectChanges();
+                  if(this.count==3){
+                    
+
+                  }
                 }
             });
     
@@ -131,6 +150,9 @@ export class ViewActiveComponent implements OnInit {
   }
   updateValue(e){
     console.log(e);
+  }
+  update(){
+    this.cdRef.detectChanges();
   }
   previous(){
     this._ngZone.run(()=>{
@@ -158,6 +180,7 @@ export class ViewActiveComponent implements OnInit {
         this.viewActive();
         this.viewDistribution();
         this.viewLoan();
+
     });
   }
   validateNewState(){
@@ -175,6 +198,7 @@ export class ViewActiveComponent implements OnInit {
         this.viewActive();
         this.viewDistribution();
         this.viewLoan();
+
     });
     }else if(this.active.isLoan===true && this.stateLoanTemp===false){
       this.AlertService.confirmacion("¿El Activo esta disponible?",function(response,component){
@@ -194,5 +218,9 @@ export class ViewActiveComponent implements OnInit {
       
     }
   }
-
+  ngOnDestroy(): void {
+    electron.ipcRenderer.removeAllListeners("view_loan");
+    electron.ipcRenderer.removeAllListeners("activesById");
+    electron.ipcRenderer.removeAllListeners("activesByIdActive");
+  }
 }

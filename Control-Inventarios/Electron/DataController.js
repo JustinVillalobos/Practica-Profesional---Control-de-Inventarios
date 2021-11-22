@@ -33,7 +33,7 @@ module.exports = class Data {
 			let row = data[i];
 			let countNumbers = this.count(row);
 			if((countNumbers == row.length || countNumbers>=row.length-2) && row.length>4 && !this.evaluateValue(row,this.AlphaNumericPattern())){
-				console.log("Code "+row+" "+row.length);
+				//console.log("Code "+row+" "+row.length);
 				itemsTemporales.codes.push(row);
 				if(flagCode){
 					distanceCode++;
@@ -50,11 +50,11 @@ module.exports = class Data {
 							distanceName=0;
 							distanceCode=0;
 							flagCode=false;
-							console.log("Patron");
+							//console.log("Patron");
 							itemsFinales.codes=itemsFinales.codes.concat(itemsTemporales.codes);
 							itemsFinales.names=itemsFinales.names.concat(itemsTemporales.names);
 						}else{
-							console.log("Agregando nombres ",row,distanceName,distanceCode);
+							//console.log("Agregando nombres ",row,distanceName,distanceCode);
 						}
 					}else{
 						distanceName=0;
@@ -73,9 +73,7 @@ module.exports = class Data {
 				}
 			}
 		}
-		console.log(itemsFinales.codes[225],itemsFinales.names[225]);
-		console.log(itemsFinales.codes.length,itemsFinales.names.length);
-		this.writeFile(itemsFinales);
+
 		return itemsFinales;
 	}
 	writeFile(data){
@@ -84,39 +82,7 @@ module.exports = class Data {
 		    console.log("Successfully Written to File.");
 		});
 	}
-	async promiseMethod(consult,data){
-    	var conn = sql.connect();
-    	try{
-    		conn.connect();
-    	}catch(err){
-    		conn = sql.connectUCR();
-    		conn.connect();
-    	}
-    	if(data != ""){
-    		return new Promise((resolve, reject) => {
-				conn.query( consult,data,
-					function (error, results, fields) {
-					  if (error) {
-					    return reject(error);
-					  }
-					  sql.close(conn);
-					  return resolve(results);
-					});
-				 });
-    	}else{
-    		return new Promise((resolve, reject) => {
-			conn.query( consult,
-				function (error, results, fields) {
-				  if (error) {
-				    //return console.error(error.message);
-				    return reject(error);
-				  }
-				  sql.close(conn);
-				  return resolve(results);
-				});
-			 });
-    	}
-    }
+
 	 comprobarfaltantesCoincidentes(data,actives){
 		let newFaltantes=[];
 		let newCoincidentes=[];
@@ -137,13 +103,9 @@ module.exports = class Data {
 		let datas;
     	let res ;
 	    	for(let i=0;i<actives.length;i++){
-	    		console.log("Sobrante ",actives[i]);
 	    	 	res  = data.filter(response => response.licensePlate == actives[i].licensePlate);
 	    	 	if(res=="" || res==null || res.length==0){
 	    	 		sobrantes.push({"licensePlate":actives[i].licensePlate,"name":actives[i].name});
-	    	 	}else{
-	    	 		console.log("Coincidente");
-	    	 		
 	    	 	}
 	    	}
 	    	return sobrantes;

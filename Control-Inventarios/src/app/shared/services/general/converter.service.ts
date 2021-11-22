@@ -78,7 +78,6 @@ export class ConverterService {
     }else{
       return [];
     }
-    console.log(edifices);
     return edifices;
   }
   converterAreas(objectAreas){
@@ -98,7 +97,6 @@ export class ConverterService {
     }else{
       return [];
     }
-    console.log(areas);
     return areas;
   }
   converterCharacterInSpace(value){
@@ -244,7 +242,6 @@ reconstructColumnName(columName,object){
           }else{
             value=j-1;
               col = object[value].split(":")[0];
-               console.log("OBJECT ",object,j,col,object[j]);
             temp=col.split("_");
             if(temp[0]==""){
               if(Number(temp[temp.length-1])){
@@ -344,7 +341,6 @@ reconstructColumnName(columName,object){
      "Sobrantes":actives2,
      "Faltantes":actives3,
    }
-   console.log(data);
    return data;
 
   }

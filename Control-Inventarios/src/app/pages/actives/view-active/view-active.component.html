@@ -69,7 +69,7 @@
 						<span class="label">Estado: </span>
 					</div>
 					<div class="col-sm-5">
-						<app-input-form #SelectStatus *ngIf="!active.isLoan" [typeComponent]="'select'" [typed]="'text'" [label]="''"  [placeholder]="'Ingrese informacion'" [name]="'input4'" [items]="[{name:'Disponible'},{name:'En préstamo'}]" [value]="'Disponible'" (updateValue)="updateE($event)" ></app-input-form>
+						<app-input-form #SelectStatus *ngIf="!active.isLoan" [typeComponent]="'select'" [typed]="'text'" [label]="''"  [placeholder]="'Ingrese informacion'" [name]="'input4'" [items]="[{name:'Disponible'},{name:'En préstamo'}]" [value]="'Disponible'" (updateValue)="updateE($event)" (click)="update()"></app-input-form>
 						<app-input-form #SelectStatus *ngIf="active.isLoan" [typeComponent]="'select'" [typed]="'text'" [label]="''"  [placeholder]="'Ingrese informacion'" [name]="'input4'" [items]="[{name:'Disponible'},{name:'En préstamo'}]" [value]="'En préstamo'" (updateValue)="updateE($event)"></app-input-form>
 					</div>
 					<div class="col-sm-3 d-flex align-items-center">

@@ -8,7 +8,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-12 padding-left-custom">
-				<mat-tab-group>
+				<mat-tab-group (selectedTabChange)="change($event)">
 				  <mat-tab label="Cargar Documento">
 				  	<div class="row">
 				  		<div class="container-subtitle">
@@ -23,15 +23,15 @@
 				  	
 				  	</mat-tab>
 				</mat-tab-group>
-				<div class="row"  >
+				<div class="row"  [ngClass]="{'display-custom': isReload == false}">
 				  			
 				  			<div class="col-sm-12"  >
-				  				<app-input-form [typeComponent]="'select'"  [label]="'Mostrar'" [items]="items" [placeholder]="'Seleccione informacion'" (updateValue)="updateType($event)" [value]="items[0].name"></app-input-form>
-				  				<div class="row" *ngIf="isReload">
+				  				<app-input-form [typeComponent]="'select'"  [label]="'Seleccionar categoría'" [items]="items" [placeholder]="'Seleccione informacion'" (updateValue)="updateType($event)" [value]="items[0].name"></app-input-form>
+				  				<div class="row" >
 				  							<div class="col-sm-12 d-flex justify-content-start margin-left-custom">
 												<div style="width:950px" class="inline">
 													<div class="col-sm-5 d-flex">
-														<!--<app-input-form [typeComponent]="'select'"  [label]="'Mostrar'" [items]="items" [placeholder]="'Seleccione informacion'" (updateValue)="updateShow($event)" [value]="items[0].name"></app-input-form>-->
+														
 													</div>
 													<div class="col-sm-3 d-flex justify-content-end">
 														<div class="inline">
