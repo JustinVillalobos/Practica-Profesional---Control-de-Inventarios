@@ -1,47 +1,79 @@
 <!--sidebar start-->
 <div class="side-bar">
-      <div class="profile_info">
-        <img src="assets/rg2.png" style="width:145px;" />
-      </div>
-      <div class="linea"></div>
-      <!--<a (click)="goRedirect('dashboard')"><i class="fas fa-desktop" title="Inicio"></i><span>Inicio</span></a>-->
-        <a (click)="goRedirect('actives')"><i class="fas fa-clipboard-list" title="Activos"></i><span>Activos</span></a>
-         <a (click)="goRedirect('reports')" title="Reportes"><i class="fas fa-file-pdf" ></i><span>Reportes</span></a>
- <!--<mat-accordion>
-  <mat-expansion-panel hideToggle class="mat-expansion-panel left-bar-class">
-    <mat-expansion-panel-header class="mat-expansion-panel-header">
-      <mat-panel-title class="mat-panel-title">
-       <a (click)="market()" class="{{mark}}" title="Reportes"><i class="fas fa-file-pdf" ></i><span>Reportes</span></a>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-     <a class="special-margin" placement="right"  title="Reporte A"><i class="fas fa-file-pdf"></i><span>Opcion A</span></a>
-     <a class="special-margin" placement="right"  title="Reporte A"><i class="fas fa-file-pdf"></i><span>Opcion B</span></a>
-     <a class="special-margin" placement="right"  title="Reporte A"><i class="fas fa-file-pdf"></i><span>Opcion C</span></a>
-  </mat-expansion-panel>
-</mat-accordion>  -->
+  <div class="profile_info">
+    <img src="assets/rg2.png" style="width: 145px" />
+  </div>
+  <div class="linea"></div>
+  <a (click)="goRedirect('actives')"
+    ><i class="fas fa-clipboard-list" title="Activos"></i
+    ><span>Activos</span></a
+  >
+  <a (click)="goRedirect('reports')" title="Reportes"
+    ><i class="fas fa-file-pdf"></i><span>Reportes</span></a
+  >
 
- <mat-accordion>
-  <mat-expansion-panel hideToggle class="mat-expansion-panel left-bar-class">
-    <mat-expansion-panel-header class="mat-expansion-panel-header">
-      <mat-panel-title class="mat-panel-title">
-        <a (click)="marketOthersMethod()" class="{{marketOthers}}" ><i class="fas fa-th"></i><span>Otros</span></a>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-     <a class="special-margin" (click)="goRedirect('edifices')" placement="right" ngbTooltip="Reporte A" title="Edificios"><i class="fas fa-building"></i><span>Edificios</span></a>
-     <a class="special-margin" (click)="goRedirect('areas')" placement="right" ngbTooltip="Reporte A" title="Areas"><i class="fas fa-building"></i><span>Áreas por edificio</span></a>
-  </mat-expansion-panel>
-</mat-accordion>
-<mat-accordion>
-  <mat-expansion-panel hideToggle class="mat-expansion-panel left-bar-class">
-    <mat-expansion-panel-header class="mat-expansion-panel-header">
-      <mat-panel-title class="mat-panel-title">
-        <a (click)="marketOthersMethod()" class="{{marketOthers}}" ><i class="fas fa-user-shield"></i><span>Seguridad</span></a>
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-     <a (click)="goRedirect('security')"class="special-margin" placement="right" ngbTooltip="Cambiar Contraseña" title="Cambiar Info Usuario"><i class="fas fa-id-badge"></i><span>Cambiar Información</span></a>
-     <a (click)="goRedirect('security/change-password')" class="special-margin" placement="right" ngbTooltip="Cambiar Contraseña" title="Cambiar Contraseña"><i class="fas fa-key"></i><span>Cambiar Contraseña</span></a>
-     <a (click)="goRedirect('security/backups')" class="special-margin" placement="right" ngbTooltip="Copias de Seguridad" title="Copias de Seguridad"><i class="fas fa-user-shield"></i><span>Copias de Seguridad</span></a>
-  </mat-expansion-panel>
-</mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel hideToggle class="mat-expansion-panel left-bar-class">
+      <mat-expansion-panel-header class="mat-expansion-panel-header">
+        <mat-panel-title class="mat-panel-title">
+          <a (click)="marketOthersMethod()" class="{{ marketOthers }}"
+            ><i class="fas fa-th"></i><span>Otros</span></a
+          >
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <a
+        class="special-margin"
+        (click)="goRedirect('edifices')"
+        placement="right"
+        ngbTooltip="Reporte A"
+        title="Edificios"
+        ><i class="fas fa-building"></i><span>Edificios</span></a
+      >
+      <a
+        class="special-margin"
+        (click)="goRedirect('areas')"
+        placement="right"
+        ngbTooltip="Reporte A"
+        title="Areas"
+        ><i class="fas fa-building"></i><span>Áreas por edificio</span></a
+      >
+    </mat-expansion-panel>
+  </mat-accordion>
+  <mat-accordion>
+    <mat-expansion-panel hideToggle class="mat-expansion-panel left-bar-class">
+      <mat-expansion-panel-header class="mat-expansion-panel-header">
+        <mat-panel-title class="mat-panel-title">
+          <a (click)="marketOthersMethod()" class="{{ marketOthers }}"
+            ><i class="fas fa-user-shield"></i><span>Seguridad</span></a
+          >
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <a
+        (click)="goRedirect('security')"
+        class="special-margin"
+        placement="right"
+        ngbTooltip="Cambiar Contraseña"
+        title="Cambiar Info Usuario"
+        ><i class="fas fa-id-badge"></i><span>Cambiar Información</span></a
+      >
+      <a
+        (click)="goRedirect('security/change-password')"
+        class="special-margin"
+        placement="right"
+        ngbTooltip="Cambiar Contraseña"
+        title="Cambiar Contraseña"
+        ><i class="fas fa-key"></i><span>Cambiar Contraseña</span></a
+      >
+      <a
+        (click)="goRedirect('security/backups')"
+        class="special-margin"
+        placement="right"
+        ngbTooltip="Copias de Seguridad"
+        title="Copias de Seguridad"
+        ><i class="fas fa-user-shield"></i><span>Copias de Seguridad</span></a
+      >
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
-    <!--sidebar end-->
+<!--sidebar end-->

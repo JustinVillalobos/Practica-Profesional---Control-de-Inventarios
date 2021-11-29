@@ -1,72 +1,117 @@
-	<app-header (updateContent)="updateContent($event)"></app-header>
-	<div class="content" #pRef>
-		<div class="row">
-			<div class="col-sm-12 d-flex justify-content-start margin-left-custom">
-				<div style="width:450px" class="inline">
-					<div class="col-sm-6 d-flex">
-						<div class="inline">
-							<div class="container-titulo">
-								<span class="titulo">Edificios</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-6 d-flex justify-content-end">
-						<div class="inline">
-							<app-input-form [typeComponent]="'input'" [typed]="'text'"  [placeholder]="'Buscar...'" [name]="'input1'" [isSearch]="true" (updateValue)="updateValue($event)"></app-input-form>
-							<button class="btn btn-primary btn-margin" (click)="openAddModal()">+</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+<app-header (updateContent)="updateContent($event)"></app-header>
+<div class="content" #pRef>
+  <div class="row">
+    <div class="col-sm-12 d-flex justify-content-start margin-left-custom">
+      <div style="width: 450px" class="inline">
+        <div class="col-sm-6 d-flex">
+          <div class="inline">
+            <div class="container-titulo">
+              <span class="titulo">Edificios</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 d-flex justify-content-end">
+          <div class="inline">
+            <app-input-form
+              [typeComponent]="'input'"
+              [typed]="'text'"
+              [placeholder]="'Buscar...'"
+              [name]="'input1'"
+              [isSearch]="true"
+              (updateValue)="updateValue($event)"
+            ></app-input-form>
+            <button class="btn btn-primary btn-margin" (click)="openAddModal()">
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-		<div class="row">
-
-			<div class="col-sm-12 d-flex justify-content-start margin-left-custom">
-				<ngx-datatable [rows]="rows" [columns]="columns" class="material fullscreen table-custom" [limit]="10"
-				[footerHeight]="50" [headerHeight]="50"  [rowHeight]="35"
-				[offset]="pageNumber" [reorderable]=false> 
-				<ngx-datatable-column name="Nombre" [width]="300" [resizeable]="false">
-				    <ng-template let-row="row" ngx-datatable-cell-template>
-				      {{row.name}}
-				    </ng-template>
-				</ngx-datatable-column>
-				<ngx-datatable-column name="Estado" [width]="80" [resizeable]="false">
-				    <ng-template let-row="row" ngx-datatable-cell-template>
-				      <mat-slide-toggle *ngIf="row.isEnabled" class="toggle"[checked]="true" (change)="changeStatus(row.idEdifice,row.isEnabled)"  matTooltip="Activado"
-					    matTooltipPosition="right"
-        				aria-label="Button that displays a tooltip when focused or hovered over"  [(ngModel)]="row.isEnabled">
-				      	{{ row.isEnabled }}
-				      </mat-slide-toggle>
-				       <mat-slide-toggle *ngIf="!row.isEnabled" class="toggle"[checked]="false" (change)="changeStatus(row.idEdifice,row.isEnabled)"  matTooltip="Desactivado"
-					    matTooltipPosition="right"
-        				aria-label="Button that displays a tooltip when focused or hovered over"  [(ngModel)]="row.isEnabled">
-				      	{{ row.isEnabled }}
-				      </mat-slide-toggle>
-				    </ng-template>
-				</ngx-datatable-column>
-				<ngx-datatable-column name="" [width]="50" [resizeable]="false" [sortable]="false">
-					<ng-template
-					    let-column="column"
-					    ngx-datatable-header-template>
-					    <div class="div-custom-icon" 
-					    matTooltip="Editar Edificio"
-					    matTooltipPosition="right"
-        				aria-label="Button that displays a tooltip when focused or hovered over">
-					    	<span class="custom-icon">
-						      <i class="fas fa-question-circle"></i>
-						    </span>
-					    </div>
-					  </ng-template>
-				    <ng-template let-row="row" ngx-datatable-cell-template>
-				    	<button class="btn btn-warning"
-       					  (click)="openEditModal(row.idEdifice,row.name)"><i class="fas fa-edit"></i></button>	
-				    </ng-template>
-				</ngx-datatable-column>
-			</ngx-datatable>
-
-			</div>
-		</div>
-	</div>
-	<app-footer #footer></app-footer>
-<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#ffffff" type = "ball-clip-rotate" [fullScreen] = "true"><p style="color: white" > Cargando... </p></ngx-spinner>
+  <div class="row">
+    <div class="col-sm-12 d-flex justify-content-start margin-left-custom">
+      <ngx-datatable
+        [rows]="rows"
+        [columns]="columns"
+        class="material fullscreen table-custom"
+        [limit]="10"
+        [footerHeight]="50"
+        [headerHeight]="50"
+        [rowHeight]="35"
+        [offset]="pageNumber"
+        [reorderable]="false"
+      >
+        <ngx-datatable-column name="Nombre" [width]="300" [resizeable]="false">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.name }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Estado" [width]="80" [resizeable]="false">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <mat-slide-toggle
+              *ngIf="row.isEnabled"
+              class="toggle"
+              [checked]="true"
+              (change)="changeStatus(row.idEdifice, row.isEnabled)"
+              matTooltip="Activado"
+              matTooltipPosition="right"
+              aria-label="Button that displays a tooltip when focused or hovered over"
+              [(ngModel)]="row.isEnabled"
+            >
+              {{ row.isEnabled }}
+            </mat-slide-toggle>
+            <mat-slide-toggle
+              *ngIf="!row.isEnabled"
+              class="toggle"
+              [checked]="false"
+              (change)="changeStatus(row.idEdifice, row.isEnabled)"
+              matTooltip="Desactivado"
+              matTooltipPosition="right"
+              aria-label="Button that displays a tooltip when focused or hovered over"
+              [(ngModel)]="row.isEnabled"
+            >
+              {{ row.isEnabled }}
+            </mat-slide-toggle>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column
+          name=""
+          [width]="50"
+          [resizeable]="false"
+          [sortable]="false"
+        >
+          <ng-template let-column="column" ngx-datatable-header-template>
+            <div
+              class="div-custom-icon"
+              matTooltip="Editar Edificio"
+              matTooltipPosition="right"
+              aria-label="Button that displays a tooltip when focused or hovered over"
+            >
+              <span class="custom-icon">
+                <i class="fas fa-question-circle"></i>
+              </span>
+            </div>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <button
+              class="btn btn-warning"
+              (click)="openEditModal(row.idEdifice, row.name)"
+            >
+              <i class="fas fa-edit"></i>
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+</div>
+<app-footer #footer></app-footer>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#ffffff"
+  type="ball-clip-rotate"
+  [fullScreen]="true"
+  ><p style="color: white">Cargando...</p></ngx-spinner
+>

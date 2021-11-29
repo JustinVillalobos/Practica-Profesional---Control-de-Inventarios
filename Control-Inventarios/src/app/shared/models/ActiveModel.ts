@@ -10,7 +10,7 @@ export class ActiveModel{
 	model?:string
 	serie?:string 
 	amount?:number
-	isLoan?:boolean
+	isLoan?:number
 	areas?:AreaModel[]
 	loan? :LoanModel
 }

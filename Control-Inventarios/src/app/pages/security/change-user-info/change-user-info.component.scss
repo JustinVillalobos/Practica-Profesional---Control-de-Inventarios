@@ -1,38 +1,38 @@
-.padding-left-custom{
-	padding-left: 45px;
+.padding-left-custom {
+  padding-left: 45px;
 }
-.container-title{
-	span{
-		font-size: 20px;
-		font-weight: 500;
-	}
+.container-title {
+  span {
+    font-size: 20px;
+    font-weight: 500;
+  }
 }
-.container-custom-form{
-	border: 0.1px solid #000;
-    border-radius: 15px;
-    margin-top:5px;
-    padding-right: 25px;
-    width: 50%;
+.container-custom-form {
+  border: 0.1px solid #000;
+  border-radius: 15px;
+  margin-top: 5px;
+  padding-right: 25px;
+  width: 50%;
 }
-.button{
-	margin-top: 15px;
-	label{
-		margin-left: 5px;
-	}
-}
-
-button{
-	margin-top: 15px;
-
-	label{
-		margin-left: 3px;
-	}
-}
-.msg-error{
-	color: red;
-	font-size: 12px;
-}
-.msg-error-container{
-	margin-top: -20px;
+.button {
+  margin-top: 15px;
+  label {
     margin-left: 5px;
+  }
+}
+
+button {
+  margin-top: 15px;
+
+  label {
+    margin-left: 3px;
+  }
+}
+.msg-error {
+  color: red;
+  font-size: 12px;
+}
+.msg-error-container {
+  margin-top: -20px;
+  margin-left: 5px;
 }

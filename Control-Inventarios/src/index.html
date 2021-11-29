@@ -19,39 +19,6 @@
 
   <script type="text/javascript">
     let $ = jQuery = require('jquery');
-    let status = false;
-    function setStatus(){
-      $("#check").prop("checked",true);
-        if(status){
-          $("#check").prop("checked",false);
-           status = false;
-        }else{
-          status = true;
-        }
-    }
-    $(document).ready(function(){
-      console.log("Ingreso READY");
-      $('.nav_btn').click(function(){
-        $('.mobile_nav_items').toggleClass('active');
-      });
-      $("#check").click(function(event){
-        console.log("Ingreso");
-        console.log($('.content').css("margin-left"));
-        $("#check").prop("checked",false);
-        if( $('.content').css("margin-left")=="250px"){
-          $('.content').css("margin-left","65px");
-          $('#footer').css("margin-left","65px");
-          
-          setStatus();
-           
-        }else  if( $('.content').css("margin-left")=="65px"){
-          $('.content').css("margin-left","250px");
-           $('#footer').css("margin-left","250px");
-          setStatus();    
-        }
-      });
-      
-    });
     </script>
 </body>
 </html>

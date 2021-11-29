@@ -1,26 +1,23 @@
 import { Injectable } from '@angular/core';
 const electron = (<any>window).require('electron');
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  constructor() {
-     
-   }
+  constructor() {}
 
-    login(user: string, password: string) {
-       electron.ipcRenderer.send("login",{"username":user,"password":password});
-    }
+  login(user: string, password: string) {
+    electron.ipcRenderer.send('login', { username: user, password: password });
+  }
 
   setSession(auth) {
-    localStorage.setItem('idToken', auth["idToken"]);
+    localStorage.setItem('idToken', auth['idToken']);
   }
 
   logout() {
-    localStorage.removeItem("idToken");
+    localStorage.removeItem('idToken');
   }
   public removeAllListeners(channel: string): void {
-    
-   electron.ipcRenderer.removeAllListeners(channel);
+    electron.ipcRenderer.removeAllListeners(channel);
   }
 }

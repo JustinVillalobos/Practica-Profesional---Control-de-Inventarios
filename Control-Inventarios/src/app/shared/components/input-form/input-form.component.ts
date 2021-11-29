@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output,EventEmitter,ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewEncapsulation,
+} from '@angular/core';
 
 @Component({
   selector: 'app-input-form',
@@ -7,7 +14,7 @@ import { Component, OnInit, Input, Output,EventEmitter,ViewEncapsulation } from 
   encapsulation: ViewEncapsulation.None,
 })
 export class InputFormComponent implements OnInit {
-  @Input() name:string;
+  @Input() name: string;
   @Input() typeComponent: string;
   @Input() typed: string;
   @Input() label: string;
@@ -18,46 +25,41 @@ export class InputFormComponent implements OnInit {
   @Input() isFirst: boolean;
   @Input() isSearch: boolean;
   @Input() rows: number;
-  inputvalue :string = "";
+  inputvalue: string = '';
   @Output() updateValue = new EventEmitter<any>();
   @Input() min: number;
   @Input() max: number;
-  constructor() { 
-    
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    if(this.value != '' && this.value !== undefined){
+    if (this.value != '' && this.value !== undefined) {
       this.inputvalue = this.value;
     }
-    if(this.isFirst){
+    if (this.isFirst) {
       this.inputvalue = this.items[0].name;
     }
   }
-  isNumber(n){
-    return typeof n==='number';
+  isNumber(n) {
+    return typeof n === 'number';
   }
-  validateInput(e){
-    if(this.typed=='number'){
-
-       let digitos = (document.all) ? e.keyCode : e.which;
-       let value=e.target.value;
-    let tecla = String.fromCharCode(digitos).toLowerCase();
-    let numeroFuturo =parseInt(value+""+tecla);
-    let numero = parseInt(tecla);
-      if(numero>=0 && numeroFuturo>=this.min && numeroFuturo<=this.max){
-
-           return true;
-      }else{
-             e.preventDefault();
+  validateInput(e) {
+    if (this.typed == 'number') {
+      let digitos = document.all ? e.keyCode : e.which;
+      let value = e.target.value;
+      let tecla = String.fromCharCode(digitos).toLowerCase();
+      let numeroFuturo = parseInt(value + '' + tecla);
+      let numero = parseInt(tecla);
+      if (numero >= 0 && numeroFuturo >= this.min && numeroFuturo <= this.max) {
+        return true;
+      } else {
+        e.preventDefault();
       }
     }
   }
-  updateEvent(e){
-    this.updateValue.emit({"name":this.name,"value":this.inputvalue});
+  updateEvent(e) {
+    this.updateValue.emit({ name: this.name, value: this.inputvalue });
   }
-  setText(text:string){
+  setText(text: string) {
     this.inputvalue = text;
   }
-
 }
