@@ -18,8 +18,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electron": "ng build && electron .",
-    "pack": "electron-packager . Control-Inventarios --win --out ../Control-Inventarios --arch=x64 --app-version=0.0.1 --icon='./src/assets/rgu1.jpeg'",
-    "setup": "electron-installer-windows --src Control-Inventarios/control-inventarios-win32-x64/ --dest electronPKG/installers/"
+    "pack": "electron-packager . Control-Inventarios --win --out ../Control-Inventarios --arch=x64 --app-version=0.0.1 --icon='./src/assets/Icono.png'"
   },
   "private": true,
   "dependencies": {
