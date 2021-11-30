@@ -41,11 +41,13 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+    /*Método que redirije hacia el listado de activos*/
   goToDashBoard() {
     this._ngZone.run(() => {
       this.router.navigate(['/actives']);
     });
   }
+    /*Método que válida las credenciales*/
   verifyCredentials() {
     if (this.loginForm.valid) {
       if (
@@ -103,6 +105,7 @@ export class LoginComponent implements OnInit {
       }
     }
   }
+    /*Método que despliega modal para recuperar contraseña*/
   recoveryPassword() {
     let dialogRef = this.dialog.open(RecoveryPasswordComponent, {
       height: '250px',
@@ -110,6 +113,7 @@ export class LoginComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {});
   }
+    /*Método que válida el usuario*/
   checkUserCharacter(e) {
     if (this.ValidationsService.WordsAlphabeticValidation(e)) {
       this.usernameValidationsClass = false;
@@ -117,6 +121,7 @@ export class LoginComponent implements OnInit {
       this.usernameValidationsClass = true;
     }
   }
+    /*Método que válida la contraseña*/
   checkPasswordCharacter(e) {
     if (this.ValidationsService.passwordValidation(e)) {
       this.passwordValidationsClass = false;
@@ -124,6 +129,7 @@ export class LoginComponent implements OnInit {
       this.passwordValidationsClass = true;
     }
   }
+    /*Método que válida el usuario en tiempo real*/
   checkUserNameValidations(e) {
     this.checkUserCharacter(e);
     let username = this.loginForm.controls.username.value;
@@ -131,6 +137,7 @@ export class LoginComponent implements OnInit {
       e.preventDefault();
     }
   }
+    /*Método que válida la contraseña en tiempo real*/
   checkPasswordValidations(e) {
     this.checkPasswordCharacter(e);
     let password = this.loginForm.controls.password.value;
@@ -138,6 +145,7 @@ export class LoginComponent implements OnInit {
       e.preventDefault();
     }
   }
+    /*Método que controla el cambio de estado de visualizar la contraseña*/
   changeStatus() {
     if (this.typed == 'password') {
       this.icon = 'fa-eye';

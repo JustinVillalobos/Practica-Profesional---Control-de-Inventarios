@@ -38,7 +38,7 @@ export class EdificesComponent implements OnInit {
   ) {
     this.temp = this.rows;
   }
-
+  /*Método que carga todos los edificios*/
   allEdifices() {
     this.EdificeService.allEdifices();
     electron.ipcRenderer.on('allEdifices', (event: any, data: any) => {
@@ -53,6 +53,7 @@ export class EdificesComponent implements OnInit {
       }
     });
   }
+    /*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -73,17 +74,14 @@ export class EdificesComponent implements OnInit {
       const f = this.temp.filter(function (d) {
         return d.name.toLowerCase().indexOf(val) !== -1;
       });
-
-      // update the rows
       this.rows = f;
-      // Whenever the filter changes, always go back to the first page
-      //this.table.offset = 0;
       this.pageNumber = 0;
     } else {
       this.rows = this.temp;
       this.pageNumber = 0;
     }
   }
+    /*Método que controla el estado*/
   changeStatus(id, status) {
     this.spinner.show();
     for (let i = 0; i < this.rows.length; i++) {
@@ -108,6 +106,7 @@ export class EdificesComponent implements OnInit {
       }
     }
   }
+    /*Método que despliega el modal para editar un edificio*/
   openEditModal(id, name) {
     let dialogRef = this.dialog.open(EditEdificeModalComponent, {
       height: '230px',
@@ -122,6 +121,7 @@ export class EdificesComponent implements OnInit {
       this.allEdifices();
     });
   }
+    /*Método que controla el agregar un edificio*/
   openAddModal() {
     let dialogRef = this.dialog.open(AddEdificeModalComponent, {
       height: '230px',

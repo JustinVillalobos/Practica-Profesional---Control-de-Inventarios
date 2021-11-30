@@ -56,6 +56,7 @@ export class EditActiveComponent implements OnInit {
   ngOnInit(): void {
     this.active = JSON.parse(localStorage.getItem('active'));
   }
+   /*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -65,6 +66,7 @@ export class EditActiveComponent implements OnInit {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '250px');
     }
   }
+  /*Método que controla los Inputs*/
   updateValue(e) {
     if (e.name == 'amount') {
       this.active.amount = e.value;
@@ -84,11 +86,13 @@ export class EditActiveComponent implements OnInit {
       this.active.name = e.value;
     }
   }
+  /*Método que redirije a visualizar el activo*/
   previous() {
     this._ngZone.run(() => {
       this._router.navigate(['/view', this.active.idActive]);
     });
   }
+  /*Método que guarda la información editada*/
   save() {
     if (this.active.name == '') {
       this.activeControls.name.isInvalid = true;
@@ -237,11 +241,13 @@ export class EditActiveComponent implements OnInit {
     } else {
     }
   }
+  /*Método que redirije a visualizar el activo*/
   redirectTo() {
     this._ngZone.run(() => {
       this._router.navigate(['/view', this.active.idActive]);
     });
   }
+  /*Método que maneja las validaciones de estado*/
   isValid() {
     return (
       !this.activeControls.serie.isInvalid &&

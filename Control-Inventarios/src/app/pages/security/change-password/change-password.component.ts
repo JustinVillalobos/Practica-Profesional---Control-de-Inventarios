@@ -41,17 +41,16 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
     this.userInfo();
   }
-
+/*Método que recupera la información de usuario*/
   userInfo() {
     this.PasswordService.userData({ token: localStorage.getItem('idToken') });
     electron.ipcRenderer.on('userInfo', (event: any, data: any) => {
-      console.log(data);
       if (data['res']) {
         this.passwordTemp = data['user'][0].password;
       }
     });
   }
-
+/*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -61,6 +60,7 @@ export class ChangePasswordComponent implements OnInit {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '250px');
     }
   }
+  /*Método que controla los Inputs*/
   updateValue(e) {
     if (e.name == 'psw') {
       this.password = e.value;
@@ -70,6 +70,7 @@ export class ChangePasswordComponent implements OnInit {
       this.newRepeatPassword = e.value;
     }
   }
+  /*Método que válida y guarda la información*/
   save() {
     if (this.password == '') {
       this.psw.isInvalid = true;
@@ -169,6 +170,7 @@ export class ChangePasswordComponent implements OnInit {
       return;
     }
   }
+  /*Método que redirije al listado de activos*/
   redirectTo() {
     this._ngZone.run(() => {
       this.router.navigate(['/actives']);

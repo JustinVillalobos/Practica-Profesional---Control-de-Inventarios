@@ -75,6 +75,7 @@ export class ReportsComponent implements OnInit {
       { name: 'Sobrantes' },
     ];
   }
+   /*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -84,6 +85,7 @@ export class ReportsComponent implements OnInit {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '250px');
     }
   }
+   /*Método que controla los Inputs*/
   updateValue(e) {
     let val = e.value;
     val = val.toLowerCase();
@@ -95,31 +97,24 @@ export class ReportsComponent implements OnInit {
           d.licensePlate.toLowerCase().indexOf(val) !== -1
         );
       });
-
-      // update the rows
       this.rows = f;
-      // Whenever the filter changes, always go back to the first page
-      //this.table.offset = 0;
       this.pageNumber = 0;
     } else {
       this.rows = this.temp;
       this.pageNumber = 0;
     }
   }
+   /*Método que controla el Select de Tipos de Activos*/
   updateType(e) {
-    console.log(e.value);
     this.isReload = false;
     this.spinner.show();
     if (e.value == 'Coincidentes') {
-      //  this.rows = this.data["Faltantes"];
       this.temp = this.data['Coincidentes'];
       this.title = 'Coincidentes';
     } else if (e.value == 'Faltantes') {
-      //this.rows = this.data["Coincidentes"];
       this.temp = this.data['Faltantes'];
       this.title = 'Faltantes';
     } else if (e.value == 'Sobrantes') {
-      //this.rows = this.data["Sobrantes"];
       this.temp = this.data['Sobrantes'];
       this.title = 'Sobrantes';
     }
@@ -129,6 +124,7 @@ export class ReportsComponent implements OnInit {
     this.isReload = true;
     this.spinner.hide();
   }
+   /*Método que controla el cambio de index del mat-tab-group*/
   change(e) {
     if (e.index == 0) {
       this.isReload = false;
@@ -136,6 +132,7 @@ export class ReportsComponent implements OnInit {
       this.isReload = true;
     }
   }
+  /*Método que controla el estado de cuantos registros visualizar*/
   updateShow(e) {
     this.limit = parseInt(e.value, 10);
     this.setPage({ offset: 0 }, false);
@@ -151,6 +148,7 @@ export class ReportsComponent implements OnInit {
       }
     });
   }
+  /*Método que controla la páginación*/
   onPaginated(event, container) {
     this.setPage(event, true, container);
     this.table.limit = this.limit;
@@ -163,12 +161,13 @@ export class ReportsComponent implements OnInit {
       }
     });
   }
+  /*Método que controla el subir un documento*/
   onFileChange(ev) {
     var fileInput = <HTMLInputElement>document.getElementById('file');
     var filePath = fileInput.value;
     var allowedExtensions = /(.xlsx|.pdf|.ods)$/i;
     if (!allowedExtensions.exec(filePath)) {
-      alert('Please upload file having extensions .xlsx|.pdf|.ods only.');
+      this.AlertService.alertaError('Solo subir archivos con extensión .xlsx|.pdf|.ods only.');
       fileInput.value = '';
       return false;
     } else {
@@ -187,7 +186,6 @@ export class ReportsComponent implements OnInit {
             return initial;
           }, {});
           const dataString = JSON.stringify(jsonData);
-          console.log(jsonData);
           this.data = jsonData;
           this.isExcel = true;
         };
@@ -198,19 +196,17 @@ export class ReportsComponent implements OnInit {
       }
     }
   }
+  /*Método que controla la opción de activos a visualizar*/
   checkOption(e) {
     this.isReload = false;
     this.spinner.show();
     if (e.index == 0) {
-      //  this.rows = this.data["Faltantes"];
       this.temp = this.data['Faltantes'];
       this.title = 'Faltantes';
     } else if (e.index == 1) {
-      //this.rows = this.data["Coincidentes"];
       this.temp = this.data['Coincidentes'];
       this.title = 'Coincidentes';
     } else if (e.index == 2) {
-      //this.rows = this.data["Sobrantes"];
       this.temp = this.data['Sobrantes'];
       this.title = 'Sobrantes';
     }
@@ -218,6 +214,7 @@ export class ReportsComponent implements OnInit {
     this.isReload = true;
     this.spinner.hide();
   }
+  /*Método que controla el analizar el documento*/
   analice() {
     this.isReload = false;
     this.isVisible = false;
@@ -278,9 +275,11 @@ export class ReportsComponent implements OnInit {
       });
     }
   }
+  /*Método que llama el método de generar el excel*/
   generateExcel() {
     this.excel(this.temp);
   }
+  /*Método que escribe el título en una hoja excel*/
   setTitle(title) {
     let titleRow = this.worksheet.addRow([title]);
     // Set font, size and style in title row.
@@ -291,7 +290,6 @@ export class ReportsComponent implements OnInit {
       underline: 'double',
       bold: true,
     };
-
     // Blank Row
     this.worksheet.addRow([]);
     //Add row with current date
@@ -303,6 +301,7 @@ export class ReportsComponent implements OnInit {
     this.worksheet.mergeCells('A3:G3');
     return titleRow;
   }
+  /*Método que controla el Header de la hoja de excel*/
   setHeader(header) {
     //Add Header Row
     let headerRow = this.worksheet.addRow(header);
@@ -328,6 +327,7 @@ export class ReportsComponent implements OnInit {
     });
     return headerRow;
   }
+  /*Método que genera un excel*/
   excel(datos) {
     this.workbook = new Excel.Workbook();
     let date = new Date();
@@ -335,11 +335,9 @@ export class ReportsComponent implements OnInit {
     let new_format_date = date.toLocaleString();
     let title = 'Reporte de Activos ' + this.title + '';
     let header = ['Placa', 'name'];
-
     this.worksheet = this.workbook.addWorksheet('Activos');
     // Add new row
     let titleRow = this.setTitle(title);
-
     let col1 = this.worksheet.getColumn(1);
     let col2 = this.worksheet.getColumn(2);
     col1.width = 20;
@@ -351,9 +349,7 @@ export class ReportsComponent implements OnInit {
         let row = this.worksheet.addRow(rowU);
       });
     }
-
     this.spinner.hide();
-
     this.workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -361,10 +357,11 @@ export class ReportsComponent implements OnInit {
       fs.saveAs(blob, 'Reporte ' + this.title + ' ' + new Date() + '.xlsx');
     });
   }
-
+  /*Método que controla el generar pdf*/
   generatePDF() {
     this.downloadrpt();
   }
+  /*Método que convierte JSON en datos para el pdf*/
   convertedData(data) {
     let converted_data = [];
     for (let i = 0; i < data.length; i++) {
@@ -376,7 +373,7 @@ export class ReportsComponent implements OnInit {
     }
     return converted_data;
   }
-
+/*Método que controla el centrar un elemento en pdf*/
   center(doc, text) {
     var textWidth =
       (doc.getStringUnitWidth(text) * doc.internal.getFontSize()) /
@@ -384,6 +381,7 @@ export class ReportsComponent implements OnInit {
     var textOffset = (doc.internal.pageSize.width - textWidth) / 2;
     return textOffset;
   }
+  /*Método que agrega paginación al pdf */
   addFooters(doc) {
     const pageCount = doc.internal.getNumberOfPages();
 
@@ -402,6 +400,7 @@ export class ReportsComponent implements OnInit {
     }
     return doc;
   }
+  /*Método que controla el actualizar la tabla de datos*/
   setPage(pageInfo, optional, container?) {
     let flag = false;
     this.rows = [];
@@ -417,9 +416,8 @@ export class ReportsComponent implements OnInit {
     if (optional) {
       this.scrollToTop(container);
     }
-
-    // this.cdRef.detectChanges();
   }
+  /*Método que controla el Scroll*/
   scrollToTop(el) {
     const duration = 600;
     const interval = 5;
@@ -432,6 +430,7 @@ export class ReportsComponent implements OnInit {
       )
       .subscribe();
   }
+  /*Método que genera pdf*/
   async downloadrpt() {
     let data_formmated = this.convertedData(this.temp);
     let date = new Date();
@@ -443,7 +442,6 @@ export class ReportsComponent implements OnInit {
     var pageWidth =
       doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
     let wantedTableWidth = 100;
-
     let margin = (pageWidth - wantedTableWidth) / 2;
     doc.setFontSize(16);
     doc.setFont('helvetica', 'bold');

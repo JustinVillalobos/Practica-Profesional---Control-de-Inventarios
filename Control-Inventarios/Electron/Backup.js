@@ -76,7 +76,6 @@ module.exports = class Backup {
   }
   async insertActive(actives) {
     let res = true;
-    console.log(actives.length);
     for (let i = 0; i < actives.length; i++) {
       res = await this.promiseMethod("call sp_bk_active(?,?,?,?,?,?,?,?,?,?)", [
         actives[i].idActive,
@@ -232,7 +231,6 @@ module.exports = class Backup {
     for (let m = 0; m < bulk.length; m++) {
       bulk[m]
         .then((_res) => {
-          console.log(_res);
           this.method2(_res, conn);
           if (m == bulk.length - 1) {
             sql.close(conn);

@@ -201,6 +201,7 @@ export class EditDistributionComponent implements OnInit {
       this.ActiveService.editDistributionArea({
         idActive: this.idActive,
         areas: this.areas,
+        amount:this.amount
       });
       electron.ipcRenderer.on(
         'editDistributionActive',

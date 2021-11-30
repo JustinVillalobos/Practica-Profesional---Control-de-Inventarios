@@ -26,6 +26,7 @@ import { InputFormComponent } from 'src/app/shared/components/input-form/input-f
   styleUrls: ['./view-active.component.scss'],
 })
 export class ViewActiveComponent implements OnInit, OnDestroy {
+  /*Declare and Init Variables*/
   @ViewChild('pRef', { static: false }) pRef: ElementRef;
   @ViewChild('footer', { static: false }) footer: FooterComponent;
   @ViewChild('SelectStatus', { static: false })
@@ -73,6 +74,7 @@ export class ViewActiveComponent implements OnInit, OnDestroy {
 
     this.view();
   }
+  /*Método de carga de los datos del Activo a visualizar*/
   view() {
     this.ActiveService.allActiveByActive(this.active.idActive);
     electron.ipcRenderer.on('activesById', (event: any, data: any) => {
@@ -95,11 +97,14 @@ export class ViewActiveComponent implements OnInit, OnDestroy {
           this.isLoan = false;
           this.spinner.hide();
         }
+        this.cdRef.detectChanges();
+      }else{
+         this.spinner.hide();
       }
-      this.spinner.hide();
+       
     });
   }
-
+  /*Método que controla el estado del activo*/
   updateE(e) {
     if (e.value === 'Disponible') {
       this.stateLoanTemp = 0;
@@ -109,6 +114,7 @@ export class ViewActiveComponent implements OnInit, OnDestroy {
       this.stateLoanTemp = 2;
     }
   }
+  /*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -118,21 +124,26 @@ export class ViewActiveComponent implements OnInit, OnDestroy {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '250px');
     }
   }
+  /*Método que controla el la actualización de Inputs*/
   updateValue(e) {}
+  /*Método que fuerza una actualización*/
   update() {
     this.cdRef.detectChanges();
   }
+  /*Método que redirije al Listado De Activos*/
   previous() {
     this._ngZone.run(() => {
       this._router.navigate(['/actives']);
     });
   }
+  /*Método que redirije para editar el activo*/
   editActive() {
     localStorage.setItem('active', JSON.stringify(this.active));
     this._ngZone.run(() => {
       this._router.navigate(['/edit_actives', this.active.idActive]);
     });
   }
+  /*Método que ejecuta el modal de editar la distribución del activo en áreas*/
   editDistribution() {
     let dialogRef = this.dialog.open(EditDistributionComponent, {
       height: '700px',
@@ -148,6 +159,7 @@ export class ViewActiveComponent implements OnInit, OnDestroy {
       this.view();
     });
   }
+  /*Método que válida si hay un nuevo estado*/
   validateNewState() {
     if (
       (this.active.isLoan === 0 || this.active.isLoan === 2) &&

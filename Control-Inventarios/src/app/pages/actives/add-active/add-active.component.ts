@@ -79,6 +79,7 @@ export class AddActiveComponent implements OnInit {
     this.allEdifices();
     this.allAreasSelect();
   }
+  /*Método que carga todos los edificios*/
   allEdifices() {
     this.spinner.show();
     this.EdificeService.allEdificesActives();
@@ -94,6 +95,7 @@ export class AddActiveComponent implements OnInit {
       }
     });
   }
+  /*Método que carga todas las áreas*/
   allAreasSelect() {
     this.AreaService.allAreasActives();
     electron.ipcRenderer.on('allAreasActives', (event: any, data: any) => {
@@ -116,7 +118,7 @@ export class AddActiveComponent implements OnInit {
       }
     });
   }
-
+   /*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -126,14 +128,16 @@ export class AddActiveComponent implements OnInit {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '250px');
     }
   }
+   /*Método que controla el Origen del activo*/
   updateOrigin(e) {
     if (e.value == 'Otros') {
       this.isVisible = false;
     } else {
       this.isVisible = true;
-      this.active.licensePlate = e.value;
+      this.active.placeOrigin = e.value;
     }
   }
+  /*Método que controla los Inputs*/
   updateValue(e) {
     if (e.name == 'amount') {
       if (this.active.amount > e.value) {
@@ -166,7 +170,7 @@ export class AddActiveComponent implements OnInit {
       this.active.name = e.value;
     }
   }
-
+ /*Método que controla la dependencia áreas por edificio*/
   updateEdifices(e) {
     this.edificeSelected = e.value;
     let idEdifice = 0;
@@ -183,9 +187,11 @@ export class AddActiveComponent implements OnInit {
       }
     });
   }
+   /*Método que controla la área seleccionada*/
   updateArea(e) {
     this.areaSelected = e.value;
   }
+   /*Método que obtiene el Id del área seleccionada*/
   getIdArea() {
     let countAmount = 0;
     for (let i = 0; i < this.allAreas.length; i++) {
@@ -195,6 +201,7 @@ export class AddActiveComponent implements OnInit {
       }
     }
   }
+   /*Método que guarda la información de la distribución del activo*/
   saveDistribucion() {
     let countAmount = 0;
     let flag = true;
@@ -234,6 +241,7 @@ export class AddActiveComponent implements OnInit {
       }
     }
   }
+   /*Método que remueve elementos del listado de áreas donde se distribuyó el activo*/
   remove(area) {
     this.areas = this.areas.filter((res) => {
       if (res.name == area) {
@@ -242,11 +250,13 @@ export class AddActiveComponent implements OnInit {
       return res.name !== area;
     });
   }
+   /*Método que redirije a ver todos los activos*/
   previous() {
     this._ngZone.run(() => {
       this._router.navigate(['/actives']);
     });
   }
+   /*Método de búsqueda de áreas*/
   setAreas() {
     for (let i = 0; i < this.tempAreas.length; i++) {
       for (let j = 0; j < this.areas.length; j++) {
@@ -261,6 +271,7 @@ export class AddActiveComponent implements OnInit {
       }
     }
   }
+   /*Método que válida la cantidad de items asignados a las áreas*/
   getCountByArea() {
     let countAmount = 0;
     for (let i = 0; i < this.areas.length; i++) {
@@ -268,6 +279,7 @@ export class AddActiveComponent implements OnInit {
     }
     return countAmount;
   }
+   /*Método que guarda la información del activo*/
   save() {
     if (this.active.name == '') {
       this.activeControls.name.isInvalid = true;
@@ -410,7 +422,6 @@ export class AddActiveComponent implements OnInit {
           areas: this.areas,
         });
         electron.ipcRenderer.on('addActive', (event: any, data: any) => {
-          console.log(data);
           if (data['res']) {
             this.spinner.hide();
             this.AlertService.alertTimeCorrect(
@@ -428,11 +439,13 @@ export class AddActiveComponent implements OnInit {
     } else {
     }
   }
+  /*Método que redirije a visualizar el activo*/
   redirectTo() {
     this._ngZone.run(() => {
       this._router.navigate(['/actives']);
     });
   }
+  /*Método que maneja las validaciones de estado*/
   isValid() {
     return (
       !this.activeControls.serie.isInvalid &&

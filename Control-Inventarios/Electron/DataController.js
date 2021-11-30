@@ -36,7 +36,6 @@ module.exports = class Data {
         row.length > 4 &&
         !this.evaluateValue(row, this.AlphaNumericPattern())
       ) {
-        //console.log("Code "+row+" "+row.length);
         itemsTemporales.codes.push(row);
         if (flagCode) {
           distanceCode++;
@@ -96,9 +95,18 @@ module.exports = class Data {
     let datas;
     let res;
     for (let i = 0; i < data.length; i++) {
-      res = actives.filter(
-        (response) => response.licensePlate == data[i].licensePlate
-      );
+      if(data[i].licensePlate!=null && data[i].licensePlate!="" && data[i].licensePlate!="SP"){
+         res = actives.filter(
+          (response) => response.licensePlate == data[i].licensePlate
+        );
+       }else{
+          res = actives.filter(
+            (response) => {
+              return response.name == data[i].name
+            }
+          );
+       }
+     
       if (res == "" || res == null || res.length == 0) {
         newFaltantes.push({
           licensePlate: data[i].licensePlate,
@@ -118,9 +126,18 @@ module.exports = class Data {
     let datas;
     let res;
     for (let i = 0; i < actives.length; i++) {
-      res = data.filter(
-        (response) => response.licensePlate == actives[i].licensePlate
-      );
+      if(actives[i].licensePlate!=null && actives[i].licensePlate!="" && actives[i].licensePlate!="SP"){
+         res = data.filter(
+          (response) => response.licensePlate == actives[i].licensePlate
+        );
+       }else{
+          res = data.filter(
+            (response) => {
+              return response.name == actives[i].name
+            }
+          );
+       }
+      
       if (res == "" || res == null || res.length == 0) {
         sobrantes.push({
           licensePlate: actives[i].licensePlate,

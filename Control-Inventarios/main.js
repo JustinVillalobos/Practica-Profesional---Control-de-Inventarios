@@ -46,7 +46,7 @@ createWindow = () => {
 
   appWin.loadURL(`file://${__dirname}/dist/index.html`);
 
-  appWin.webContents.openDevTools();
+  //appWin.webContents.openDevTools();
 
   appWin.on("closed", () => {
     appWin = null;
@@ -493,12 +493,14 @@ ipcMain.on("addActive", (event, data) => {
         let res2 = activeClass.editDistributionActive({
           idActive: id,
           areas: data.areas,
+          amount:data.active.amount
         });
         res2
           .then((_data) => {
             event.reply("addActive", { res: true });
           })
-          .catch(() => {
+          .catch((err) => {
+              console.log(err);
             event.reply("addActive", { res: false });
           });
       })
@@ -590,7 +592,7 @@ ipcMain.on("login", function (event, data) {
           };
           var token = jwt.sign(
             {
-              exp: Math.floor(Date.now() / 1000) + 60 * 15,
+              exp: Math.floor(Date.now() / 1000) + 60 * 555,
               data: usuario,
             },
             JWT_Secret
@@ -695,7 +697,7 @@ ipcMain.on("validateUser", (event, data) => {
     event.reply("validateUser", { res: false });
   }
 });
-/*Backup*/
+/*Backups Y Reportes*/
 ipcMain.on("generate_backup", (event, data) => {
   let dataRes = [];
   let res = edificeClass.allEdifices();

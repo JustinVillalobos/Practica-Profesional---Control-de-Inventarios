@@ -285,7 +285,7 @@ export class ConverterService {
         let col = newFormatObject[j].split(':')[1];
         let countNumbers = this.count(col);
         if (col == undefined || col == null || col == '') {
-          console.log('STATUS', undefined);
+          //console.log('STATUS', undefined);
         } else {
           if (
             (countNumbers == col.length || countNumbers >= col.length - 2) &&
@@ -365,7 +365,13 @@ export class ConverterService {
         }
 
         if (flag && !this.isNumber(temp[1])) {
-          newData.push({ id: countEdifice, name: temp[1], array: [] });
+          if(temp[1].split(",").length<=1){
+            newData.push({ id: countEdifice, name: temp[1], array: [] });
+          }else{
+            let temp2=temp[1].split(",")[0];
+            newData.push({ id: countEdifice, name: temp2, array: [] });
+          }
+          
         }
 
         //Edifice
@@ -407,7 +413,6 @@ export class ConverterService {
         newData[newData.length - 1].array.push(active);
       }
     }
-    console.log(newData, suma);
     return newData;
   }
   grouBy(data) {
@@ -419,7 +424,6 @@ export class ConverterService {
         newData[newData.length - 1].array.push(data[i]);
       }
     }
-    console.log(newData);
     return newData;
   }
   loadData(json) {
@@ -430,6 +434,10 @@ export class ConverterService {
     } else {
       if (json['Activos']) {
         let data = this.analyzeLoadData(json['Inventario Físico 2021']);
+        data = this.grouBy(data);
+        return data;
+      }else if(json['Inventario_Físico_2021']) {
+        let data = this.analyzeLoadData(json['Inventario_Físico_2021']);
         data = this.grouBy(data);
         return data;
       }

@@ -46,6 +46,7 @@ export class ActivesComponent implements OnInit, OnDestroy {
   status = [
     { name: 'Todos' },
     { name: 'Disponibles' },
+    { name: 'Proceso Desecho' },
     { name: 'En Prestamo' },
   ];
 
@@ -80,7 +81,7 @@ export class ActivesComponent implements OnInit, OnDestroy {
     this.allAreas();
     this.allActives();
   }
-
+  /*Método que consulta por los edificios*/
   allEdifices() {
     this.spinner.show();
     this.EdificeService.allEdificesActives();
@@ -100,11 +101,13 @@ export class ActivesComponent implements OnInit, OnDestroy {
           this._ngZone.run(() => {
             this.router.navigate(['/edifices']);
           });
-        }
-        this.setEdifice();
+        }else{
+          this.setEdifice();
+        }  
       }
     });
   }
+  /*Método que consulta por las áreas*/
   allAreas() {
     this.AreaService.allAreasActives();
     electron.ipcRenderer.on('allAreasActives', (event: any, data: any) => {
@@ -124,6 +127,7 @@ export class ActivesComponent implements OnInit, OnDestroy {
           };
         });
         this.areas = areas;
+
         if (this.areas.length <= 0) {
           this.AlertService.alertaError(
             'Lo sentimos, primeramente ingresa algunas áreas'
@@ -132,11 +136,14 @@ export class ActivesComponent implements OnInit, OnDestroy {
           this._ngZone.run(() => {
             this.router.navigate(['/areas']);
           });
+        }else{
+           this.setArea();
         }
-        this.setArea();
+       
       }
     });
   }
+  /*Método que consulta por todos los activos*/
   allActives() {
     this.ActiveService.allActives();
     electron.ipcRenderer.on('allActives', (event: any, data: any) => {
@@ -148,12 +155,15 @@ export class ActivesComponent implements OnInit, OnDestroy {
       }
     });
   }
+  /*Método que agrega una opción por defecto a los edificios*/
   setEdifice() {
     this.edifices.unshift({ idEdifice: 0, name: 'Todos' });
   }
+  /*Método que agrega una opción por defecto a las áreas*/
   setArea() {
     this.areas.unshift({ idArea: 0, name: 'Todos' });
   }
+  /*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -163,41 +173,54 @@ export class ActivesComponent implements OnInit, OnDestroy {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '250px');
     }
   }
+  /*Método que controla el renderizado de celda en la tabla para centrado*/
   getCellClass({ row, column, value }): any {
     let amount = 1;
     return {
       amount: amount === 1,
     };
   }
+  /*Método que controla los Inputs*/
   updateValue(e) {
     let val = e.value;
     val = val.toLowerCase();
     if (val != '' && val != ' ') {
       const f = this.temp.filter(function (d) {
-        if (d.licensePlate != '') {
-          return (
-            d.name.toLowerCase().indexOf(val) !== -1 ||
-            d.placeOrigin.toLowerCase().indexOf(val) !== -1 ||
-            d.licensePlate.toLowerCase().indexOf(val) !== -1
-          );
+        if (d.licensePlate != '' && d.licensePlate!=null && d.licensePlate!=undefined) {
+          if(d.placeOrigin!="" && d.placeOrigin!=null && d.placeOrigin!=undefined){
+             return (
+              d.name.toLowerCase().indexOf(val) !== -1 ||
+              d.placeOrigin.toLowerCase().indexOf(val) !== -1 ||
+              d.licensePlate.toLowerCase().indexOf(val) !== -1
+            );
+           }else{
+              return (
+              d.name.toLowerCase().indexOf(val) !== -1 ||
+              d.licensePlate.toLowerCase().indexOf(val) !== -1
+            );
+           }
+         
         } else {
-          return (
-            d.name.toLowerCase().indexOf(val) !== -1 ||
-            d.placeOrigin.toLowerCase().indexOf(val) !== -1
-          );
+            if(d.placeOrigin!="" && d.placeOrigin!=null && d.placeOrigin!=undefined){
+              return (
+                d.name.toLowerCase().indexOf(val) !== -1 ||
+                d.placeOrigin.toLowerCase().indexOf(val) !== -1
+              );
+            }else{
+              return (
+                d.name.toLowerCase().indexOf(val) !== -1
+              );
+            }
         }
       });
-
-      // update the rows
       this.rows = f;
-      // Whenever the filter changes, always go back to the first page
-      //this.table.offset = 0;
       this.pageNumber = 0;
     } else {
       this.rows = this.temp;
       this.pageNumber = 0;
     }
   }
+  /*Método que controla select por estado*/
   updateShow(e) {
     this.limit = parseInt(e.value, 10);
     this.setPage({ offset: 0 }, false);
@@ -213,6 +236,7 @@ export class ActivesComponent implements OnInit, OnDestroy {
       }
     });
   }
+  /*Método que filtra activos por edificio*/
   updateEdifices(e) {
     if (e.value != 'Todos') {
       this.allActives();
@@ -247,6 +271,7 @@ export class ActivesComponent implements OnInit, OnDestroy {
       this.SelectAreas.setText('Todos');
     }
   }
+  /*Método que guarda la información del anterior filtro por edificio*/
   activesByEdificio(id) {
     this.ActiveService.allActiveByEdifice(id);
     electron.ipcRenderer.on('activesByIdEdifice', (event: any, data: any) => {
@@ -257,6 +282,7 @@ export class ActivesComponent implements OnInit, OnDestroy {
       }
     });
   }
+  /*Método que filtra los activos por área*/
   updateArea(e) {
     this.areaSelected = e.value;
     if (e.value != 'Todos') {
@@ -278,11 +304,14 @@ export class ActivesComponent implements OnInit, OnDestroy {
       this.allActives();
     }
   }
+  /*Método que filtra por el estado*/
   updateState(e) {
     this.statusSelected = e.value;
-    let status = false;
-    if (e.value != 'Disponibles' && e.value != 'Todos') {
-      status = true;
+    let status = 0;
+    if (e.value != 'Proceso Desecho' && e.value != 'Disponibles' && e.value != 'Todos') {
+      status = 1;
+    }else if(e.value == 'Proceso Desecho'){
+      status=2;
     }
     if (e.value !== 'Todos') {
       this.temp = this.temp2;
@@ -324,21 +353,25 @@ export class ActivesComponent implements OnInit, OnDestroy {
     }
   }
   generatePDF() {}
+  /*Método que redirije para agregar un activo*/
   AddActive() {
     this._ngZone.run(() => {
       this.router.navigate(['/add']);
     });
   }
+  /*Método que redirije para visualizar un activo*/
   viewActive(idActive) {
     this._ngZone.run(() => {
       this.router.navigate(['/view', idActive]);
     });
   }
+  /*Método que redirije a un destinado*/
   goRedirect(destiny) {
     this._ngZone.run(() => {
       this.router.navigate(['/' + destiny]);
     });
   }
+  /*Método que controla la páginación*/
   onPaginated(event, container) {
     this.setPage(event, true, container);
     this.table.limit = this.limit;
@@ -351,6 +384,7 @@ export class ActivesComponent implements OnInit, OnDestroy {
       }
     });
   }
+  /*Método que actualiza la página de una tabla*/
   setPage(pageInfo, optional, container?) {
     let flag = false;
     this.rows = [];
@@ -369,6 +403,7 @@ export class ActivesComponent implements OnInit, OnDestroy {
 
     this.cdRef.detectChanges();
   }
+  /*Método que controla el scroll*/
   scrollToTop(el) {
     const duration = 600;
     const interval = 5;

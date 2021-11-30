@@ -76,16 +76,16 @@ export class ValidationsService {
     return '[^a-zA-Z ]';
   }
   AlphaNumericAndSpacePattern() {
-    return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ ]';
+    return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ/” -]';
   }
   MixtPattern() {
-    return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,. ]';
+    return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,./” -]';
   }
   EmailPattern() {
     return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,@_. ]';
   }
   MixtAltPattern() {
-    return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,.\\s ]';
+    return '[^a-zA-Z0-9áéíóúaÁÉÍÓÚ,.\\s /” -]';
   }
 
   AlphaNumericPattern() {

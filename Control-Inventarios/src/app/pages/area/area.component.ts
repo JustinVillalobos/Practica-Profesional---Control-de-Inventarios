@@ -45,6 +45,7 @@ export class AreaComponent implements OnInit {
   ) {
     this.temp = this.rows;
   }
+  /*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -54,6 +55,7 @@ export class AreaComponent implements OnInit {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '250px');
     }
   }
+  /*Método que carga todas las áreas*/
   allAreas() {
     this.AreaService.allAreas();
     electron.ipcRenderer.on('allAreas', (event: any, data: any) => {
@@ -82,6 +84,7 @@ export class AreaComponent implements OnInit {
     this.spinner.show();
     this.allAreas();
   }
+  /*Método que controla los Inputs*/
   updateValue(e) {
     let val = e.value;
     val = val.toLowerCase();
@@ -92,17 +95,14 @@ export class AreaComponent implements OnInit {
           d.edifice.name.toLowerCase().indexOf(val) !== -1
         );
       });
-
-      // update the rows
       this.rows = f;
-      // Whenever the filter changes, always go back to the first page
-      //this.table.offset = 0;
       this.pageNumber = 0;
     } else {
       this.rows = this.temp;
       this.pageNumber = 0;
     }
   }
+  /*Método que controla el cambio de estado*/
   changeStatus(id, status) {
     for (let i = 0; i < this.rows.length; i++) {
       if (id == this.rows[i]['idArea']) {
@@ -124,6 +124,7 @@ export class AreaComponent implements OnInit {
       }
     }
   }
+  /*Método que despliega el modal para editar área*/
   openEditModal(id, name, edifice, idEdifice) {
     let dialogRef = this.dialog.open(EditAreaModalComponent, {
       height: '350px',
@@ -140,6 +141,7 @@ export class AreaComponent implements OnInit {
       this.allAreas();
     });
   }
+  /*Método que despliega modal para agregar área*/
   openAddModal() {
     let dialogRef = this.dialog.open(AddAreaModalComponent, {
       height: '350px',

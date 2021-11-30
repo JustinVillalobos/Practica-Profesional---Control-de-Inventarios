@@ -141,6 +141,10 @@ module.exports = class Active {
   async editDistributionActive(data) {
     let active;
     let res;
+    res = await this.promiseMethod(
+        "call sp_edit_amount_active(?,?)",
+        [data.idActive,data.amount]
+      );
     for (let i = 0; i < data.areas.length; i++) {
       active = [data.idActive, data.areas[i].idArea, data.areas[i].amount];
       res = await this.promiseMethod(

@@ -2,7 +2,7 @@
 <div class="content" #pRef>
   <div class="row">
     <div class="col-sm-12 d-flex justify-content-start margin-left-custom">
-      <div style="width: 600px" class="inline">
+      <div style="width: 750px" class="inline">
         <div class="col-sm-6 d-flex">
           <div class="inline">
             <div class="container-titulo">
@@ -20,7 +20,10 @@
               [isSearch]="true"
               (updateValue)="updateValue($event)"
             ></app-input-form>
-            <button class="btn btn-primary btn-margin" (click)="openAddModal()">
+            <button class="btn btn-primary btn-margin" (click)="openAddModal()"
+             matTooltip="Agregar Área"
+              matTooltipPosition="right"
+              aria-label="Button that displays a tooltip when focused or hovered over">
               +
             </button>
           </div>
@@ -42,14 +45,16 @@
         [offset]="pageNumber"
         [reorderable]="false"
       >
-        <ngx-datatable-column name="Nombre" [width]="150" [resizeable]="false">
+        <ngx-datatable-column name="Nombre" [width]="270" [sortable]="false"
+          [resizeable]="false">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.name }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column
           name="Edificio"
-          [width]="300"
+          [width]="350"
+          [sortable]="false"
           [resizeable]="false"
         >
           <ng-template let-row="row" ngx-datatable-cell-template>

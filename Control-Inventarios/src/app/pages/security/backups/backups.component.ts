@@ -4,8 +4,10 @@ import {
   ViewChild,
   ElementRef,
   Renderer2,
+   NgZone
 } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
 import { BackupsService } from 'src/app/shared/services/backups.service';
 import { ConverterService } from 'src/app/shared/services/general/converter.service';
@@ -32,10 +34,13 @@ export class BackupsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private BackupsService: BackupsService,
     private AlertService: AlertService,
+    private _router: Router,
+    private _ngZone: NgZone,
     private converter: ConverterService
   ) {}
 
   ngOnInit(): void {}
+    /*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -45,10 +50,11 @@ export class BackupsComponent implements OnInit {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '250px');
     }
   }
+    /*Método que controla los Inputs*/
   updateValue(e) {
     console.log(e);
   }
-
+  /*Método que controla el generar un Backup*/
   generate() {
     this.AlertService.confirmacion(
       '¿Esta seguro/a de Generar un Backup?. Esta acción puede durar varios minutos',
@@ -60,7 +66,6 @@ export class BackupsComponent implements OnInit {
             'generate_backup',
             (event: any, data: any) => {
               if (data['res']) {
-                console.log(data);
                 component.excel(data['data']);
               } else {
                 component.spinner.hide();
@@ -72,6 +77,7 @@ export class BackupsComponent implements OnInit {
       this
     );
   }
+    /*Método que controla el agregar título a hoja de excel*/
   setTitle(title) {
     let titleRow = this.worksheet.addRow([title]);
     // Set font, size and style in title row.
@@ -91,6 +97,7 @@ export class BackupsComponent implements OnInit {
     this.worksheet.mergeCells('A3:G3');
     return titleRow;
   }
+    /*Método que controla el header de hoja de excel*/
   setHeader(header) {
     //Add Header Row
     let headerRow = this.worksheet.addRow(header);
@@ -116,6 +123,7 @@ export class BackupsComponent implements OnInit {
     });
     return headerRow;
   }
+    /*Método que controla el generar excel*/
   excel(datos) {
     this.workbook = new Excel.Workbook();
     let title = 'Registros de edificios  ';
@@ -272,6 +280,7 @@ export class BackupsComponent implements OnInit {
       fs.saveAs(blob, 'Backup ' + new Date() + '.xlsx');
     });
   }
+    /*Método que controla el Input File de Cargar Datos Actuales*/
   onFileDataChange(ev) {
     let workBook = null;
     let jsonData = null;
@@ -290,6 +299,7 @@ export class BackupsComponent implements OnInit {
     };
     reader.readAsBinaryString(file);
   }
+    /*Método que controla el cargar backup*/
   onFileChange(ev) {
     let workBook = null;
     let jsonData = null;
@@ -308,19 +318,27 @@ export class BackupsComponent implements OnInit {
     };
     reader.readAsBinaryString(file);
   }
+    /*Método que controla el cargar datos*/
   load() {
     this.spinner.show();
     let data = this.converter.loadData(this.newData);
     this.BackupsService.LoadData(data);
     electron.ipcRenderer.on('LoadData', (event: any, data: any) => {
-      console.log(data);
       if (data['res']) {
         this.spinner.hide();
+         this.AlertService.alertTimeCorrect(
+                    'Información Cargada con éxito',
+                    function (_component) {
+                      _component.redirectTo();
+                    },
+                    this
+                  );
       } else {
         this.spinner.hide();
       }
     });
   }
+    /*Método que controla el restaurar datos*/
   restaurate() {
     if (this.data.length != 0) {
       this.AlertService.confirmacion(
@@ -358,8 +376,14 @@ export class BackupsComponent implements OnInit {
               component.BackupsService.recoverybackup(data);
               electron.ipcRenderer.on('recovery', (event: any, data: any) => {
                 if (data['res']) {
-                  console.log(data);
                   component.spinner.hide();
+                  component.AlertService.alertTimeCorrect(
+                    'Información Restaurada con éxito',
+                    function (_component) {
+                      _component.redirectTo();
+                    },
+                    component
+                  );
                 } else {
                   component.spinner.hide();
                 }
@@ -374,5 +398,10 @@ export class BackupsComponent implements OnInit {
     } else {
       this.AlertService.alertaError('No se ha cargado un backup');
     }
+  }
+   redirectTo() {
+    this._ngZone.run(() => {
+      this._router.navigate(['/actives']);
+    });
   }
 }

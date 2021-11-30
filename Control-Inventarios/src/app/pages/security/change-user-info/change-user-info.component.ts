@@ -43,23 +43,21 @@ export class ChangeUserInfoComponent implements OnInit {
     this.spinner.show();
     this.userInfo();
   }
-
+  /*Método que recupera la información de usuario*/
   userInfo() {
     this.PasswordService.userData({ token: localStorage.getItem('idToken') });
     electron.ipcRenderer.on('userInfo', (event: any, data: any) => {
-      console.log(data);
       if (data['res']) {
         this.user = data['user'][0].username;
         this.email = data['user'][0].email;
         this.passwordTemp = data['user'][0].password;
-        console.log(this.user, this.email);
         this.inputName.setText(this.user);
         this.inputEmail.setText(this.email);
         this.spinner.hide();
       }
     });
   }
-
+/*Método que controla el DOM del aplicativo*/
   updateContent(e) {
     if (e) {
       this.renderer.setStyle(this.pRef.nativeElement, 'margin-left', '65px');
@@ -78,6 +76,7 @@ export class ChangeUserInfoComponent implements OnInit {
       this.email = e.value;
     }
   }
+  /*Método que válida y guarda la información */
   save() {
     if (this.user == '') {
       this.userControl.isInvalid = true;
