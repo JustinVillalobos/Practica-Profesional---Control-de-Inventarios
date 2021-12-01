@@ -433,7 +433,7 @@ export class ConverterService {
       return data;
     } else {
       if (json['Activos']) {
-        let data = this.analyzeLoadData(json['Inventario Físico 2021']);
+        let data = this.analyzeLoadData(json['Activos']);
         data = this.grouBy(data);
         return data;
       }else if(json['Inventario_Físico_2021']) {
@@ -458,7 +458,7 @@ export class ConverterService {
         Faltantes: actives3,
       };
     } else {
-      if (json['Actives'] != undefined) {
+      if (json['Activos'] != undefined) {
         let Actives = json['Actives'];
         let actives = this.findPatron(Actives);
         data = {
