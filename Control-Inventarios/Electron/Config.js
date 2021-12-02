@@ -1,4 +1,4 @@
-const mssql = require("mysql");
+let mssql = require("mysql");
 
 const config = {
   host: "localhost",
